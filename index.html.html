@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Affiliator — The Art of Discovery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Tenor+Sans&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+/* ══════════ RESET ══════════ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --c1:#fffdf8;--c2:#faf6ee;--c3:#f4ede0;--c4:#ebe0cc;
+  --gold:#b8882a;--gold2:#d4a43e;--gold3:#f0c060;--gold4:#7a5818;
+  --goldg:linear-gradient(135deg,#c49a32,#e8c060,#b07828);
+  --ink:#1a1510;--ink2:#2e2518;--ink3:#453a28;
+  --mid:#7a6a52;--muted:#a89878;--subtle:#c8b898;
+  --line:#e8dcc8;--line2:#f0e8d8;--line3:#ede0c8;
+  --white:#ffffff;
+  --rose:#c8402a;--sage:#3a6648;--sapphire:#1e3a6e;
+  --serif:'Playfair Display',Georgia,serif;
+  --body:'Cormorant Garamond',Georgia,serif;
+  --ui:'Tenor Sans',sans-serif;
+  --sh:0 2px 12px rgba(90,60,10,.08),0 1px 4px rgba(90,60,10,.04);
+  --sh2:0 8px 40px rgba(90,60,10,.12),0 2px 12px rgba(90,60,10,.06);
+  --sh3:0 24px 80px rgba(90,60,10,.18),0 4px 20px rgba(90,60,10,.08);
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{background:var(--c1);color:var(--ink);font-family:var(--body);overflow-x:hidden;-webkit-font-smoothing:antialiased;cursor:none}
+*{cursor:none!important}
+a{text-decoration:none;color:inherit}
+button{border:none;background:none;cursor:none;font-family:var(--ui)}
+input,select,textarea{font-family:var(--ui);cursor:none}
+ul{list-style:none}
+
+/* ══════════ CUSTOM CURSOR ══════════ */
+#cur-outer{
+  position:fixed;z-index:99999;pointer-events:none;
+  width:40px;height:40px;border-radius:50%;
+  border:1.5px solid var(--gold);
+  transform:translate(-50%,-50%);
+  transition:width .4s cubic-bezier(.25,.46,.45,.94),
+             height .4s cubic-bezier(.25,.46,.45,.94),
+             border-color .3s,opacity .3s;
+  mix-blend-mode:multiply;
+}
+#cur-inner{
+  position:fixed;z-index:100000;pointer-events:none;
+  width:6px;height:6px;border-radius:50%;
+  background:var(--gold);
+  transform:translate(-50%,-50%);
+  transition:width .2s,height .2s,background .2s;
+}
+#cur-label{
+  position:fixed;z-index:100000;pointer-events:none;
+  font-family:var(--ui);font-size:.52rem;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--gold4);
+  transform:translate(-50%,-50%);
+  opacity:0;transition:opacity .3s;white-space:nowrap;
+  margin-top:30px;
+}
+body.hov-card #cur-outer{width:64px;height:64px;border-color:var(--gold2);background:rgba(184,136,42,.04)}
+body.hov-card #cur-label{opacity:1}
+body.hov-btn #cur-outer{width:52px;height:52px;border-color:var(--gold2)}
+body.hov-btn #cur-inner{width:10px;height:10px;background:var(--gold2)}
+body.clicking #cur-inner{width:14px;height:14px;background:var(--gold3)}
+
+/* Click ripple */
+.cur-ripple{
+  position:fixed;z-index:99998;pointer-events:none;
+  width:20px;height:20px;border-radius:50%;
+  border:1px solid var(--gold);
+  transform:translate(-50%,-50%) scale(1);
+  opacity:.8;
+  animation:rippleOut .6s cubic-bezier(.4,0,.2,1) forwards;
+}
+@keyframes rippleOut{
+  to{transform:translate(-50%,-50%) scale(4);opacity:0}
+}
+
+/* ══════════ LOADER ══════════ */
+#loader{
+  position:fixed;inset:0;z-index:9000;
+  background:var(--c1);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:opacity 1.2s cubic-bezier(.4,0,.2,1),visibility 1.2s;
+}
+#loader.out{opacity:0;visibility:hidden;pointer-events:none}
+.ld-seal{
+  width:80px;height:80px;position:relative;margin-bottom:2rem;
+}
+.ld-ring1{
+  position:absolute;inset:0;border-radius:50%;
+  border:1px solid var(--line3);
+}
+.ld-ring2{
+  position:absolute;inset:6px;border-radius:50%;
+  border:1px solid transparent;
+  border-top-color:var(--gold);border-right-color:var(--gold2);
+  animation:spin 1.8s cubic-bezier(.6,.1,.4,.9) infinite;
+}
+.ld-ring3{
+  position:absolute;inset:14px;border-radius:50%;
+  border:1px solid var(--line3);
+  animation:spin 3s linear infinite reverse;
+}
+.ld-gem{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:12px;height:12px;
+  background:var(--goldg);border-radius:2px;
+  animation:gemrot 2s ease-in-out infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes gemrot{0%,100%{transform:translate(-50%,-50%) rotate(45deg) scale(1)}50%{transform:translate(-50%,-50%) rotate(225deg) scale(1.3)}}
+.ld-wordmark{
+  font-family:var(--serif);font-size:2rem;font-weight:400;
+  letter-spacing:.18em;color:var(--ink);
+  opacity:0;animation:fadeUp .8s .3s ease forwards;
+  margin-right:-.18em;
+}
+.ld-tagline{
+  font-family:var(--ui);font-size:.58rem;letter-spacing:.38em;
+  text-transform:uppercase;color:var(--muted);
+  margin-top:.4rem;
+  opacity:0;animation:fadeUp .8s .55s ease forwards;
+}
+.ld-line-prog{
+  width:150px;height:1px;background:var(--line);
+  margin-top:2.5rem;overflow:hidden;
+  opacity:0;animation:fadeUp .6s .7s ease forwards;
+}
+.ld-prog{
+  height:100%;
+  background:linear-gradient(90deg,var(--gold4),var(--gold2),var(--gold3));
+  animation:prog 1.8s .8s cubic-bezier(.4,0,.2,1) forwards;width:0;
+}
+@keyframes prog{to{width:100%}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.ld-corner{position:absolute;width:60px;height:60px;opacity:.3}
+.ld-corner.tl{top:5%;left:5%;border-top:1px solid var(--gold);border-left:1px solid var(--gold)}
+.ld-corner.tr{top:5%;right:5%;border-top:1px solid var(--gold);border-right:1px solid var(--gold)}
+.ld-corner.bl{bottom:5%;left:5%;border-bottom:1px solid var(--gold);border-left:1px solid var(--gold)}
+.ld-corner.br{bottom:5%;right:5%;border-bottom:1px solid var(--gold);border-right:1px solid var(--gold)}
+
+/* ══════════ TOP BAR ══════════ */
+.top-bar{
+  background:var(--ink);color:rgba(255,255,255,.75);
+  padding:.45rem 4vw;font-family:var(--ui);font-size:.62rem;
+  letter-spacing:.15em;text-transform:uppercase;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.tb-links{display:flex;gap:2rem}
+.tb-links a{color:rgba(255,255,255,.55);transition:color .25s}
+.tb-links a:hover{color:rgba(255,255,255,.9)}
+
+/* ══════════ NAV ══════════ */
+nav{
+  position:sticky;top:0;z-index:400;
+  background:rgba(255,253,248,.94);
+  backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid var(--line);
+  transition:box-shadow .3s;
+}
+nav.sh{box-shadow:var(--sh)}
+.nav-main{
+  padding:.9rem 4vw;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1.5rem;
+}
+.nav-logo{
+  font-family:var(--serif);font-size:1.55rem;font-weight:500;
+  color:var(--ink);letter-spacing:.06em;cursor:none;
+  display:flex;align-items:center;gap:.5rem;flex-shrink:0;
+}
+.logo-gem{
+  width:8px;height:8px;
+  background:var(--goldg);
+  transform:rotate(45deg);
+  animation:gemrot2 4s ease-in-out infinite;
+}
+@keyframes gemrot2{0%,100%{transform:rotate(45deg)}50%{transform:rotate(225deg)}}
+.nav-search{
+  flex:1;max-width:520px;
+  display:flex;align-items:center;
+  background:var(--c2);border:1px solid var(--line);border-radius:50px;
+  padding:.5rem 1.2rem;gap:.7rem;
+  transition:border-color .25s,background .25s,box-shadow .3s;
+}
+.nav-search:focus-within{
+  border-color:var(--gold);background:var(--white);
+  box-shadow:0 0 0 3px rgba(184,136,42,.08);
+}
+.nav-search input{
+  flex:1;background:none;border:none;outline:none;
+  font-family:var(--ui);font-size:.8rem;color:var(--ink);
+}
+.nav-search input::placeholder{color:var(--muted)}
+.nav-search-btn{
+  background:var(--goldg);border:none;border-radius:50px;
+  padding:.4rem 1rem;font-family:var(--ui);font-size:.68rem;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--white);
+  transition:opacity .2s,transform .15s;
+}
+.nav-search-btn:hover{opacity:.9;transform:scale(1.02)}
+.nav-right{display:flex;align-items:center;gap:.8rem;flex-shrink:0}
+.nav-icon{
+  display:flex;flex-direction:column;align-items:center;gap:.18rem;
+  font-family:var(--ui);font-size:.55rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--mid);
+  padding:.4rem .6rem;border-radius:var(--r,6px);
+  transition:color .25s,background .25s;
+}
+.nav-icon:hover{color:var(--gold);background:var(--c2)}
+.nav-icon svg,.nav-icon .ico{font-size:1.1rem}
+.nav-prime{
+  font-family:var(--ui);font-size:.7rem;letter-spacing:.12em;
+  text-transform:uppercase;
+  background:var(--goldg);color:var(--white);
+  padding:.5rem 1.3rem;border-radius:50px;
+  transition:opacity .2s,transform .15s;box-shadow:0 2px 12px rgba(184,136,42,.3);
+}
+.nav-prime:hover{opacity:.9;transform:translateY(-1px)}
+.ham{display:none;flex-direction:column;gap:4px;padding:6px}
+.ham span{display:block;width:20px;height:1px;background:var(--ink);border-radius:1px;transition:all .3s}
+
+/* ══════════ NAV CATEGORIES BAR ══════════ */
+.nav-cats{
+  border-top:1px solid var(--line2);
+  padding:.5rem 4vw;overflow-x:auto;scrollbar-width:none;
+  display:flex;gap:0;white-space:nowrap;
+}
+.nav-cats::-webkit-scrollbar{display:none}
+.nav-cat-item{
+  font-family:var(--ui);font-size:.7rem;letter-spacing:.08em;
+  color:var(--mid);padding:.45rem 1rem;
+  transition:color .25s,background .25s;border-radius:4px;
+  flex-shrink:0;
+}
+.nav-cat-item:hover,.nav-cat-item.on{color:var(--gold);background:rgba(184,136,42,.06)}
+.nav-cat-item.on{font-weight:500}
+
+/* ══════════ MOBILE NAV ══════════ */
+.mob-nav{
+  display:none;position:fixed;inset:0;z-index:390;
+  background:rgba(255,253,248,.98);backdrop-filter:blur(20px);
+  flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;
+  padding:2rem;
+}
+.mob-nav.open{display:flex}
+.mob-nav a{font-family:var(--serif);font-size:2rem;font-weight:400;color:var(--ink);transition:color .25s}
+.mob-nav a:hover{color:var(--gold)}
+
+/* ══════════ PAGES ══════════ */
+.pg{display:none;min-height:100vh}
+.pg.on{display:block;animation:pgIn .45s cubic-bezier(.4,0,.2,1)}
+@keyframes pgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+section{padding:5rem 4vw}
+
+/* ══════════ SECTION HEADER ══════════ */
+.sh-eyebrow{
+  font-family:var(--ui);font-size:.62rem;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--gold);
+  display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem;
+}
+.sh-eyebrow::before,.sh-eyebrow::after{content:'';flex:0 0 1.5rem;height:1px;background:var(--gold);opacity:.5}
+.sh-title{font-family:var(--serif);font-size:clamp(1.8rem,3.5vw,3rem);font-weight:400;color:var(--ink);line-height:1.1}
+.sh-title em{font-style:italic;color:var(--gold)}
+.sh-sub{font-family:var(--body);font-size:1rem;font-weight:300;color:var(--mid);line-height:1.8;margin-top:.6rem;max-width:500px}
+.sh-row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2.8rem;flex-wrap:wrap;gap:1rem}
+.sh-link{font-family:var(--ui);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:.4rem;transition:gap .25s}
+.sh-link:hover{gap:.7rem}
+
+/* ══════════ TICKER ══════════ */
+.ticker{
+  background:var(--ink);
+  border-top:1px solid rgba(255,255,255,.06);
+  padding:.55rem 0;overflow:hidden;
+}
+.ticker-inner{display:flex;white-space:nowrap;animation:tkr 40s linear infinite}
+.tk-it{
+  display:inline-flex;align-items:center;gap:2.5rem;padding:0 2.5rem;
+  font-family:var(--ui);font-size:.62rem;letter-spacing:.12em;color:rgba(255,255,255,.45);
+}
+.tk-it b{color:rgba(255,255,255,.78);font-weight:400}
+.tk-gem{color:var(--gold2);font-size:.5rem}
+@keyframes tkr{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ══════════ HERO ══════════ */
+.hero{
+  min-height:calc(100vh - 120px);
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:3rem;align-items:center;
+  padding:3rem 4vw 4rem;
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,var(--c1) 0%,var(--c2) 60%,var(--c3) 100%);
+}
+.hero::before{
+  content:'';position:absolute;
+  top:-20%;right:-8%;
+  width:700px;height:700px;border-radius:50%;
+  background:radial-gradient(circle,rgba(212,164,62,.1) 0%,rgba(212,164,62,.03) 50%,transparent 70%);
+  pointer-events:none;
+}
+.hero::after{
+  content:'';position:absolute;bottom:-10%;left:-5%;
+  width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(184,136,42,.06),transparent 70%);
+  pointer-events:none;
+}
+.hero-ornament{
+  position:absolute;top:12%;left:50%;transform:translateX(-50%);
+  width:1px;height:60%;background:linear-gradient(to bottom,transparent,var(--line),transparent);
+  pointer-events:none;
+}
+.hero-left{position:relative;z-index:1}
+.hero-pill{
+  display:inline-flex;align-items:center;gap:.6rem;
+  border:1px solid var(--line3);background:var(--white);
+  border-radius:50px;padding:.38rem 1.1rem;
+  font-family:var(--ui);font-size:.65rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--mid);
+  margin-bottom:2rem;box-shadow:var(--sh);
+  opacity:0;animation:fadeUp .8s .2s ease forwards;
+}
+.hero-pill-gem{width:6px;height:6px;background:var(--goldg);border-radius:1px;transform:rotate(45deg);animation:gemrot2 3s ease-in-out infinite}
+.hero-h1{
+  font-family:var(--serif);font-size:clamp(2.8rem,6vw,5.5rem);
+  font-weight:400;line-height:1.05;color:var(--ink);
+  margin-bottom:1.5rem;
+  opacity:0;animation:fadeUp 1s .35s ease forwards;
+}
+.hero-h1 em{font-style:italic;color:var(--gold)}
+.hero-h1 .ghost{
+  -webkit-text-stroke:.8px rgba(26,21,16,.22);
+  color:transparent;display:block;
+}
+.hero-p{
+  font-family:var(--body);font-size:1.05rem;font-weight:300;
+  color:var(--mid);line-height:1.9;max-width:420px;
+  margin-bottom:2.5rem;
+  opacity:0;animation:fadeUp .9s .5s ease forwards;
+}
+.hero-btns{display:flex;gap:.9rem;flex-wrap:wrap;opacity:0;animation:fadeUp .9s .65s ease forwards}
+.btn-primary{
+  font-family:var(--ui);font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;
+  background:var(--goldg);color:var(--white);
+  padding:.85rem 2.2rem;border-radius:50px;
+  box-shadow:0 4px 20px rgba(184,136,42,.35);
+  transition:transform .2s,box-shadow .3s,opacity .2s;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(184,136,42,.45);opacity:.95}
+.btn-outline{
+  font-family:var(--ui);font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;
+  background:transparent;color:var(--ink);
+  border:1px solid var(--line3);padding:.85rem 1.8rem;border-radius:50px;
+  transition:border-color .25s,background .25s,color .25s;
+}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);background:rgba(184,136,42,.04)}
+.hero-nums{
+  display:flex;gap:2.5rem;margin-top:3rem;padding-top:2.5rem;
+  border-top:1px solid var(--line2);
+  opacity:0;animation:fadeUp .9s .8s ease forwards;
+  flex-wrap:wrap;
+}
+.hnum-v{font-family:var(--serif);font-size:1.7rem;font-weight:400;color:var(--gold)}
+.hnum-l{font-family:var(--ui);font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:.2rem}
+.hero-right{position:relative;z-index:1;opacity:0;animation:fadeUp .9s .45s ease forwards}
+.hero-card-main{
+  background:var(--white);border:1px solid var(--line);
+  border-radius:16px;box-shadow:var(--sh3);
+  overflow:hidden;position:relative;
+}
+.hero-card-top{height:3px;background:var(--goldg)}
+.hero-card-body{padding:2rem 2rem 1.5rem}
+.hcb-tag{font-family:var(--ui);font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem}
+.hcb-img{
+  height:200px;background:linear-gradient(135deg,var(--c2),var(--c3));
+  border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-size:5.5rem;margin-bottom:1.4rem;position:relative;overflow:hidden;
+}
+.hcb-img::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 60%,rgba(212,164,62,.08),transparent 65%)}
+.hcb-float{
+  position:absolute;top:-12px;right:1.5rem;
+  background:var(--rose);color:var(--white);
+  font-family:var(--ui);font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:.28rem .75rem;border-radius:50px;
+  animation:floatY 3s ease-in-out infinite;
+}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.hcb-name{font-family:var(--serif);font-size:1.2rem;font-weight:400;color:var(--ink);margin-bottom:.5rem}
+.hcb-stars{display:flex;align-items:center;gap:.5rem;margin-bottom:1rem}
+.stars{color:var(--gold2);letter-spacing:.05em}
+.star-ct{font-family:var(--ui);font-size:.65rem;color:var(--muted)}
+.hcb-price-row{display:flex;align-items:center;justify-content:space-between;padding-top:1.1rem;border-top:1px solid var(--line2)}
+.hcb-price{font-family:var(--serif);font-size:1.4rem;color:var(--gold)}
+.hcb-orig{font-family:var(--ui);font-size:.75rem;color:var(--muted);text-decoration:line-through}
+.hcb-btn{
+  font-family:var(--ui);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--ink);color:var(--white);padding:.55rem 1.3rem;border-radius:50px;
+  transition:background .25s,transform .15s;
+}
+.hcb-btn:hover{background:var(--ink2);transform:scale(1.02)}
+
+/* ══════════ PRODUCT CARDS ══════════ */
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(270px,100%),1fr));gap:1.5rem}
+.prod-card{
+  background:var(--white);border:1px solid var(--line);border-radius:12px;
+  overflow:hidden;position:relative;
+  transition:border-color .3s,box-shadow .35s,transform .35s;
+}
+.prod-card:hover{border-color:var(--line3);box-shadow:var(--sh2);transform:translateY(-5px)}
+.pc-img-wrap{position:relative;height:220px;background:linear-gradient(135deg,var(--c2),var(--c3));display:flex;align-items:center;justify-content:center;overflow:hidden}
+.pc-emoji{font-size:4.2rem;transition:transform .4s cubic-bezier(.34,1.56,.64,1);position:relative;z-index:1}
+.prod-card:hover .pc-emoji{transform:scale(1.14) translateY(-4px)}
+.pc-bg-glow{position:absolute;inset:0;background:radial-gradient(circle at 50% 60%,rgba(212,164,62,.07),transparent 65%);opacity:0;transition:opacity .4s}
+.prod-card:hover .pc-bg-glow{opacity:1}
+
+/* QUICK LOOK */
+.ql-trigger{
+  position:absolute;bottom:0;left:0;right:0;
+  background:rgba(26,21,16,.85);backdrop-filter:blur(10px);
+  color:rgba(255,255,255,.9);font-family:var(--ui);font-size:.65rem;
+  letter-spacing:.2em;text-transform:uppercase;
+  padding:.7rem;text-align:center;border:none;width:100%;
+  transform:translateY(100%);
+  transition:transform .35s cubic-bezier(.4,0,.2,1);
+}
+.prod-card:hover .ql-trigger{transform:translateY(0)}
+.pc-badge{
+  position:absolute;top:.9rem;left:.9rem;
+  font-family:var(--ui);font-size:.55rem;font-weight:400;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:.25rem .65rem;border-radius:50px;z-index:2;
+}
+.b-hot{background:rgba(200,64,42,.08);color:var(--rose);border:1px solid rgba(200,64,42,.2)}
+.b-new{background:rgba(58,102,72,.07);color:var(--sage);border:1px solid rgba(58,102,72,.18)}
+.b-trending{background:rgba(184,136,42,.09);color:var(--gold4);border:1px solid rgba(184,136,42,.22)}
+.b-viral{background:rgba(30,58,110,.07);color:var(--sapphire);border:1px solid rgba(30,58,110,.18)}
+.b-sale{background:rgba(200,64,42,.08);color:var(--rose);border:1px solid rgba(200,64,42,.2)}
+.pc-wish{
+  position:absolute;top:.9rem;right:.9rem;z-index:2;
+  width:30px;height:30px;border-radius:50%;
+  background:var(--white);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;font-size:.8rem;
+  box-shadow:var(--sh);transition:border-color .25s,color .25s,background .25s;
+}
+.pc-wish:hover,.pc-wish.on{border-color:rgba(200,64,42,.3);color:var(--rose);background:rgba(200,64,42,.04)}
+.pc-tiktok-label{
+  position:absolute;bottom:.9rem;right:.9rem;z-index:2;
+  font-family:var(--ui);font-size:.53rem;letter-spacing:.08em;color:var(--muted);
+  opacity:0;transition:opacity .3s;
+}
+.prod-card:hover .pc-tiktok-label{opacity:1}
+.pc-info{padding:1.2rem 1.4rem 1.4rem}
+.pc-cat-label{font-family:var(--ui);font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.38rem}
+.pc-name{font-family:var(--serif);font-size:1rem;font-weight:400;color:var(--ink);margin-bottom:.5rem;line-height:1.35}
+.pc-stars{display:flex;align-items:center;gap:.4rem;margin-bottom:.9rem}
+.pc-revct{font-family:var(--ui);font-size:.62rem;color:var(--muted)}
+.pc-bottom{display:flex;align-items:center;justify-content:space-between}
+.pc-price-wrap{display:flex;align-items:baseline;gap:.35rem}
+.pc-price{font-family:var(--serif);font-size:1.15rem;color:var(--gold)}
+.pc-orig{font-family:var(--ui);font-size:.72rem;color:var(--subtle);text-decoration:line-through}
+.pc-off{font-family:var(--ui);font-size:.56rem;color:var(--rose);background:rgba(200,64,42,.07);padding:.16rem .42rem;border-radius:4px}
+.pc-cta{
+  font-family:var(--ui);font-size:.65rem;letter-spacing:.09em;text-transform:uppercase;
+  background:var(--ink);color:var(--white);
+  padding:.48rem 1.05rem;border-radius:50px;
+  transition:background .25s,transform .15s;
+}
+.pc-cta:hover{background:var(--gold4);transform:scale(1.02)}
+
+/* ══════════ QUICK LOOK MODAL ══════════ */
+#ql-overlay{
+  position:fixed;inset:0;z-index:600;
+  background:rgba(26,21,16,.45);
+  backdrop-filter:blur(10px);
+  display:flex;align-items:center;justify-content:center;
+  padding:1.5rem;
+  opacity:0;visibility:hidden;
+  transition:opacity .35s,visibility .35s;
+}
+#ql-overlay.open{opacity:1;visibility:visible}
+#ql-modal{
+  background:var(--white);border-radius:20px;
+  width:100%;max-width:820px;max-height:90vh;overflow-y:auto;
+  box-shadow:0 48px 120px rgba(26,21,16,.25);
+  transform:translateY(30px) scale(.96);
+  transition:transform .4s cubic-bezier(.34,1.2,.64,1);
+  position:relative;
+}
+#ql-overlay.open #ql-modal{transform:none}
+.ql-top-bar{height:3px;background:var(--goldg);border-radius:20px 20px 0 0}
+.ql-close-row{display:flex;justify-content:flex-end;padding:1rem 1.5rem .3rem;position:sticky;top:0;background:var(--white);z-index:2}
+.ql-close{
+  width:30px;height:30px;border-radius:50%;border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;color:var(--mid);transition:all .25s;
+}
+.ql-close:hover{border-color:var(--subtle);color:var(--ink);background:var(--c2)}
+.ql-body{display:grid;grid-template-columns:1fr 1fr;gap:2rem;padding:0 2rem 2.5rem}
+.ql-img{
+  height:300px;background:linear-gradient(135deg,var(--c2),var(--c3));
+  border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:7rem;position:relative;overflow:hidden;
+}
+.ql-img::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 60%,rgba(212,164,62,.07),transparent 65%)}
+.ql-cat{font-family:var(--ui);font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
+.ql-name{font-family:var(--serif);font-size:1.55rem;font-weight:400;color:var(--ink);line-height:1.2;margin-bottom:.7rem}
+.ql-stars{display:flex;align-items:center;gap:.5rem;margin-bottom:.9rem}
+.ql-revct{font-family:var(--ui);font-size:.68rem;color:var(--muted)}
+.ql-price-row{display:flex;align-items:baseline;gap:.7rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.ql-price{font-family:var(--serif);font-size:2rem;color:var(--gold)}
+.ql-orig{font-family:var(--ui);font-size:.9rem;color:var(--subtle);text-decoration:line-through}
+.ql-save{font-family:var(--ui);font-size:.68rem;color:var(--rose);background:rgba(200,64,42,.07);padding:.25rem .6rem;border-radius:4px}
+.ql-desc{font-family:var(--body);font-size:.92rem;font-weight:300;color:var(--mid);line-height:1.8;margin-bottom:1.2rem}
+.ql-feats{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.5rem}
+.ql-feat{display:flex;align-items:center;gap:.6rem;font-family:var(--ui);font-size:.76rem;color:var(--ink2)}
+.ql-feat::before{content:'◆';font-size:.35rem;color:var(--gold);flex-shrink:0}
+.ql-cta{display:flex;gap:.8rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.ql-buy{
+  flex:1;font-family:var(--ui);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--goldg);color:var(--white);
+  padding:.9rem 1.5rem;border-radius:50px;border:none;
+  box-shadow:0 4px 16px rgba(184,136,42,.3);
+  transition:transform .2s,box-shadow .3s,opacity .2s;
+}
+.ql-buy:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(184,136,42,.4);opacity:.95}
+.ql-full{
+  font-family:var(--ui);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid var(--line3);color:var(--ink);background:transparent;
+  padding:.9rem 1.4rem;border-radius:50px;
+  transition:border-color .25s,background .25s;white-space:nowrap;
+}
+.ql-full:hover{border-color:var(--gold);background:rgba(184,136,42,.04)}
+.ql-trust{display:flex;gap:1.2rem;flex-wrap:wrap}
+.ql-ti{font-family:var(--ui);font-size:.65rem;color:var(--muted);display:flex;align-items:center;gap:.35rem}
+
+/* ══════════ PRODUCT DETAIL ══════════ */
+#pg-product{padding-top:0}
+.pdp-wrap{max-width:1100px;margin:0 auto;padding:2.5rem 4vw 4rem}
+.breadcrumb{display:flex;align-items:center;gap:.5rem;font-family:var(--ui);font-size:.7rem;color:var(--muted);margin-bottom:2rem;flex-wrap:wrap}
+.breadcrumb a{transition:color .25s}
+.breadcrumb a:hover{color:var(--gold)}
+.pdp-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;margin-bottom:4rem}
+.pdp-gallery{position:sticky;top:80px}
+.pdp-main-img{
+  background:linear-gradient(135deg,var(--c2),var(--c3));
+  border:1px solid var(--line);border-radius:14px;
+  height:420px;display:flex;align-items:center;justify-content:center;
+  font-size:9rem;position:relative;overflow:hidden;margin-bottom:1rem;
+}
+.pdp-main-img::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 60%,rgba(212,164,62,.06),transparent 65%)}
+.pdp-thumbs{display:flex;gap:.7rem}
+.pdp-thumb{
+  width:62px;height:62px;border-radius:8px;
+  background:var(--c3);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;transition:border-color .25s,box-shadow .25s;
+}
+.pdp-thumb:hover,.pdp-thumb.on{border-color:var(--gold);box-shadow:0 0 0 2px rgba(184,136,42,.18)}
+.pdp-info-col{}
+.pdp-cat-lbl{font-family:var(--ui);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem}
+.pdp-title{font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.3rem);font-weight:400;color:var(--ink);line-height:1.18;margin-bottom:.9rem}
+.pdp-stars{display:flex;align-items:center;gap:.6rem;margin-bottom:1.2rem}
+.pdp-revlink{font-family:var(--ui);font-size:.72rem;color:var(--gold);text-decoration:underline}
+.pdp-price-row{display:flex;align-items:baseline;gap:.8rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--line2);flex-wrap:wrap}
+.pdp-price{font-family:var(--serif);font-size:2.4rem;color:var(--gold)}
+.pdp-orig{font-family:var(--ui);font-size:1rem;color:var(--subtle);text-decoration:line-through}
+.pdp-save{font-family:var(--ui);font-size:.72rem;color:var(--rose);background:rgba(200,64,42,.07);padding:.28rem .65rem;border-radius:5px}
+.pdp-desc{font-family:var(--body);font-size:.95rem;font-weight:300;color:var(--mid);line-height:1.9;margin-bottom:1.5rem}
+.pdp-feats{display:flex;flex-direction:column;gap:.65rem;margin-bottom:2rem}
+.pdp-feat{display:flex;align-items:flex-start;gap:.7rem;font-family:var(--ui);font-size:.8rem;color:var(--ink2);line-height:1.6}
+.pdp-feat-gem{width:5px;height:5px;background:var(--gold2);border-radius:1px;transform:rotate(45deg);flex-shrink:0;margin-top:.5rem}
+.pdp-cta{display:flex;gap:.9rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.pdp-buy{
+  flex:1;min-width:180px;
+  font-family:var(--ui);font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--goldg);color:var(--white);
+  padding:.95rem 2rem;border-radius:50px;border:none;
+  box-shadow:0 4px 20px rgba(184,136,42,.3);
+  transition:transform .2s,box-shadow .3s;
+}
+.pdp-buy:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(184,136,42,.42)}
+.pdp-save-btn{
+  font-family:var(--ui);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;
+  border:1px solid var(--line3);color:var(--ink);background:transparent;
+  padding:.95rem 1.6rem;border-radius:50px;
+  transition:border-color .25s,color .25s;
+}
+.pdp-save-btn:hover{border-color:var(--rose);color:var(--rose)}
+.pdp-trust{display:flex;gap:1.2rem;flex-wrap:wrap;padding:1.1rem 1.3rem;background:var(--c2);border-radius:10px;border:1px solid var(--line2)}
+.pdp-ti{font-family:var(--ui);font-size:.68rem;color:var(--mid);display:flex;align-items:center;gap:.4rem}
+
+/* TABS */
+.tabs{display:flex;border-bottom:1px solid var(--line);margin-bottom:2.5rem}
+.tab-btn{
+  font-family:var(--ui);font-size:.76rem;letter-spacing:.08em;
+  color:var(--muted);padding:.8rem 1.7rem;background:none;border:none;
+  border-bottom:2px solid transparent;margin-bottom:-1px;
+  transition:color .25s,border-color .25s;
+}
+.tab-btn.on{color:var(--gold);border-bottom-color:var(--gold)}
+.tab-panel{display:none}
+.tab-panel.on{display:block;animation:pgIn .3s ease}
+
+/* Reviews */
+.rev-list{display:flex;flex-direction:column;gap:1.3rem}
+.rev-card{padding:1.5rem;border:1px solid var(--line2);border-radius:12px;background:var(--c1)}
+.rev-top{display:flex;align-items:center;gap:.9rem;margin-bottom:.9rem;flex-wrap:wrap}
+.rev-av{
+  width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(135deg,var(--c3),var(--c4));
+  border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:.95rem;color:var(--ink);flex-shrink:0;
+}
+.rev-name{font-family:var(--ui);font-size:.82rem;font-weight:400;color:var(--ink)}
+.rev-ver{font-family:var(--ui);font-size:.58rem;color:var(--sage);background:rgba(58,102,72,.07);padding:.15rem .5rem;border-radius:4px}
+.rev-date{font-family:var(--ui);font-size:.65rem;color:var(--muted);margin-left:auto}
+.rev-title{font-family:var(--serif);font-size:.95rem;color:var(--ink);margin-bottom:.4rem}
+.rev-body{font-family:var(--body);font-size:.9rem;font-weight:300;color:var(--mid);line-height:1.75}
+.rev-help{font-family:var(--ui);font-size:.63rem;color:var(--muted);margin-top:.7rem}
+
+/* Compare */
+.cmp-tbl{width:100%;border-collapse:separate;border-spacing:0;font-family:var(--ui);font-size:.78rem;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.cmp-tbl th{background:var(--c2);color:var(--mid);font-weight:400;padding:.9rem 1.1rem;text-align:left;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;border-bottom:1px solid var(--line)}
+.cmp-tbl th.hl{background:rgba(184,136,42,.07);color:var(--gold)}
+.cmp-tbl td{padding:.82rem 1.1rem;border-bottom:1px solid var(--line2);color:var(--mid)}
+.cmp-tbl tr:last-child td{border-bottom:none}
+.cmp-tbl tr:hover td{background:var(--c2)}
+.cmp-tbl td.hl{color:var(--ink)}
+.chk{color:var(--sage)}
+.crs{color:var(--subtle)}
+
+/* ══════════ CATEGORY CARDS ══════════ */
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr));gap:1.2rem}
+.cat-card{
+  background:var(--white);border:1px solid var(--line);border-radius:12px;
+  padding:1.8rem;
+  transition:border-color .3s,box-shadow .3s,transform .3s;
+  box-shadow:var(--sh);
+}
+.cat-card:hover{border-color:var(--line3);box-shadow:var(--sh2);transform:translateY(-3px)}
+.cat-ico{font-size:2.4rem;margin-bottom:.9rem}
+.cat-name{font-family:var(--serif);font-size:1.05rem;color:var(--ink);margin-bottom:.25rem}
+.cat-ct{font-family:var(--ui);font-size:.65rem;color:var(--muted);letter-spacing:.08em}
+.cat-arrow{font-family:var(--ui);font-size:.65rem;color:var(--gold);margin-top:.9rem;display:flex;align-items:center;gap:.35rem;transition:gap .25s}
+.cat-card:hover .cat-arrow{gap:.65rem}
+
+/* ══════════ FEATURED ROW ══════════ */
+.feat-row{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:1.5rem;margin-bottom:3rem}
+.feat-big{background:var(--white);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--sh);cursor:none;transition:border-color .3s,box-shadow .3s,transform .3s}
+.feat-big:hover{border-color:var(--line3);box-shadow:var(--sh2);transform:translateY(-3px)}
+.feat-big-img{height:250px;background:linear-gradient(135deg,var(--c2),var(--c3));display:flex;align-items:center;justify-content:center;font-size:6rem;position:relative}
+.feat-big-info{padding:1.3rem}
+.feat-mini{display:flex;flex-direction:column;gap:1.3rem}
+.feat-mini-card{display:flex;gap:1rem;align-items:center;background:var(--white);border:1px solid var(--line);border-radius:12px;padding:.9rem;box-shadow:var(--sh);cursor:none;transition:border-color .3s,box-shadow .3s}
+.feat-mini-card:hover{border-color:var(--line3);box-shadow:var(--sh2)}
+.feat-mini-img{width:68px;height:68px;border-radius:8px;background:linear-gradient(135deg,var(--c3),var(--c4));display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0}
+.feat-mini-name{font-family:var(--serif);font-size:.92rem;color:var(--ink);margin-bottom:.25rem}
+.feat-mini-price{font-family:var(--serif);font-size:1rem;color:var(--gold)}
+
+/* ══════════ DEAL TIMER ══════════ */
+.deal-banner{
+  background:linear-gradient(135deg,var(--ink),var(--ink2));
+  border-radius:14px;padding:1.5rem 2rem;
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:2.5rem;flex-wrap:wrap;gap:1.2rem;
+  box-shadow:var(--sh2);
+}
+.db-left{display:flex;align-items:center;gap:1.2rem}
+.db-ico{font-size:2rem}
+.db-title{font-family:var(--serif);font-size:1.15rem;font-weight:400;color:var(--white)}
+.db-sub{font-family:var(--ui);font-size:.65rem;letter-spacing:.1em;color:rgba(255,255,255,.45);margin-top:.2rem}
+.db-timer{display:flex;align-items:center;gap:.5rem}
+.dt-block{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.45rem .7rem;text-align:center;min-width:52px}
+.dt-num{font-family:var(--serif);font-size:1.5rem;color:var(--white);line-height:1}
+.dt-lbl{font-family:var(--ui);font-size:.48rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.dt-sep{font-family:var(--serif);font-size:1.3rem;color:rgba(255,255,255,.4);animation:blink 1s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* ══════════ TRUST STRIP ══════════ */
+.trust-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:3.5rem 0;box-shadow:var(--sh)}
+.ts-item{background:var(--white);padding:1.8rem;text-align:center;transition:background .3s}
+.ts-item:hover{background:var(--c2)}
+.ts-ico{font-size:1.8rem;margin-bottom:.6rem}
+.ts-title{font-family:var(--serif);font-size:.92rem;color:var(--ink);margin-bottom:.25rem}
+.ts-desc{font-family:var(--body);font-size:.78rem;font-weight:300;color:var(--mid);line-height:1.5}
+
+/* ══════════ URGENCY BAR ══════════ */
+.urg-bar{
+  display:flex;align-items:center;gap:.9rem;
+  background:rgba(200,64,42,.04);
+  border:1px solid rgba(200,64,42,.14);
+  border-radius:10px;padding:.9rem 1.3rem;margin-bottom:2rem;
+}
+.urg-dot{width:7px;height:7px;border-radius:50%;background:var(--rose);animation:pulse 1.2s ease-in-out infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.75)}}
+.urg-txt{font-family:var(--ui);font-size:.76rem;color:var(--mid)}
+.urg-txt b{color:var(--ink)}
+
+/* ══════════ FILTER PILLS ══════════ */
+.filter-row{display:flex;gap:.65rem;flex-wrap:wrap;margin-bottom:2.2rem}
+.f-pill{
+  font-family:var(--ui);font-size:.7rem;letter-spacing:.06em;
+  border:1px solid var(--line);background:var(--white);
+  border-radius:50px;padding:.38rem 1rem;color:var(--mid);
+  transition:all .25s;box-shadow:var(--sh);
+}
+.f-pill:hover,.f-pill.on{background:var(--ink);color:var(--white);border-color:var(--ink)}
+
+/* ══════════ NEWSLETTER ══════════ */
+.nl-section{
+  background:linear-gradient(135deg,var(--c2),var(--c3));
+  border:1px solid var(--line);border-radius:16px;
+  padding:3.5rem;text-align:center;margin-top:4rem;box-shadow:var(--sh);
+}
+.nl-eyebrow{font-family:var(--ui);font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem}
+.nl-title{font-family:var(--serif);font-size:1.9rem;font-weight:400;color:var(--ink);margin-bottom:.7rem}
+.nl-sub{font-family:var(--body);font-size:.95rem;font-weight:300;color:var(--mid);line-height:1.75;margin-bottom:2rem;max-width:420px;margin-left:auto;margin-right:auto}
+.nl-form{display:flex;gap:.8rem;max-width:400px;margin:0 auto;flex-wrap:wrap}
+.nl-input{flex:1;min-width:180px;background:var(--white);border:1px solid var(--line);border-radius:50px;padding:.75rem 1.2rem;font-family:var(--ui);font-size:.78rem;color:var(--ink);outline:none;transition:border-color .25s,box-shadow .25s}
+.nl-input::placeholder{color:var(--muted)}
+.nl-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,136,42,.08)}
+.nl-btn{font-family:var(--ui);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;background:var(--goldg);color:var(--white);border:none;padding:.75rem 1.5rem;border-radius:50px;transition:opacity .2s,transform .15s;white-space:nowrap;box-shadow:0 2px 12px rgba(184,136,42,.3)}
+.nl-btn:hover{opacity:.9;transform:scale(1.02)}
+
+/* ══════════ ABOUT ══════════ */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.about-vis{
+  background:linear-gradient(135deg,var(--c2),var(--c3));
+  border:1px solid var(--line);border-radius:16px;
+  height:440px;display:flex;align-items:center;justify-content:center;
+  font-size:5.5rem;position:relative;overflow:hidden;box-shadow:var(--sh2);
+}
+.about-glow{position:absolute;inset:0;background:radial-gradient(circle,rgba(212,164,62,.08),transparent 65%)}
+.about-eyebrow{font-family:var(--ui);font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem}
+.about-h2{font-family:var(--serif);font-size:2.4rem;font-weight:400;color:var(--ink);margin-bottom:1.2rem;line-height:1.15}
+.about-h2 em{font-style:italic;color:var(--gold)}
+.about-p{font-family:var(--body);font-size:.95rem;font-weight:300;color:var(--mid);line-height:1.9;margin-bottom:1rem}
+.about-pillars{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2rem}
+.pillar{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:1.2rem;box-shadow:var(--sh)}
+.pillar-ico{font-size:1.5rem;margin-bottom:.5rem}
+.pillar-t{font-family:var(--ui);font-size:.78rem;font-weight:400;color:var(--ink);margin-bottom:.25rem}
+.pillar-d{font-family:var(--body);font-size:.8rem;font-weight:300;color:var(--muted);line-height:1.55}
+
+/* ══════════ LEGAL PAGES ══════════ */
+.legal-wrap{max-width:820px;margin:0 auto;padding:3rem 4vw 5rem}
+.legal-h1{font-family:var(--serif);font-size:2.4rem;font-weight:400;color:var(--ink);margin-bottom:.5rem}
+.legal-date{font-family:var(--ui);font-size:.65rem;letter-spacing:.12em;color:var(--muted);margin-bottom:3rem;display:flex;align-items:center;gap:.5rem}
+.legal-date::before{content:'';display:block;width:2rem;height:1px;background:var(--gold)}
+.legal-section{margin-bottom:2.5rem}
+.legal-h2{font-family:var(--serif);font-size:1.25rem;font-weight:400;color:var(--ink);margin-bottom:.8rem;padding-bottom:.5rem;border-bottom:1px solid var(--line2)}
+.legal-p{font-family:var(--body);font-size:.92rem;font-weight:300;color:var(--mid);line-height:1.9;margin-bottom:.7rem}
+.legal-ul{display:flex;flex-direction:column;gap:.5rem;padding-left:1rem;margin-bottom:.7rem}
+.legal-ul li{font-family:var(--body);font-size:.9rem;font-weight:300;color:var(--mid);line-height:1.75;display:flex;align-items:flex-start;gap:.6rem}
+.legal-ul li::before{content:'◆';font-size:.35rem;color:var(--gold);flex-shrink:0;margin-top:.6rem}
+
+/* ══════════ FOOTER ══════════ */
+footer{background:var(--ink);color:rgba(255,255,255,.6);padding:4rem 4vw 2rem;margin-top:0}
+.foot-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem;padding-bottom:3rem;border-bottom:1px solid rgba(255,255,255,.08)}
+.foot-logo{font-family:var(--serif);font-size:1.4rem;color:var(--white);margin-bottom:.8rem;display:flex;align-items:center;gap:.4rem}
+.foot-desc{font-family:var(--body);font-size:.82rem;font-weight:300;color:rgba(255,255,255,.45);line-height:1.75;max-width:220px}
+.foot-disc{font-family:var(--ui);font-size:.65rem;color:rgba(255,255,255,.35);line-height:1.65;margin-top:1rem;padding:.8rem 1rem;border-left:1px solid var(--gold2);border-radius:0 6px 6px 0}
+.foot-col h4{font-family:var(--ui);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:1.1rem}
+.foot-col ul{display:flex;flex-direction:column;gap:.6rem}
+.foot-col a{font-family:var(--body);font-size:.82rem;font-weight:300;color:rgba(255,255,255,.5);transition:color .25s}
+.foot-col a:hover{color:var(--white)}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.foot-copy{font-family:var(--ui);font-size:.62rem;color:rgba(255,255,255,.3)}
+.foot-links{display:flex;gap:1.5rem}
+.foot-links a{font-family:var(--ui);font-size:.62rem;color:rgba(255,255,255,.35);transition:color .25s}
+.foot-links a:hover{color:rgba(255,255,255,.7)}
+
+/* ══════════ SCROLL REVEAL ══════════ */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+.reveal.shown{opacity:1;transform:none}
+
+/* ══════════ RESPONSIVE ══════════ */
+@media(max-width:1100px){.feat-row{grid-template-columns:1fr 1fr}.foot-top{grid-template-columns:1fr 1fr 1fr;gap:2rem}}
+@media(max-width:900px){
+  .nav-search,.nav-prime{display:none}
+  .ham{display:flex}
+  .hero{grid-template-columns:1fr;padding:80px 4vw 4rem}
+  .hero::after{display:none}
+  .pdp-grid{grid-template-columns:1fr}
+  .pdp-gallery{position:static}
+  .ql-body{grid-template-columns:1fr;gap:1.5rem}
+  .about-grid{grid-template-columns:1fr;gap:3rem}
+  .trust-strip{grid-template-columns:1fr 1fr}
+  .feat-row{grid-template-columns:1fr}
+  .feat-mini{flex-direction:row}
+  .feat-mini-card{flex:1}
+  .foot-top{grid-template-columns:1fr 1fr;gap:2rem}
+  section{padding:4rem 4vw}
+}
+@media(max-width:600px){
+  .hero-h1{font-size:2.6rem}
+  .hero-nums{gap:1.8rem}
+  .hero-btns{flex-direction:column}
+  .trust-strip{grid-template-columns:1fr}
+  .foot-top{grid-template-columns:1fr}
+  .foot-bottom{flex-direction:column;text-align:center}
+  .pdp-cta{flex-direction:column}
+  .about-pillars{grid-template-columns:1fr}
+  .ql-cta{flex-direction:column}
+  .nl-form{flex-direction:column}
+  .nl-input,.nl-btn{width:100%}
+  .feat-mini{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cur-outer"></div>
+<div id="cur-inner"></div>
+<div id="cur-label">View</div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="ld-corner tl"></div><div class="ld-corner tr"></div>
+  <div class="ld-corner bl"></div><div class="ld-corner br"></div>
+  <div class="ld-seal">
+    <div class="ld-ring1"></div><div class="ld-ring2"></div>
+    <div class="ld-ring3"></div><div class="ld-gem"></div>
+  </div>
+  <div class="ld-wordmark">Affiliator</div>
+  <div class="ld-tagline">The Art of Discovery</div>
+  <div class="ld-line-prog"><div class="ld-prog"></div></div>
+</div>
+
+<!-- MOBILE NAV -->
+<div class="mob-nav" id="mobNav">
+  <a href="#" onclick="go('home');closeMob()">Home</a>
+  <a href="#" onclick="go('trending');closeMob()">Trending</a>
+  <a href="#" onclick="go('categories');closeMob()">Categories</a>
+  <a href="#" onclick="go('deals');closeMob()">Today's Deals</a>
+  <a href="#" onclick="go('about');closeMob()">About</a>
+  <a href="#" onclick="go('terms');closeMob()">Legal</a>
+</div>
+
+<!-- QUICK LOOK MODAL -->
+<div id="ql-overlay" onclick="closeQL(event)">
+  <div id="ql-modal">
+    <div class="ql-top-bar"></div>
+    <div class="ql-close-row"><button class="ql-close" onclick="closeQL()">✕</button></div>
+    <div class="ql-body">
+      <div>
+        <div class="ql-img"><span id="ql-emoji"></span></div>
+      </div>
+      <div class="ql-info">
+        <div class="ql-cat" id="ql-cat"></div>
+        <div class="ql-name" id="ql-name"></div>
+        <div class="ql-stars"><span class="stars" id="ql-stars"></span><span class="ql-revct" id="ql-revct"></span></div>
+        <div class="ql-price-row">
+          <div class="ql-price" id="ql-price"></div>
+          <div class="ql-orig" id="ql-orig"></div>
+          <div class="ql-save" id="ql-save"></div>
+        </div>
+        <div class="ql-desc" id="ql-desc"></div>
+        <div class="ql-feats" id="ql-feats"></div>
+        <div class="ql-cta">
+          <button class="ql-buy" id="ql-buy">Shop on Amazon →</button>
+          <button class="ql-full" id="ql-full">Full Details</button>
+        </div>
+        <div class="ql-trust">
+          <div class="ql-ti">🔒 Secure checkout</div>
+          <div class="ql-ti">📦 Prime eligible</div>
+          <div class="ql-ti">↩️ Easy returns</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <span>Free Prime Shipping on orders over $35</span>
+  <div class="tb-links">
+    <a href="#" onclick="go('about');return false">About</a>
+    <a href="#" onclick="go('terms');return false">Terms</a>
+    <a href="#" onclick="go('privacy');return false">Privacy</a>
+    <a href="#" onclick="go('disclosure');return false">Disclosure</a>
+    <a href="#" onclick="go('contact');return false">Contact</a>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-main">
+    <div class="nav-logo" onclick="go('home')">
+      <div class="logo-gem"></div>
+      Affiliator
+    </div>
+    <div class="nav-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Search viral gadgets, trending finds…" id="srchInput">
+      <button class="nav-search-btn" onclick="doSearch()">Search</button>
+    </div>
+    <div class="nav-right">
+      <div class="nav-icon" onclick="alert('Sign-in coming soon!')">
+        <span class="ico">👤</span>
+        <span>Account</span>
+      </div>
+      <div class="nav-icon" onclick="alert('Wishlist coming soon!')">
+        <span class="ico">♡</span>
+        <span>Saved</span>
+      </div>
+      <button class="nav-prime" onclick="go('trending')">Shop Trending</button>
+    </div>
+    <div class="ham" id="ham"><span></span><span></span><span></span></div>
+  </div>
+  <div class="nav-cats" id="navCats"></div>
+</nav>
+
+<!-- ══════════ HOME ══════════ -->
+<div class="pg on" id="pg-home">
+  <div class="ticker">
+    <div class="ticker-inner">
+      <span class="tk-it"><b>Galaxy Projector</b><span class="tk-gem">◆</span>284k TikTok views</span>
+      <span class="tk-it"><b>LED Strip Lights</b><span class="tk-gem">◆</span>#1 Bestseller 12 weeks</span>
+      <span class="tk-it"><b>Portable Blender</b><span class="tk-gem">◆</span>527k social mentions</span>
+      <span class="tk-it"><b>Smart Projector</b><span class="tk-gem">◆</span>Amazon's Choice</span>
+      <span class="tk-it"><b>Massage Gun Pro</b><span class="tk-gem">◆</span>Viral on Instagram</span>
+      <span class="tk-it"><b>Air Purifier Mini</b><span class="tk-gem">◆</span>18k sales this week</span>
+      <span class="tk-it"><b>Wireless Charger</b><span class="tk-gem">◆</span>TikTok favourite</span>
+      <span class="tk-it"><b>Galaxy Projector</b><span class="tk-gem">◆</span>284k TikTok views</span>
+      <span class="tk-it"><b>LED Strip Lights</b><span class="tk-gem">◆</span>#1 Bestseller 12 weeks</span>
+      <span class="tk-it"><b>Portable Blender</b><span class="tk-gem">◆</span>527k social mentions</span>
+      <span class="tk-it"><b>Smart Projector</b><span class="tk-gem">◆</span>Amazon's Choice</span>
+      <span class="tk-it"><b>Massage Gun Pro</b><span class="tk-gem">◆</span>Viral on Instagram</span>
+      <span class="tk-it"><b>Air Purifier Mini</b><span class="tk-gem">◆</span>18k sales this week</span>
+      <span class="tk-it"><b>Wireless Charger</b><span class="tk-gem">◆</span>TikTok favourite</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-ornament"></div>
+    <div class="hero-left">
+      <div class="hero-pill"><div class="hero-pill-gem"></div>Trusted by 200,000+ shoppers worldwide</div>
+      <h1 class="hero-h1">
+        Discover What's<br><em>Viral</em> Before<br>
+        <span class="ghost">Everyone Else</span>
+      </h1>
+      <p class="hero-p">Affiliator hand-picks the most talked-about gadgets from TikTok, Instagram and Amazon — verified, ranked, and brought to you daily.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="go('trending')">Explore Trending Now</button>
+        <button class="btn-outline" onclick="go('categories')">Browse All Categories</button>
+      </div>
+      <div class="hero-nums">
+        <div><div class="hnum-v" id="hn1">0</div><div class="hnum-l">Products Curated</div></div>
+        <div><div class="hnum-v" id="hn2">0</div><div class="hnum-l">Happy Shoppers</div></div>
+        <div><div class="hnum-v" id="hn3">0</div><div class="hnum-l">5-Star Reviews</div></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-card-main">
+        <div class="hero-card-top"></div>
+        <div class="hero-card-body">
+          <div class="hcb-float">🔥 Hot This Week</div>
+          <div class="hcb-tag">Editor's Top Pick</div>
+          <div class="hcb-img"><span>🌌</span></div>
+          <div class="hcb-name">Galaxy Star Projector</div>
+          <div class="hcb-stars"><span class="stars">★★★★★</span><span class="star-ct">(12,847 reviews)</span></div>
+          <div class="hcb-price-row">
+            <div><div class="hcb-price">$39.99</div><div class="hcb-orig" style="font-family:var(--ui);font-size:.72rem;color:var(--muted)">Was $59.99</div></div>
+            <button class="hcb-btn" onclick="openQL(1)">Quick Look</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOME SECTIONS -->
+  <section style="background:var(--c1)">
+    <div class="sh-row reveal">
+      <div><div class="sh-eyebrow">Editor's Selections</div><div class="sh-title">This Week's <em>Finest</em> Finds</div></div>
+      <a class="sh-link" href="#" onclick="go('trending');return false">View all trending <span>→</span></a>
+    </div>
+    <div class="feat-row reveal" id="featRow"></div>
+    <div class="deal-banner reveal">
+      <div class="db-left">
+        <div class="db-ico">⏳</div>
+        <div><div class="db-title">Today's Flash Deals</div><div class="db-sub">Prices reset every 24 hours</div></div>
+      </div>
+      <div class="db-timer">
+        <div class="dt-block"><div class="dt-num" id="dh">00</div><div class="dt-lbl">Hrs</div></div>
+        <div class="dt-sep">:</div>
+        <div class="dt-block"><div class="dt-num" id="dm">00</div><div class="dt-lbl">Min</div></div>
+        <div class="dt-sep">:</div>
+        <div class="dt-block"><div class="dt-num" id="ds">00</div><div class="dt-lbl">Sec</div></div>
+      </div>
+    </div>
+    <div class="prod-grid reveal" id="homeGrid"></div>
+    <div class="trust-strip reveal">
+      <div class="ts-item"><div class="ts-ico">🔗</div><div class="ts-title">Amazon Direct</div><div class="ts-desc">Every link goes to Amazon's secure checkout</div></div>
+      <div class="ts-item"><div class="ts-ico">🎯</div><div class="ts-title">Viral Vetted</div><div class="ts-desc">Only products proven on TikTok & social</div></div>
+      <div class="ts-item"><div class="ts-ico">⭐</div><div class="ts-title">4.5+ Stars Only</div><div class="ts-desc">Curated from Amazon's highest rated</div></div>
+      <div class="ts-item"><div class="ts-ico">🔄</div><div class="ts-title">Updated Daily</div><div class="ts-desc">Fresh viral drops every single day</div></div>
+    </div>
+  </section>
+
+  <!-- HOME CATEGORIES PREVIEW -->
+  <section style="background:var(--c2)">
+    <div class="sh-row reveal">
+      <div><div class="sh-eyebrow">Browse by Category</div><div class="sh-title">Every Niche, <em>Curated</em></div></div>
+      <a class="sh-link" href="#" onclick="go('categories');return false">All categories <span>→</span></a>
+    </div>
+    <div class="cat-grid reveal" id="homeCatGrid"></div>
+  </section>
+
+  <section style="background:var(--c1)">
+    <div class="nl-section reveal">
+      <div class="nl-eyebrow">Stay Ahead of the Curve</div>
+      <div class="nl-title">Get Viral Finds First</div>
+      <p class="nl-sub">Join 50,000+ trend hunters. Weekly curated drops — no spam, ever.</p>
+      <div class="nl-form">
+        <input class="nl-input" type="email" placeholder="your@email.com" id="nlEmail1">
+        <button class="nl-btn" onclick="nlSubmit('nlEmail1',this)">Subscribe</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════ TRENDING ══════════ -->
+<div class="pg" id="pg-trending">
+  <section>
+    <div class="sh-eyebrow reveal">Live Now</div>
+    <div class="sh-title reveal" style="margin-bottom:2rem">What's <em>Blowing Up</em> Right Now</div>
+    <div class="urg-bar reveal">
+      <div class="urg-dot"></div>
+      <div class="urg-txt"><b>1,247 people</b> are browsing trending products right now</div>
+    </div>
+    <div class="filter-row reveal" id="trendFilters"></div>
+    <div class="prod-grid" id="trendGrid"></div>
+  </section>
+</div>
+
+<!-- ══════════ CATEGORIES ══════════ -->
+<div class="pg" id="pg-categories">
+  <section>
+    <div class="sh-eyebrow reveal">Explore</div>
+    <div class="sh-title reveal" style="margin-bottom:2.5rem">Shop by <em>Category</em></div>
+    <div class="cat-grid reveal" id="fullCatGrid"></div>
+    <div class="nl-section reveal" style="margin-top:4rem">
+      <div class="nl-eyebrow">Never Miss a Drop</div>
+      <div class="nl-title">New Categories Added Weekly</div>
+      <p class="nl-sub">Be the first to know when new curated collections arrive.</p>
+      <div class="nl-form">
+        <input class="nl-input" type="email" placeholder="your@email.com" id="nlEmail2">
+        <button class="nl-btn" onclick="nlSubmit('nlEmail2',this)">Notify Me</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════ DEALS ══════════ -->
+<div class="pg" id="pg-deals">
+  <section>
+    <div class="sh-eyebrow reveal">Limited Time</div>
+    <div class="sh-title reveal" style="margin-bottom:.5rem">Today's <em>Best Deals</em></div>
+    <p class="sh-sub reveal" style="margin-bottom:2.5rem">Handpicked discounts on the most viral gadgets. Prices change daily.</p>
+    <div class="deal-banner reveal">
+      <div class="db-left"><div class="db-ico">🔥</div><div><div class="db-title">Flash Sale Active Now</div><div class="db-sub">Ends at midnight</div></div></div>
+      <div class="db-timer">
+        <div class="dt-block"><div class="dt-num" id="dh2">00</div><div class="dt-lbl">Hrs</div></div>
+        <div class="dt-sep">:</div>
+        <div class="dt-block"><div class="dt-num" id="dm2">00</div><div class="dt-lbl">Min</div></div>
+        <div class="dt-sep">:</div>
+        <div class="dt-block"><div class="dt-num" id="ds2">00</div><div class="dt-lbl">Sec</div></div>
+      </div>
+    </div>
+    <div class="prod-grid reveal" id="dealsGrid"></div>
+  </section>
+</div>
+
+<!-- ══════════ ABOUT ══════════ -->
+<div class="pg" id="pg-about">
+  <section>
+    <div class="about-grid reveal">
+      <div class="about-vis"><div class="about-glow"></div><span style="position:relative;z-index:1">✦</span></div>
+      <div>
+        <div class="about-eyebrow">Our Story</div>
+        <h2 class="about-h2">Your Shortcut to<br><em>What's Next</em></h2>
+        <p class="about-p">Affiliator was built by shoppers, for shoppers. We scan TikTok, Reddit, Instagram, and Amazon every single day — sifting through millions of products so you discover only the very best.</p>
+        <p class="about-p">Every product on Affiliator is curated with intention. We only feature items with genuine social proof, outstanding Amazon ratings, and real value. No paid placements. No fake reviews. Ever.</p>
+        <div class="about-pillars">
+          <div class="pillar"><div class="pillar-ico">🔍</div><div class="pillar-t">Daily Curation</div><div class="pillar-d">Fresh viral finds every 24 hours, curated by real people</div></div>
+          <div class="pillar"><div class="pillar-ico">✅</div><div class="pillar-t">Honest Reviews</div><div class="pillar-d">Only verified purchases, no paid promotions</div></div>
+          <div class="pillar"><div class="pillar-ico">⚡</div><div class="pillar-t">Instant Access</div><div class="pillar-d">One click to Amazon — fast, safe, trusted</div></div>
+          <div class="pillar"><div class="pillar-ico">📱</div><div class="pillar-t">TikTok Verified</div><div class="pillar-d">Social proof before it hits mainstream</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="trust-strip reveal" style="margin-top:4rem">
+      <div class="ts-item"><div class="ts-ico">📦</div><div class="ts-title">50K+ Products</div><div class="ts-desc">Reviewed and curated since founding</div></div>
+      <div class="ts-item"><div class="ts-ico">👥</div><div class="ts-title">200K+ Shoppers</div><div class="ts-desc">Monthly active users and counting</div></div>
+      <div class="ts-item"><div class="ts-ico">⭐</div><div class="ts-title">4.9 Rating</div><div class="ts-desc">Average user satisfaction score</div></div>
+      <div class="ts-item"><div class="ts-ico">🌍</div><div class="ts-title">45+ Countries</div><div class="ts-desc">Trusted by shoppers globally</div></div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════ TERMS ══════════ -->
+<div class="pg" id="pg-terms">
+  <div class="legal-wrap">
+    <h1 class="legal-h1">Terms & Conditions</h1>
+    <div class="legal-date">Last updated: January 1, 2024</div>
+    <div class="legal-section"><div class="legal-h2">1. Acceptance of Terms</div><p class="legal-p">By accessing and using the Affiliator website ("the Service"), you accept and agree to be bound by these Terms and Conditions. If you do not agree to these terms, please do not use our Service. These terms apply to all visitors, users, and others who access or use the Service.</p></div>
+    <div class="legal-section"><div class="legal-h2">2. Description of Service</div><p class="legal-p">Affiliator is a product discovery and recommendation platform that curates viral and trending consumer products. We participate in the Amazon Services LLC Associates Program, an affiliate advertising program. When you click our links and make purchases, we may earn a commission at no additional cost to you.</p></div>
+    <div class="legal-section"><div class="legal-h2">3. Intellectual Property</div><p class="legal-p">The Service and its original content, features, and functionality are owned by Affiliator and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws. You may not copy, modify, distribute, or create derivative works without our express written permission.</p></div>
+    <div class="legal-section"><div class="legal-h2">4. User Responsibilities</div><ul class="legal-ul"><li>You agree to use the Service only for lawful purposes and in a way that does not infringe the rights of others.</li><li>You must not use the Service to transmit any unsolicited commercial communications.</li><li>You are responsible for maintaining the confidentiality of any account information.</li><li>You must not attempt to gain unauthorised access to any part of the Service.</li></ul></div>
+    <div class="legal-section"><div class="legal-h2">5. Third-Party Links</div><p class="legal-p">Our Service contains links to third-party websites, including Amazon.com. These links are provided for your convenience. We have no control over the content, privacy policies, or practices of any third-party websites and accept no responsibility for them. We encourage you to review the terms and privacy policies of any third-party sites you visit.</p></div>
+    <div class="legal-section"><div class="legal-h2">6. Disclaimer of Warranties</div><p class="legal-p">The Service is provided "as is" and "as available" without any warranties of any kind, either express or implied. We do not warrant that the Service will be uninterrupted, timely, secure, or error-free. Product prices and availability are subject to change at any time without notice.</p></div>
+    <div class="legal-section"><div class="legal-h2">7. Limitation of Liability</div><p class="legal-p">To the fullest extent permitted by law, Affiliator shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of or inability to use the Service, or from any products purchased through our affiliate links.</p></div>
+    <div class="legal-section"><div class="legal-h2">8. Changes to Terms</div><p class="legal-p">We reserve the right to modify these terms at any time. Changes will be effective immediately upon posting to the website. Your continued use of the Service after any changes constitutes your acceptance of the new terms.</p></div>
+    <div class="legal-section"><div class="legal-h2">9. Contact Information</div><p class="legal-p">If you have any questions about these Terms, please contact us at legal@affiliator.com or through our contact page.</p></div>
+  </div>
+</div>
+
+<!-- ══════════ PRIVACY ══════════ -->
+<div class="pg" id="pg-privacy">
+  <div class="legal-wrap">
+    <h1 class="legal-h1">Privacy Policy</h1>
+    <div class="legal-date">Last updated: January 1, 2024</div>
+    <div class="legal-section"><div class="legal-h2">1. Information We Collect</div><p class="legal-p">We collect information you provide directly (such as email addresses for newsletter subscriptions), information collected automatically (such as browser type, pages visited, and time spent), and information from third-party services used in connection with our website.</p></div>
+    <div class="legal-section"><div class="legal-h2">2. How We Use Your Information</div><ul class="legal-ul"><li>To send you our newsletter and product recommendations (only with your consent)</li><li>To analyse and improve our website's performance and user experience</li><li>To comply with legal obligations and protect our rights</li><li>To communicate with you about updates, promotions, and new features</li></ul></div>
+    <div class="legal-section"><div class="legal-h2">3. Cookies & Tracking</div><p class="legal-p">We use cookies and similar tracking technologies to improve your browsing experience, analyse site traffic, and understand where our visitors are coming from. You can control cookie settings through your browser. Disabling cookies may affect some features of our Service.</p></div>
+    <div class="legal-section"><div class="legal-h2">4. Amazon Associates</div><p class="legal-p">As an Amazon Associate, we use tracking cookies to attribute purchases to our affiliate account. Amazon's Privacy Policy governs data collected through Amazon.com. We do not receive or store your Amazon account details, payment information, or personal purchase history.</p></div>
+    <div class="legal-section"><div class="legal-h2">5. Data Retention</div><p class="legal-p">We retain your information only as long as necessary to fulfil the purposes outlined in this policy. Newsletter subscribers may unsubscribe at any time, and their data will be removed within 30 days of the request.</p></div>
+    <div class="legal-section"><div class="legal-h2">6. Your Rights</div><ul class="legal-ul"><li>Right to access the personal data we hold about you</li><li>Right to correct inaccurate or incomplete data</li><li>Right to request deletion of your personal data</li><li>Right to withdraw consent for data processing at any time</li></ul></div>
+    <div class="legal-section"><div class="legal-h2">7. Contact Us</div><p class="legal-p">For any privacy-related questions or to exercise your rights, contact us at privacy@affiliator.com.</p></div>
+  </div>
+</div>
+
+<!-- ══════════ DISCLOSURE ══════════ -->
+<div class="pg" id="pg-disclosure">
+  <div class="legal-wrap">
+    <h1 class="legal-h1">Affiliate Disclosure</h1>
+    <div class="legal-date">Last updated: January 1, 2024</div>
+    <div class="legal-section"><div class="legal-h2">Our Amazon Affiliate Relationship</div><p class="legal-p">Affiliator is a participant in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon.com. As an Amazon Associate, we earn from qualifying purchases.</p><p class="legal-p">This means that when you click on a product link on Affiliator and subsequently make a purchase on Amazon, we receive a small commission — typically between 1% and 10% of the purchase price, depending on the product category. This commission comes at absolutely no extra cost to you. You pay exactly the same price you would pay by visiting Amazon directly.</p></div>
+    <div class="legal-section"><div class="legal-h2">Our Editorial Independence</div><p class="legal-p">Our affiliate relationship with Amazon does not influence our product recommendations. We curate products based solely on their viral appeal, Amazon ratings, customer reviews, and genuine value to consumers. We do not accept payment from brands or manufacturers to feature their products.</p></div>
+    <div class="legal-section"><div class="legal-h2">Price Accuracy</div><p class="legal-p">Product prices displayed on Affiliator are updated regularly, but prices on Amazon change frequently. The price you see when you arrive at Amazon.com may differ from what is shown on our site. Amazon's listed price at the time of purchase is always the final price.</p></div>
+    <div class="legal-section"><div class="legal-h2">Questions?</div><p class="legal-p">If you have any questions about our affiliate relationships or how we select products, please contact us at disclosure@affiliator.com.</p></div>
+  </div>
+</div>
+
+<!-- ══════════ CONTACT ══════════ -->
+<div class="pg" id="pg-contact">
+  <div class="legal-wrap">
+    <h1 class="legal-h1">Contact Us</h1>
+    <div class="legal-date">We'd love to hear from you</div>
+    <div class="legal-section"><div class="legal-h2">General Enquiries</div><p class="legal-p">Email: hello@affiliator.com</p><p class="legal-p">We typically respond within 24–48 hours on business days.</p></div>
+    <div class="legal-section"><div class="legal-h2">Product Submissions</div><p class="legal-p">Have a viral product you think we should feature? Send us a link and why you love it at products@affiliator.com. We review every submission personally.</p></div>
+    <div class="legal-section"><div class="legal-h2">Press & Media</div><p class="legal-p">For press enquiries, partnership opportunities, or media requests, please contact press@affiliator.com.</p></div>
+    <div class="legal-section"><div class="legal-h2">Legal & Privacy</div><p class="legal-p">For privacy-related requests, data deletion, or legal matters, please contact legal@affiliator.com.</p></div>
+    <div style="background:var(--c2);border:1px solid var(--line);border-radius:14px;padding:2.5rem;margin-top:2rem">
+      <div class="sh-eyebrow" style="margin-bottom:1rem">Send a Message</div>
+      <div style="display:grid;gap:.9rem">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.9rem">
+          <input class="nl-input" type="text" placeholder="Your name" style="border-radius:8px">
+          <input class="nl-input" type="email" placeholder="your@email.com" style="border-radius:8px">
+        </div>
+        <input class="nl-input" type="text" placeholder="Subject" style="border-radius:8px">
+        <textarea class="nl-input" rows="5" placeholder="Your message…" style="border-radius:8px;resize:vertical"></textarea>
+        <button class="btn-primary" style="width:fit-content" onclick="alert('Message sent! We\'ll be in touch within 48 hours.')">Send Message</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ PRODUCT DETAIL ══════════ -->
+<div class="pg" id="pg-product">
+  <div class="pdp-wrap">
+    <div class="breadcrumb" id="pdp-bc"></div>
+    <div class="pdp-grid">
+      <div class="pdp-gallery">
+        <div class="pdp-main-img"><span id="pdp-emoji" style="position:relative;z-index:1"></span></div>
+        <div class="pdp-thumbs" id="pdp-thumbs"></div>
+      </div>
+      <div class="pdp-info-col">
+        <div class="pdp-cat-lbl" id="pdp-cat"></div>
+        <h1 class="pdp-title" id="pdp-title"></h1>
+        <div class="pdp-stars"><span class="stars" id="pdp-stars"></span><a class="pdp-revlink" href="#tab-rev" onclick="switchTab2('tab-rev')">See all reviews</a></div>
+        <div class="pdp-price-row">
+          <div class="pdp-price" id="pdp-price"></div>
+          <div class="pdp-orig" id="pdp-orig"></div>
+          <div class="pdp-save" id="pdp-save"></div>
+        </div>
+        <p class="pdp-desc" id="pdp-desc"></p>
+        <div class="pdp-feats" id="pdp-feats"></div>
+        <div class="pdp-cta">
+          <button class="pdp-buy" id="pdp-buy">Shop on Amazon →</button>
+          <button class="pdp-save-btn">♡ Save</button>
+        </div>
+        <div class="pdp-trust">
+          <div class="pdp-ti">🔒 Secure Amazon checkout</div>
+          <div class="pdp-ti">📦 Prime eligible</div>
+          <div class="pdp-ti">↩️ 30-day easy returns</div>
+          <div class="pdp-ti">✅ Verified affiliate link</div>
+        </div>
+      </div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn on" onclick="switchTab2('tab-ov')">Overview</button>
+      <button class="tab-btn" onclick="switchTab2('tab-rev')">Reviews</button>
+      <button class="tab-btn" onclick="switchTab2('tab-cmp')">Compare</button>
+    </div>
+    <div class="tab-panel on" id="tab-ov"></div>
+    <div class="tab-panel" id="tab-rev"></div>
+    <div class="tab-panel" id="tab-cmp"></div>
+    <div style="margin-top:4rem">
+      <div class="sh-eyebrow" style="margin-bottom:2rem">You May Also Like</div>
+      <div class="prod-grid" id="pdp-rel"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-top">
+    <div>
+      <div class="foot-logo"><div class="logo-gem" style="width:7px;height:7px;background:var(--goldg);transform:rotate(45deg)"></div>Affiliator</div>
+      <p class="foot-desc">Curating the internet's most viral gadgets and trending Amazon finds since 2024.</p>
+      <div class="foot-disc">⚠️ Affiliate Disclosure: We earn commissions from qualifying Amazon purchases through our links — at no extra cost to you.</div>
+    </div>
+    <div class="foot-col">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="#" onclick="go('trending');return false">Trending Now</a></li>
+        <li><a href="#" onclick="go('deals');return false">Today's Deals</a></li>
+        <li><a href="#" onclick="go('categories');return false">All Categories</a></li>
+        <li><a href="#">New Arrivals</a></li>
+        <li><a href="#">Top Rated</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Categories</h4>
+      <ul>
+        <li><a href="#">Tech Gadgets</a></li>
+        <li><a href="#">Home & Kitchen</a></li>
+        <li><a href="#">Beauty & Health</a></li>
+        <li><a href="#">Outdoor & Sport</a></li>
+        <li><a href="#">Pet Accessories</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#" onclick="go('about');return false">About Us</a></li>
+        <li><a href="#" onclick="go('contact');return false">Contact</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#" onclick="go('terms');return false">Terms & Conditions</a></li>
+        <li><a href="#" onclick="go('privacy');return false">Privacy Policy</a></li>
+        <li><a href="#" onclick="go('disclosure');return false">Affiliate Disclosure</a></li>
+        <li><a href="#">Cookie Policy</a></li>
+        <li><a href="#">Sitemap</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <div class="foot-copy">© 2024 Affiliator. Amazon and the Amazon logo are trademarks of Amazon.com, Inc. All product prices and availability are subject to change.</div>
+    <div class="foot-links">
+      <a href="#" onclick="go('privacy');return false">Privacy</a>
+      <a href="#" onclick="go('terms');return false">Terms</a>
+      <a href="#" onclick="go('disclosure');return false">Disclosure</a>
+      <a href="#" onclick="go('contact');return false">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ══════════════════════════════════════════
+   CONFIG — Replace YOUR-TAG-20 with yours
+══════════════════════════════════════════ */
+const TAG = 'YOUR-TAG-20';
+const amzLink = asin => `https://www.amazon.com/dp/${asin}?tag=${TAG}&linkCode=ll1`;
+
+/* ══════════ DATA ══════════ */
+const PRODUCTS = [
+  {id:1,name:'Galaxy Star Projector',cat:'Tech Gadgets',emoji:'🌌',badge:'viral',price:'$39.99',orig:'$59.99',save:'Save 33%',stars:4.8,revs:12847,tiktok:'284k views',asin:'B08XQ5NWZP',desc:'Transform any room into a breathtaking cosmos. 360° rotating stars and nebulae with 16 RGB color modes.',feats:['360° rotating star & nebula projection','16 RGB color modes + timer','Voice control & app compatible','USB powered — works anywhere','1–4 hour auto-off timer'],overview:'The Galaxy Star Projector became the defining TikTok room transformation gadget overnight. With over 280k views and 12,847 genuine reviews, it consistently ranks as Amazon\'s #1 gadget. Turn off the lights and your room becomes a living cosmos.',revList:[{name:'Alex M.',ini:'A',stars:5,title:'Absolutely obsessed',body:'Bought after seeing it on TikTok — it delivered beyond every expectation. The colours are vibrant, the rotation perfect, and it genuinely makes my room feel magical.',date:'2 days ago',help:342},{name:'Sarah K.',ini:'S',stars:5,title:'Feels like sleeping under the stars',body:'I was sceptical but this is genuinely stunning. App control is seamless. Every guest asks about it the moment they walk in.',date:'5 days ago',help:218}]},
+  {id:2,name:'Portable Mini Projector',cat:'Tech Gadgets',emoji:'📽️',badge:'hot',price:'$89.99',orig:'$129.99',save:'Save 31%',stars:4.6,revs:8234,tiktok:'156k views',asin:'B09WZNKFP7',desc:'Cinema-quality 1080p in your palm. Wireless, lightweight, 150-inch screen. The ultimate gadget.',feats:['Full HD 1080p support','Built-in speaker + WiFi','150" projection size','5-hour battery life','Universal device compatibility'],overview:'This mini projector turns any surface into a 150-inch screen. At just 500g it goes everywhere. Perfect for movie nights, camping, and outdoor events.',revList:[{name:'Jordan T.',ini:'J',stars:5,title:'Changed movie nights forever',body:'Set this up in my backyard — 20 friends showed up for impromptu outdoor cinema. Image quality genuinely impressive.',date:'3 days ago',help:512}]},
+  {id:3,name:'LED Smart Strip Lights',cat:'Home Lighting',emoji:'💡',badge:'trending',price:'$24.99',orig:'$39.99',save:'Save 38%',stars:4.7,revs:45621,tiktok:'892k views',asin:'B08BR6BMQZ',desc:'16 million colors, music sync, and app control. The #1 TikTok room transformation gadget.',feats:['16 million color combinations','Music sync in real-time','App + voice assistant control','16ft cuttable adhesive strip','Scene presets & scheduling'],overview:'892k TikTok views confirm it: these LED strips have started a room transformation revolution. The music sync creates a real-time light show to any audio. Installation takes under 5 minutes.',revList:[{name:'Tyler B.',ini:'T',stars:5,title:'My room is unrecognisable',body:'The music sync is absolutely insane. My room looks like a professional setup. Friends constantly ask where I got these.',date:'1 day ago',help:934}]},
+  {id:4,name:'Wireless Charging Stand 3-in-1',cat:'Tech Gadgets',emoji:'🔋',badge:'new',price:'$34.99',orig:'$49.99',save:'Save 30%',stars:4.5,revs:6782,tiktok:'78k views',asin:'B09JQMJJMP',desc:'Charge iPhone, AirPods, and Apple Watch simultaneously. MagSafe compatible, premium aluminium.',feats:['15W fast wireless charging','MagSafe compatible','3 devices simultaneously','Adjustable viewing angle','Premium aluminium build'],overview:'The clean desk solution the internet has been waiting for. One cable, three Apple devices charged perfectly every time.',revList:[{name:'Chris P.',ini:'C',stars:5,title:'Desk setup finally complete',body:'All three Apple devices charge simultaneously. Alignment is perfect every time. Build quality is genuinely premium.',date:'2 days ago',help:267}]},
+  {id:5,name:'Portable Handheld Fan',cat:'Home & Lifestyle',emoji:'🌀',badge:'hot',price:'$19.99',orig:'$29.99',save:'Save 33%',stars:4.6,revs:23104,tiktok:'341k views',asin:'B08KGXP4RY',desc:'Ultra-quiet 3-speed fan with 8-hour battery. The summer essential that went viral for a reason.',feats:['3 variable speed settings','8-hour continuous battery','Whisper-quiet operation','360° rotating head','USB-C fast charging'],overview:'Simple, executed to perfection. 341k TikTok views and the top-rated portable fan on Amazon. Fits in every bag.',revList:[{name:'Diana W.',ini:'D',stars:5,title:'Cannot survive summer without this',body:'I take it everywhere. Battery lasts all day, completely silent, fits in every bag. Absolute essential.',date:'3 days ago',help:782}]},
+  {id:6,name:'Portable USB Blender',cat:'Kitchen Gadgets',emoji:'🥤',badge:'trending',price:'$29.99',orig:'$44.99',save:'Save 33%',stars:4.7,revs:18923,tiktok:'527k views',asin:'B08L8MZRPB',desc:'USB rechargeable blender with 6 titanium blades. 15-second blend cycle for perfect smoothies anywhere.',feats:['6 titanium steel blades','USB-C rechargeable','20oz travel bottle','Self-cleaning mode','BPA-free materials'],overview:'527k TikTok views. The 15-second cycle blends frozen fruit perfectly. Cleaning is effortless — just add water and blend.',revList:[{name:'Kayla J.',ini:'K',stars:5,title:'Best gadget purchase this year',body:'I make a smoothie every single morning now. Blends frozen fruit in 15 seconds. Cleaning is completely effortless.',date:'5 days ago',help:623}]},
+  {id:7,name:'Smart Sleep Sound Machine',cat:'Health & Wellness',emoji:'😴',badge:'new',price:'$44.99',orig:'$64.99',save:'Save 31%',stars:4.8,revs:9341,tiktok:'112k views',asin:'B09XRQNMBZ',desc:'30 soundscapes with precision frequencies for deeper sleep. The wellness gadget gaining rapid viral traction.',feats:['30 natural soundscapes','Auto-shutoff timer (30/60/90 min)','Soothing night light','Compact travel design','No Bluetooth — pure analog'],overview:'Sleep quality changes everything. This sound machine masks noise and guides your brain toward deeper sleep through precisely calibrated frequencies.',revList:[{name:'Nathan G.',ini:'N',stars:5,title:'Completely changed how I sleep',body:'Went from waking 3 times per night to sleeping straight through. White noise option is perfection.',date:'1 week ago',help:445}]},
+  {id:8,name:'Electric Makeup Brush Cleaner',cat:'Beauty & Health',emoji:'💄',badge:'viral',price:'$18.99',orig:'$27.99',save:'Save 32%',stars:4.5,revs:31205,tiktok:'615k views',asin:'B085VHWSGP',desc:'Cleans brushes in 10 seconds flat. The beauty hack that broke TikTok with 615k views.',feats:['Cleans any brush in 10 seconds','Works with all brush sizes','Electric spin technology','No hand-washing needed','8 rubber collar adapters included'],overview:'615k TikTok views. The spin cycle removes 99% of product buildup instantly. Every beauty influencer has posted this.',revList:[{name:'Olivia R.',ini:'O',stars:5,title:'Complete magic',body:'I spent 20 minutes cleaning brushes by hand. This does them all in 2 minutes. Absolute must-have.',date:'2 days ago',help:1102}]},
+  {id:9,name:'Aromatherapy Diffuser',cat:'Health & Wellness',emoji:'🌿',badge:'new',price:'$32.99',orig:'$49.99',save:'Save 34%',stars:4.7,revs:14320,tiktok:'89k views',asin:'B07PXVSHR3',desc:'Ultrasonic aromatherapy diffuser with colour-changing LED and 400ml capacity for up to 12 hours.',feats:['400ml large capacity tank','7 colour-changing LEDs','12-hour continuous mist','Auto-shutoff safety feature','Whisper-quiet ultrasonic technology'],overview:'Transform your space into a spa. This bestselling diffuser pairs essential oils with ambient lighting for the ultimate relaxation experience.',revList:[{name:'Emma S.',ini:'E',stars:5,title:'My bedroom smells like a spa',body:'Bought peppermint oil and this diffuser together. My room smells incredible and the LED ambiance is beautiful.',date:'4 days ago',help:289}]},
+  {id:10,name:'Smart Fitness Resistance Bands',cat:'Fitness & Sport',emoji:'💪',badge:'trending',price:'$27.99',orig:'$39.99',save:'Save 30%',stars:4.6,revs:22105,tiktok:'203k views',asin:'B09KBGHM4L',desc:'Set of 5 progressive resistance bands with app-guided workouts. Full body training anywhere.',feats:['5 progressive resistance levels','Anti-snap latex construction','App-guided workout library','Compact carry case included','Suitable for all fitness levels'],overview:'The fitness band set that turned home workouts mainstream. 203k TikTok views and endorsed by over 200 fitness influencers.',revList:[{name:'Marcus T.',ini:'M',stars:5,title:'Best home workout investment',body:'Used these every day for 3 months. The app workouts are genuinely excellent and the bands have not lost any elasticity.',date:'1 week ago',help:567}]},
+  {id:11,name:'Neck & Shoulder Massager',cat:'Health & Wellness',emoji:'🤸',badge:'hot',price:'$49.99',orig:'$74.99',save:'Save 33%',stars:4.8,revs:16782,tiktok:'178k views',asin:'B08DFPJ7KZ',desc:'Shiatsu neck massager with heat therapy. 8 deep-kneading nodes and 3 intensity levels.',feats:['8 deep-kneading massage nodes','Infrared heat therapy','3 speed + 3 direction settings','Auto-shutoff after 15 minutes','Cordless — up to 140min battery'],overview:'The shiatsu massager that has become everyone\'s post-work ritual. 178k TikTok views showcase the satisfying kneading action that genuinely relieves tension.',revList:[{name:'Rachel K.',ini:'R',stars:5,title:'Best purchase of my life',body:'I use this every single evening. My neck tension is gone within minutes. I have bought three for family members already.',date:'2 days ago',help:892}]},
+  {id:12,name:'Smart Ring Light with Stand',cat:'Tech Gadgets',emoji:'📸',badge:'trending',price:'$36.99',orig:'$54.99',save:'Save 33%',stars:4.7,revs:29341,tiktok:'412k views',asin:'B09X5RJKHM',desc:'18-inch ring light with adjustable stand, phone holder, and 3 colour modes. Content creation perfected.',feats:['18-inch LED ring light','3 colour temperatures','Adjustable 10 brightness levels','72-inch extendable stand','Includes phone & camera holders'],overview:'412k TikTok views and counting. The ring light that elevated millions of creators from amateur to professional overnight. Setup takes 3 minutes.',revList:[{name:'Priya N.',ini:'P',stars:5,title:'My content improved overnight',body:'My Instagram engagement doubled after getting this. The lighting is gorgeous and the stand is incredibly stable.',date:'3 days ago',help:743}]}
+];
+
+const CATEGORIES = [
+  {name:'Tech Gadgets',emoji:'⚡',ct:124},{name:'Home Lighting',emoji:'💡',ct:87},
+  {name:'Kitchen Gadgets',emoji:'🍳',ct:93},{name:'Beauty & Health',emoji:'✨',ct:76},
+  {name:'Home & Lifestyle',emoji:'🏠',ct:112},{name:'Fitness & Sport',emoji:'💪',ct:68},
+  {name:'Outdoor & Adventure',emoji:'🏕️',ct:64},{name:'Pet Accessories',emoji:'🐾',ct:48},
+  {name:'Car Accessories',emoji:'🚗',ct:55},{name:'Baby & Kids',emoji:'🍼',ct:41},
+  {name:'Office & Productivity',emoji:'💼',ct:72},{name:'Gaming',emoji:'🎮',ct:83},
+  {name:'Travel Essentials',emoji:'✈️',ct:59},{name:'Garden & Outdoor',emoji:'🌱',ct:45},
+  {name:'Books & Learning',emoji:'📚',ct:37},{name:'Arts & Crafts',emoji:'🎨',ct:31}
+];
+
+/* ══════════ LOADER ══════════ */
+document.body.style.overflow = 'hidden';
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('out');
+    document.body.style.overflow = 'auto';
+  }, 2200);
+});
+
+/* ══════════ CUSTOM CURSOR ══════════ */
+const CO = document.getElementById('cur-outer');
+const CI = document.getElementById('cur-inner');
+const CL = document.getElementById('cur-label');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+(function animCur() {
+  CI.style.left = mx + 'px'; CI.style.top = my + 'px';
+  CL.style.left = mx + 'px'; CL.style.top = my + 'px';
+  rx += (mx - rx) * 0.1; ry += (my - ry) * 0.1;
+  CO.style.left = rx + 'px'; CO.style.top = ry + 'px';
+  requestAnimationFrame(animCur);
+})();
+
+// Click ripple
+document.addEventListener('click', e => {
+  const r = document.createElement('div');
+  r.className = 'cur-ripple';
+  r.style.left = e.clientX + 'px'; r.style.top = e.clientY + 'px';
+  document.body.appendChild(r);
+  document.body.classList.add('clicking');
+  setTimeout(() => { r.remove(); document.body.classList.remove('clicking'); }, 600);
+});
+
+// Hover states
+const addHov = (sel, cls) => {
+  document.querySelectorAll(sel).forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add(cls));
+    el.addEventListener('mouseleave', () => document.body.classList.remove(cls));
+  });
+};
+// Dynamic delegation for cursor
+document.addEventListener('mouseover', e => {
+  const card = e.target.closest('.prod-card,.cat-card,.feat-big,.feat-mini-card');
+  const btn = e.target.closest('button,a,.nav-icon,.hcb-btn,.pc-cta');
+  document.body.classList.toggle('hov-card', !!card && !btn);
+  document.body.classList.toggle('hov-btn', !!btn);
+  CL.style.marginTop = card && !btn ? '30px' : '0';
+});
+document.addEventListener('mouseout', e => {
+  if (!e.relatedTarget?.closest('.prod-card,.cat-card,.feat-big,.feat-mini-card,button,a')) {
+    document.body.classList.remove('hov-card', 'hov-btn');
+  }
+});
+
+/* ══════════ HELPERS ══════════ */
+const stars = n => '★'.repeat(Math.round(n)) + '☆'.repeat(5 - Math.round(n));
+const badgeMap = { hot: 'b-hot 🔥 Hot', new: 'b-new ✨ New', trending: 'b-trending 📈 Trending', viral: 'b-viral 🚀 Viral', sale: 'b-sale 🏷 Sale' };
+const badgeLbl = b => (badgeMap[b] || '').split(' ').slice(1).join(' ');
+
+function cardHTML(p, delay = 0) {
+  return `<div class="prod-card reveal" style="animation-delay:${delay}s">
+    <div class="pc-img-wrap">
+      <div class="pc-bg-glow"></div>
+      <div class="pc-emoji">${p.emoji}</div>
+      <span class="pc-badge ${(badgeMap[p.badge]||'').split(' ')[0]}">${badgeLbl(p.badge)}</span>
+      <button class="pc-wish" onclick="event.stopPropagation();this.classList.toggle('on');this.textContent=this.classList.contains('on')?'♥':'♡'">♡</button>
+      <div class="pc-tiktok-label">▶ ${p.tiktok}</div>
+      <button class="ql-trigger" onclick="event.stopPropagation();openQL(${p.id})">◆ Quick Look</button>
+    </div>
+    <div class="pc-info" onclick="openPDP(${p.id})" style="cursor:none">
+      <div class="pc-cat-label">${p.cat}</div>
+      <div class="pc-name">${p.name}</div>
+      <div class="pc-stars"><span class="stars">${stars(p.stars)}</span><span class="pc-revct">(${p.revs.toLocaleString()})</span></div>
+      <div class="pc-bottom">
+        <div class="pc-price-wrap"><div class="pc-price">${p.price}</div><div class="pc-orig">${p.orig}</div><div class="pc-off">${p.save}</div></div>
+        <button class="pc-cta" onclick="event.stopPropagation();buyNow(${p.id})">Shop →</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ══════════ NAV CATEGORIES ══════════ */
+const NAV_PAGES = [
+  { label: 'Home', page: 'home' }, { label: '🔥 Trending', page: 'trending' },
+  { label: "Today's Deals", page: 'deals' }, { label: 'Categories', page: 'categories' },
+  { label: 'Tech Gadgets', page: 'trending' }, { label: 'Kitchen', page: 'trending' },
+  { label: 'Beauty & Health', page: 'trending' }, { label: 'Fitness', page: 'trending' },
+  { label: 'Home & Lifestyle', page: 'trending' }, { label: 'Pet', page: 'trending' },
+  { label: 'Gaming', page: 'trending' }, { label: 'Travel', page: 'trending' },
+  { label: 'About', page: 'about' }
+];
+document.getElementById('navCats').innerHTML = NAV_PAGES.map((n, i) =>
+  `<div class="nav-cat-item${i === 0 ? ' on' : ''}" onclick="go('${n.page}');setNavCat(this)">${n.label}</div>`
+).join('');
+
+function setNavCat(el) {
+  document.querySelectorAll('.nav-cat-item').forEach(x => x.classList.remove('on'));
+  el.classList.add('on');
+}
+
+/* ══════════ RENDER HOME ══════════ */
+function renderHome() {
+  // Featured row
+  const fp = PRODUCTS[0], sp = PRODUCTS[2], tp = PRODUCTS[4];
+  document.getElementById('featRow').innerHTML = `
+    <div class="feat-big" onclick="openPDP(${fp.id})">
+      <div class="feat-big-img"><span>${fp.emoji}</span><span class="pc-badge ${(badgeMap[fp.badge]||'').split(' ')[0]}" style="position:absolute;top:.9rem;left:.9rem">${badgeLbl(fp.badge)}</span></div>
+      <div class="feat-big-info">
+        <div class="pc-cat-label">${fp.cat}</div>
+        <div style="font-family:var(--serif);font-size:1.1rem;color:var(--ink);margin-bottom:.4rem">${fp.name}</div>
+        <div class="pc-stars" style="margin-bottom:.7rem"><span class="stars">${stars(fp.stars)}</span><span class="pc-revct"> (${fp.revs.toLocaleString()})</span></div>
+        <div class="pc-price-wrap"><div class="pc-price">${fp.price}</div><div class="pc-orig">${fp.orig}</div><div class="pc-off">${fp.save}</div></div>
+      </div>
+    </div>
+    <div class="feat-mini">
+      ${[sp, tp].map(p => `<div class="feat-mini-card" onclick="openPDP(${p.id})">
+        <div class="feat-mini-img">${p.emoji}</div>
+        <div>
+          <div class="pc-cat-label">${p.cat}</div>
+          <div class="feat-mini-name">${p.name}</div>
+          <div class="pc-stars" style="margin:.25rem 0"><span class="stars">${stars(p.stars)}</span></div>
+          <div class="pc-price-wrap"><div class="feat-mini-price">${p.price}</div><div class="pc-orig">${p.orig}</div></div>
+        </div>
+      </div>`).join('')}
+    </div>`;
+
+  document.getElementById('homeGrid').innerHTML = PRODUCTS.slice(3, 11).map((p, i) => cardHTML(p, i * 0.05)).join('');
+
+  // Home categories (first 8)
+  document.getElementById('homeCatGrid').innerHTML = CATEGORIES.slice(0, 8).map(c => `
+    <div class="cat-card" onclick="go('categories')">
+      <div class="cat-ico">${c.emoji}</div>
+      <div class="cat-name">${c.name}</div>
+      <div class="cat-ct">${c.ct} products</div>
+      <div class="cat-arrow">Explore <span>→</span></div>
+    </div>`).join('');
+}
+renderHome();
+
+/* ══════════ RENDER TRENDING ══════════ */
+function renderTrending() {
+  const cats = ['All', ...new Set(PRODUCTS.map(p => p.cat))];
+  document.getElementById('trendFilters').innerHTML = cats.map((c, i) =>
+    `<div class="f-pill${i === 0 ? ' on' : ''}" onclick="filterTrend('${c}',this)">${c}</div>`
+  ).join('');
+  document.getElementById('trendGrid').innerHTML = [...PRODUCTS].sort((a, b) => b.revs - a.revs).map((p, i) => cardHTML(p, i * 0.04)).join('');
+}
+renderTrending();
+
+function filterTrend(cat, el) {
+  document.querySelectorAll('#trendFilters .f-pill').forEach(p => p.classList.remove('on'));
+  el.classList.add('on');
+  const arr = cat === 'All' ? PRODUCTS : PRODUCTS.filter(p => p.cat === cat);
+  document.getElementById('trendGrid').innerHTML = arr.map((p, i) => cardHTML(p, i * 0.04)).join('');
+  observeReveal();
+}
+
+/* ══════════ RENDER CATEGORIES ══════════ */
+document.getElementById('fullCatGrid').innerHTML = CATEGORIES.map(c => `
+  <div class="cat-card" onclick="go('trending')">
+    <div class="cat-ico">${c.emoji}</div>
+    <div class="cat-name">${c.name}</div>
+    <div class="cat-ct">${c.ct} products</div>
+    <div class="cat-arrow">Explore <span>→</span></div>
+  </div>`).join('');
+
+/* ══════════ RENDER DEALS ══════════ */
+document.getElementById('dealsGrid').innerHTML = [...PRODUCTS].sort(() => Math.random() - 0.5).map((p, i) => cardHTML(p, i * 0.04)).join('');
+
+/* ══════════ QUICK LOOK ══════════ */
+function openQL(id) {
+  const p = PRODUCTS.find(x => x.id === id); if (!p) return;
+  document.getElementById('ql-emoji').textContent = p.emoji;
+  document.getElementById('ql-cat').textContent = p.cat;
+  document.getElementById('ql-name').textContent = p.name;
+  document.getElementById('ql-stars').textContent = stars(p.stars) + ' ' + p.stars;
+  document.getElementById('ql-revct').textContent = `${p.revs.toLocaleString()} reviews`;
+  document.getElementById('ql-price').textContent = p.price;
+  document.getElementById('ql-orig').textContent = p.orig;
+  document.getElementById('ql-save').textContent = p.save;
+  document.getElementById('ql-desc').textContent = p.desc;
+  document.getElementById('ql-feats').innerHTML = p.feats.slice(0, 4).map(f => `<div class="ql-feat">${f}</div>`).join('');
+  document.getElementById('ql-buy').onclick = () => buyNow(id);
+  document.getElementById('ql-full').onclick = () => { closeQL(); openPDP(id); };
+  document.getElementById('ql-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeQL(e) {
+  if (e && e.target !== document.getElementById('ql-overlay')) return;
+  document.getElementById('ql-overlay').classList.remove('open');
+  document.body.style.overflow = 'auto';
+}
+
+/* ══════════ PRODUCT DETAIL ══════════ */
+function openPDP(id) {
+  const p = PRODUCTS.find(x => x.id === id); if (!p) return;
+  showPage('product');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  document.getElementById('pdp-bc').innerHTML =
+    `<a href="#" onclick="go('home');return false">Home</a><span>›</span><a href="#" onclick="go('trending');return false">${p.cat}</a><span>›</span><span>${p.name}</span>`;
+  document.getElementById('pdp-emoji').textContent = p.emoji;
+  document.getElementById('pdp-cat').textContent = p.cat;
+  document.getElementById('pdp-title').textContent = p.name;
+  document.getElementById('pdp-stars').textContent = stars(p.stars) + ' ' + p.stars;
+  document.getElementById('pdp-price').textContent = p.price;
+  document.getElementById('pdp-orig').textContent = p.orig;
+  document.getElementById('pdp-save').textContent = p.save;
+  document.getElementById('pdp-desc').textContent = p.desc;
+  document.getElementById('pdp-feats').innerHTML = p.feats.map(f =>
+    `<div class="pdp-feat"><div class="pdp-feat-gem"></div>${f}</div>`).join('');
+  document.getElementById('pdp-buy').onclick = () => buyNow(id);
+  document.getElementById('pdp-thumbs').innerHTML = [p.emoji, '🔍', '📦', '⭐', '✅'].map((e, i) =>
+    `<div class="pdp-thumb${i === 0 ? ' on' : ''}">${e}</div>`).join('');
+
+  document.getElementById('tab-ov').innerHTML = `
+    <div style="max-width:720px">
+      <p style="font-family:var(--body);font-size:.95rem;font-weight:300;color:var(--mid);line-height:1.9;margin-bottom:2rem">${p.overview}</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem">
+        ${p.feats.map(f => `<div style="background:var(--c2);border:1px solid var(--line2);border-radius:10px;padding:1rem;display:flex;align-items:flex-start;gap:.65rem">
+          <div style="width:5px;height:5px;background:var(--gold2);border-radius:1px;transform:rotate(45deg);flex-shrink:0;margin-top:.5rem"></div>
+          <div style="font-family:var(--ui);font-size:.8rem;color:var(--ink2);line-height:1.55">${f}</div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+
+  document.getElementById('tab-rev').innerHTML = `<div class="rev-list">
+    ${(p.revList || []).map(r => `<div class="rev-card">
+      <div class="rev-top">
+        <div class="rev-av">${r.ini}</div>
+        <div><div class="rev-name">${r.name}</div><span class="stars" style="font-size:.75rem">${stars(r.stars)}</span></div>
+        <span class="rev-ver">✓ Verified</span>
+        <span class="rev-date">${r.date}</span>
+      </div>
+      <div class="rev-title">${r.title}</div>
+      <div class="rev-body">${r.body}</div>
+      <div class="rev-help">👍 ${r.help} people found this helpful</div>
+    </div>`).join('')}
+  </div>`;
+
+  document.getElementById('tab-cmp').innerHTML = `<table class="cmp-tbl">
+    <tr><th>Feature</th><th class="hl">Affiliator Pick: ${p.name}</th><th>Generic Alternatives</th></tr>
+    <tr><td>Price</td><td class="hl">${p.price}</td><td>$10–$200</td></tr>
+    <tr><td>Rating</td><td class="hl">${p.stars}★ (${p.revs.toLocaleString()})</td><td>3.0–4.0★</td></tr>
+    <tr><td>TikTok Verified</td><td class="hl"><span class="chk">✓ Yes</span></td><td><span class="crs">✗ No</span></td></tr>
+    <tr><td>Amazon Prime</td><td class="hl"><span class="chk">✓ Eligible</span></td><td>Varies</td></tr>
+    <tr><td>Easy Returns</td><td class="hl"><span class="chk">✓ 30 days</span></td><td>Varies</td></tr>
+    <tr><td>Affiliate Verified</td><td class="hl"><span class="chk">✓ Yes</span></td><td><span class="crs">✗ Unknown</span></td></tr>
+  </table>`;
+
+  document.getElementById('pdp-rel').innerHTML = PRODUCTS.filter(x => x.id !== id).slice(0, 4).map(x => cardHTML(x)).join('');
+
+  // Reset tabs
+  document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.tab-panel').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.tab-btn')[0].classList.add('on');
+  document.getElementById('tab-ov').classList.add('on');
+  setTimeout(observeReveal, 100);
+}
+
+function switchTab2(panelId) {
+  document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.tab-panel').forEach(t => t.classList.remove('on'));
+  const idx = ['tab-ov', 'tab-rev', 'tab-cmp'].indexOf(panelId);
+  if (idx >= 0) document.querySelectorAll('.tab-btn')[idx]?.classList.add('on');
+  document.getElementById(panelId)?.classList.add('on');
+}
+
+/* ══════════ BUY NOW ══════════ */
+function buyNow(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  if (p) window.open(amzLink(p.asin), '_blank');
+}
+
+/* ══════════ PAGE NAVIGATION ══════════ */
+const pageMap = { home: 'pg-home', trending: 'pg-trending', categories: 'pg-categories', deals: 'pg-deals', about: 'pg-about', terms: 'pg-terms', privacy: 'pg-privacy', disclosure: 'pg-disclosure', contact: 'pg-contact', product: 'pg-product' };
+
+function showPage(pg) {
+  document.querySelectorAll('.pg').forEach(el => el.classList.remove('on'));
+  const el = document.getElementById(pageMap[pg]);
+  if (el) { el.classList.add('on'); setTimeout(observeReveal, 100); }
+}
+
+function go(pg) {
+  showPage(pg);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.querySelectorAll('.nav-cat-item').forEach(x => x.classList.remove('on'));
+  const match = document.querySelector(`.nav-cat-item[onclick*="'${pg}'"]`);
+  if (match) match.classList.add('on');
+  if (document.getElementById('ql-overlay').classList.contains('open')) closeQL();
+}
+
+/* ══════════ HAMBURGER ══════════ */
+let mobOpen = false;
+document.getElementById('ham').addEventListener('click', function () {
+  mobOpen = !mobOpen;
+  document.getElementById('mobNav').classList.toggle('open', mobOpen);
+  const sp = this.querySelectorAll('span');
+  if (mobOpen) { sp[0].style.transform = 'translateY(5px) rotate(45deg)'; sp[1].style.opacity = '0'; sp[2].style.transform = 'translateY(-5px) rotate(-45deg)'; }
+  else sp.forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+});
+function closeMob() {
+  mobOpen = false; document.getElementById('mobNav').classList.remove('open');
+  document.getElementById('ham').querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+}
+
+/* ══════════ NAV SHADOW ══════════ */
+window.addEventListener('scroll', () => document.getElementById('nav').classList.toggle('sh', scrollY > 10));
+
+/* ══════════ TIMER ══════════ */
+function updateTimers() {
+  const n = new Date(), e = new Date(n); e.setHours(23, 59, 59, 0);
+  const d = e - n, h = Math.floor(d / 3600000), m = Math.floor((d % 3600000) / 60000), s = Math.floor((d % 60000) / 1000);
+  ['', '2'].forEach(suffix => {
+    const hEl = document.getElementById('dh' + suffix);
+    const mEl = document.getElementById('dm' + suffix);
+    const sEl = document.getElementById('ds' + suffix);
+    if (hEl) hEl.textContent = String(h).padStart(2, '0');
+    if (mEl) mEl.textContent = String(m).padStart(2, '0');
+    if (sEl) sEl.textContent = String(s).padStart(2, '0');
+  });
+}
+updateTimers(); setInterval(updateTimers, 1000);
+
+/* ══════════ COUNTER ANIMATION ══════════ */
+function countTo(el, target, suffix = '') {
+  const dur = 2000, start = performance.now();
+  (function step(ts) {
+    const p = Math.min((ts - start) / dur, 1), ease = 1 - Math.pow(1 - p, 3);
+    const val = Math.round(ease * target);
+    el.textContent = val >= 1000 ? (val / 1000).toFixed(1) + 'K+' : val + suffix;
+    if (p < 1) requestAnimationFrame(step);
+  })(performance.now());
+}
+setTimeout(() => {
+  countTo(document.getElementById('hn1'), 2847, '+');
+  countTo(document.getElementById('hn2'), 50000, '+');
+  countTo(document.getElementById('hn3'), 128000, '+');
+}, 2400);
+
+/* ══════════ SCROLL REVEAL ══════════ */
+function observeReveal() {
+  document.querySelectorAll('.reveal:not(.shown)').forEach(el => io.observe(el));
+}
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('shown'); io.unobserve(e.target); } });
+}, { threshold: 0.1 });
+setTimeout(observeReveal, 2300);
+
+/* ══════════ SEARCH ══════════ */
+function doSearch() {
+  const q = document.getElementById('srchInput').value.trim().toLowerCase();
+  if (!q) return;
+  go('trending');
+  const res = PRODUCTS.filter(p => p.name.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q));
+  document.getElementById('trendGrid').innerHTML = (res.length ? res : PRODUCTS).map((p, i) => cardHTML(p, i * 0.04)).join('');
+  document.getElementById('srchInput').value = '';
+  setTimeout(observeReveal, 100);
+}
+document.getElementById('srchInput').addEventListener('keyup', e => { if (e.key === 'Enter') doSearch(); });
+
+/* ══════════ NEWSLETTER ══════════ */
+function nlSubmit(inputId, btn) {
+  const inp = document.getElementById(inputId);
+  if (inp?.value) {
+    btn.textContent = '✓ Subscribed!';
+    btn.style.background = 'linear-gradient(135deg,#3a6648,#2a5438)';
+    inp.value = '';
+    setTimeout(() => { btn.textContent = 'Subscribe'; btn.style.background = ''; }, 3000);
+  }
+}
+</script>
+</body>
+</html>
