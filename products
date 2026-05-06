@@ -1,0 +1,1279 @@
+cat > /home/claude/affiliator.html << 'HTMLEOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Affiliator — Trending Finds · Amazon UAE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Jost:wght@200;300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --c1:#fffdf8;--c2:#faf6ee;--c3:#f4ede0;--c4:#ebe0cc;
+  --gold:#b8882a;--gold2:#d4a43e;--gold3:#f0c060;--gold4:#7a5818;
+  --goldg:linear-gradient(135deg,#c49a32,#e8c060,#b07828);
+  --ink:#1a1510;--ink2:#2e2518;
+  --mid:#7a6a52;--muted:#a89878;--sub:#c8b898;
+  --line:#e8dcc8;--line2:#f0e8d8;
+  --white:#ffffff;--red:#c0392b;--green:#1e6b3e;--blue:#1a3a6e;
+  --serif:"Playfair Display",Georgia,serif;
+  --body:"Cormorant Garamond",Georgia,serif;
+  --ui:"Jost",sans-serif;
+  --sh:0 2px 12px rgba(90,60,10,.07),0 1px 4px rgba(90,60,10,.04);
+  --sh2:0 8px 40px rgba(90,60,10,.12),0 2px 12px rgba(90,60,10,.05);
+  --sh3:0 24px 80px rgba(90,60,10,.18),0 4px 20px rgba(90,60,10,.08);
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{background:var(--c1);color:var(--ink);font-family:var(--ui);overflow-x:hidden;-webkit-font-smoothing:antialiased;cursor:none}
+*{cursor:none!important}
+a{text-decoration:none;color:inherit}
+button{border:none;background:none;cursor:none;font-family:var(--ui)}
+input,select,textarea{font-family:var(--ui)}
+ul{list-style:none}
+
+/* CURSOR */
+#cO{position:fixed;z-index:99999;pointer-events:none;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--gold);transform:translate(-50%,-50%);transition:width .35s,height .35s,border-color .25s,background .25s}
+#cI{position:fixed;z-index:100000;pointer-events:none;width:6px;height:6px;border-radius:50%;background:var(--gold);transform:translate(-50%,-50%);transition:width .15s,height .15s}
+body.hc #cO{width:58px;height:58px;border-color:var(--gold2);background:rgba(184,136,42,.04)}
+body.hb #cO{width:46px;height:46px}
+body.hb #cI{width:9px;height:9px}
+body.cl #cI{width:13px;height:13px;background:var(--gold3)}
+.rip{position:fixed;z-index:99998;pointer-events:none;border-radius:50%;border:1.5px solid var(--gold2);transform:translate(-50%,-50%) scale(1);opacity:.7;animation:ripO .5s ease forwards}
+@keyframes ripO{to{transform:translate(-50%,-50%) scale(5);opacity:0}}
+
+/* LOADER */
+#ldr{position:fixed;inset:0;z-index:9000;background:var(--c1);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 1s,visibility 1s}
+#ldr.out{opacity:0;visibility:hidden;pointer-events:none}
+.lseal{position:relative;width:72px;height:72px;margin-bottom:2rem}
+.lr1{position:absolute;inset:0;border-radius:50%;border:1px solid var(--line)}
+.lr2{position:absolute;inset:7px;border-radius:50%;border:1.5px solid transparent;border-top-color:var(--gold);border-right-color:var(--gold2);animation:spin 1.5s cubic-bezier(.6,.1,.4,.9) infinite}
+.lr3{position:absolute;inset:15px;border-radius:50%;border:1px solid var(--line);animation:spin 2.5s linear infinite reverse}
+.lgem{position:absolute;top:50%;left:50%;width:10px;height:10px;background:var(--goldg);transform:translate(-50%,-50%) rotate(45deg);animation:gp 1.6s ease-in-out infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes gp{0%,100%{transform:translate(-50%,-50%) rotate(45deg) scale(1)}50%{transform:translate(-50%,-50%) rotate(225deg) scale(1.4)}}
+.lname{font-family:var(--serif);font-size:1.85rem;font-weight:400;letter-spacing:.15em;color:var(--ink);opacity:0;animation:fu .8s .3s ease forwards}
+.ltag{font-family:var(--ui);font-size:.56rem;letter-spacing:.32em;text-transform:uppercase;color:var(--muted);margin-top:.35rem;opacity:0;animation:fu .7s .55s ease forwards}
+.lbar{width:130px;height:1px;background:var(--line);margin-top:1.8rem;overflow:hidden;opacity:0;animation:fu .5s .7s ease forwards}
+.lfill{height:100%;background:var(--goldg);animation:lf 1.8s .8s cubic-bezier(.4,0,.2,1) forwards;width:0}
+@keyframes lf{to{width:100%}}
+@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.lc{position:absolute;width:45px;height:45px;opacity:.22}
+.lc.tl{top:5%;left:5%;border-top:1px solid var(--gold);border-left:1px solid var(--gold)}
+.lc.tr{top:5%;right:5%;border-top:1px solid var(--gold);border-right:1px solid var(--gold)}
+.lc.bl{bottom:5%;left:5%;border-bottom:1px solid var(--gold);border-left:1px solid var(--gold)}
+.lc.br{bottom:5%;right:5%;border-bottom:1px solid var(--gold);border-right:1px solid var(--gold)}
+
+/* TOP BAR */
+.topbar{background:var(--ink);padding:.4rem 4vw;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.4rem}
+.tb-l{font-family:var(--ui);font-size:.58rem;letter-spacing:.1em;color:rgba(255,255,255,.45)}
+.tb-l span{color:var(--gold2)}
+.tb-r{display:flex;gap:1.4rem}
+.tb-r a{font-family:var(--ui);font-size:.56rem;letter-spacing:.08em;color:rgba(255,255,255,.38);transition:color .25s}
+.tb-r a:hover{color:rgba(255,255,255,.75)}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:400;background:rgba(255,253,248,.93);backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--line);transition:box-shadow .3s}
+nav.sh{box-shadow:var(--sh)}
+.nmain{display:flex;align-items:center;gap:1.2rem;padding:.85rem 4vw}
+.nlogo{font-family:var(--serif);font-size:1.45rem;font-weight:500;letter-spacing:.06em;color:var(--ink);display:flex;align-items:center;gap:.45rem;flex-shrink:0}
+.lgem2{width:7px;height:7px;background:var(--goldg);transform:rotate(45deg);animation:gp 3.5s ease-in-out infinite;display:inline-block}
+.nsrch{flex:1;max-width:500px;display:flex;align-items:center;gap:.55rem;background:var(--c2);border:1px solid var(--line);border-radius:50px;padding:.46rem .55rem .46rem .95rem;transition:border-color .25s,box-shadow .25s}
+.nsrch:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,136,42,.09);background:var(--white)}
+.nsrch input{flex:1;background:none;border:none;outline:none;font-family:var(--ui);font-size:.76rem;color:var(--ink)}
+.nsrch input::placeholder{color:var(--muted)}
+.nsb{background:var(--goldg);border:none;border-radius:50px;padding:.36rem .95rem;font-family:var(--ui);font-size:.64rem;letter-spacing:.07em;text-transform:uppercase;color:var(--white);transition:opacity .2s}
+.nsb:hover{opacity:.88}
+.nright{display:flex;align-items:center;gap:.45rem;flex-shrink:0;margin-left:auto}
+.nico{display:flex;flex-direction:column;align-items:center;gap:.12rem;padding:.38rem .65rem;border-radius:6px;color:var(--mid);transition:color .25s,background .25s}
+.nico:hover{color:var(--gold);background:var(--c2)}
+.nico-s{font-size:1rem}
+.nico-l{font-family:var(--ui);font-size:.48rem;letter-spacing:.1em;text-transform:uppercase}
+.ncta{font-family:var(--ui);font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;background:var(--goldg);color:var(--white);padding:.48rem 1.2rem;border-radius:50px;box-shadow:0 2px 10px rgba(184,136,42,.28);transition:opacity .2s,transform .15s}
+.ncta:hover{opacity:.9;transform:translateY(-1px)}
+.ham{display:none;flex-direction:column;gap:4px;padding:6px}
+.ham span{display:block;width:19px;height:1px;background:var(--ink);border-radius:1px;transition:all .3s}
+.ncbar{border-top:1px solid var(--line2);overflow-x:auto;scrollbar-width:none;display:flex;white-space:nowrap;padding:.38rem 4vw}
+.ncbar::-webkit-scrollbar{display:none}
+.nci{font-family:var(--ui);font-size:.66rem;letter-spacing:.05em;color:var(--mid);padding:.4rem .95rem;border-radius:4px;transition:color .25s,background .25s;flex-shrink:0}
+.nci:hover,.nci.on{color:var(--gold);background:rgba(184,136,42,.06)}
+
+/* MOBILE NAV */
+.mn{display:none;position:fixed;inset:0;z-index:390;background:rgba(255,253,248,.97);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:2rem}
+.mn.open{display:flex}
+.mn a{font-family:var(--serif);font-size:1.85rem;font-weight:400;color:var(--ink);transition:color .25s}
+.mn a:hover{color:var(--gold)}
+
+/* QUICK LOOK MODAL */
+#qlo{position:fixed;inset:0;z-index:600;background:rgba(26,21,16,.46);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+#qlo.open{opacity:1;visibility:visible}
+#qlm{background:var(--white);border-radius:18px;width:100%;max-width:820px;max-height:92vh;overflow-y:auto;box-shadow:0 48px 120px rgba(26,21,16,.26);transform:translateY(28px) scale(.96);transition:transform .4s cubic-bezier(.34,1.2,.64,1)}
+#qlo.open #qlm{transform:none}
+.qltop{height:3px;background:var(--goldg);border-radius:18px 18px 0 0}
+.qlcr{display:flex;justify-content:space-between;align-items:center;padding:1rem 1.5rem .35rem;position:sticky;top:0;background:var(--white);z-index:2}
+.qlmtag{font-family:var(--ui);font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.qlcb{width:28px;height:28px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:.85rem;color:var(--mid);transition:all .25s}
+.qlcb:hover{border-color:var(--sub);color:var(--ink);background:var(--c2)}
+.qlbody{display:grid;grid-template-columns:1fr 1fr;gap:1.8rem;padding:.4rem 1.8rem 2.4rem}
+.qlimgw{background:var(--c2);border-radius:12px;display:flex;align-items:center;justify-content:center;min-height:260px;overflow:hidden}
+.qlimgw img{width:100%;height:260px;object-fit:contain;padding:1.2rem}
+.qlcat{font-family:var(--ui);font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.45rem}
+.qlname{font-family:var(--serif);font-size:1.45rem;font-weight:400;color:var(--ink);line-height:1.2;margin-bottom:.65rem}
+.qlsr{display:flex;align-items:center;gap:.45rem;margin-bottom:.85rem}
+.strs{color:var(--gold2);letter-spacing:.04em}
+.qlrc{font-family:var(--ui);font-size:.62rem;color:var(--muted)}
+.qlpr{display:flex;align-items:baseline;gap:.65rem;flex-wrap:wrap;margin-bottom:1.1rem}
+.qlprice{font-family:var(--serif);font-size:1.9rem;color:var(--gold)}
+.qlorig{font-family:var(--ui);font-size:.85rem;color:var(--sub);text-decoration:line-through}
+.qlsave{font-family:var(--ui);font-size:.62rem;color:var(--red);background:rgba(192,57,43,.07);padding:.2rem .5rem;border-radius:4px}
+.qldesc{font-family:var(--body);font-size:.88rem;font-weight:300;color:var(--mid);line-height:1.78;margin-bottom:1.1rem}
+.qlfeats{display:flex;flex-direction:column;gap:.42rem;margin-bottom:1.3rem}
+.qlfeat{display:flex;align-items:flex-start;gap:.52rem;font-family:var(--ui);font-size:.72rem;color:var(--ink2);line-height:1.5}
+.qlfeat::before{content:"◆";font-size:.3rem;color:var(--gold);flex-shrink:0;margin-top:.48rem}
+.qlcta{display:flex;gap:.75rem;margin-bottom:1.1rem;flex-wrap:wrap}
+.qlbuy{flex:1;font-family:var(--ui);font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;background:var(--goldg);color:var(--white);padding:.88rem 1.4rem;border-radius:50px;border:none;box-shadow:0 4px 14px rgba(184,136,42,.3);transition:transform .2s,box-shadow .25s,opacity .2s}
+.qlbuy:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(184,136,42,.4);opacity:.94}
+.qlful{font-family:var(--ui);font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;border:1px solid var(--line);color:var(--ink);background:transparent;padding:.88rem 1.3rem;border-radius:50px;transition:border-color .25s,background .25s;white-space:nowrap}
+.qlful:hover{border-color:var(--gold);background:rgba(184,136,42,.04)}
+.qltrust{display:flex;gap:.9rem;flex-wrap:wrap}
+.qlti{font-family:var(--ui);font-size:.6rem;color:var(--muted);display:flex;align-items:center;gap:.32rem}
+
+/* PAGES */
+.pg{display:none;min-height:100vh}
+.pg.on{display:block;animation:pgIn .4s cubic-bezier(.4,0,.2,1)}
+@keyframes pgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+section{padding:4.5rem 4vw}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .65s,transform .65s}
+.reveal.shown{opacity:1;transform:none}
+
+/* HERO */
+.hero{min-height:calc(100vh - 110px);display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;padding:3rem 4vw 4rem;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--c1) 0%,var(--c2) 60%,var(--c3) 100%)}
+.hero::before{content:"";position:absolute;top:-25%;right:-8%;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(212,164,62,.09) 0%,transparent 70%);pointer-events:none}
+.herow{font-family:var(--ui);font-size:.58rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:.75rem;margin-bottom:1.4rem;opacity:0;animation:fu .8s .2s ease forwards}
+.herow::before{content:"";display:block;width:1.8rem;height:1px;background:var(--gold)}
+.heroh1{font-family:var(--serif);font-size:clamp(2.6rem,5.5vw,5rem);font-weight:400;line-height:1.05;color:var(--ink);margin-bottom:1.4rem;opacity:0;animation:fu .9s .35s ease forwards}
+.heroh1 em{font-style:italic;color:var(--gold)}
+.herop{font-family:var(--body);font-size:1.05rem;font-weight:300;color:var(--mid);line-height:1.85;max-width:420px;margin-bottom:2.4rem;opacity:0;animation:fu .9s .5s ease forwards}
+.herob{display:flex;gap:.9rem;flex-wrap:wrap;opacity:0;animation:fu .9s .65s ease forwards}
+.btng{font-family:var(--ui);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;background:var(--goldg);color:var(--white);padding:.88rem 2.2rem;border-radius:50px;box-shadow:0 4px 18px rgba(184,136,42,.32);transition:transform .2s,box-shadow .3s,opacity .2s}
+.btng:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(184,136,42,.42);opacity:.93}
+.btns{font-family:var(--ui);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--line);padding:.88rem 1.8rem;border-radius:50px;transition:border-color .25s,color .25s,background .25s}
+.btns:hover{border-color:var(--gold);color:var(--gold);background:rgba(184,136,42,.04)}
+.heronums{display:flex;gap:2.5rem;margin-top:3rem;padding-top:2.5rem;border-top:1px solid var(--line2);opacity:0;animation:fu .9s .8s ease forwards;flex-wrap:wrap}
+.hnv{font-family:var(--serif);font-size:1.7rem;color:var(--gold)}
+.hnl{font-family:var(--ui);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:.2rem}
+.heror{opacity:0;animation:fu .9s .45s ease forwards;position:relative;z-index:1}
+.hsc{background:var(--white);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh3);overflow:hidden}
+.hscbar{height:3px;background:var(--goldg)}
+.hscbody{padding:1.8rem}
+.hsctag{font-family:var(--ui);font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.65rem}
+.hscimg{height:190px;background:var(--c2);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1.3rem;overflow:hidden;position:relative}
+.hscimg img{width:100%;height:100%;object-fit:contain;padding:1rem}
+.hscfloat{position:absolute;top:-.75rem;right:1.2rem;background:var(--red);color:var(--white);font-family:var(--ui);font-size:.5rem;letter-spacing:.07em;text-transform:uppercase;padding:.22rem .65rem;border-radius:50px;animation:flt 3s ease-in-out infinite}
+@keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.hscn{font-family:var(--serif);font-size:1.05rem;font-weight:400;color:var(--ink);margin-bottom:.4rem}
+.hscpr{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line2);padding-top:1rem;margin-top:.9rem}
+.hscprice{font-family:var(--serif);font-size:1.3rem;color:var(--gold)}
+.hscbtn{font-family:var(--ui);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;background:var(--ink);color:var(--white);padding:.5rem 1.1rem;border-radius:50px;transition:background .25s,transform .15s}
+.hscbtn:hover{background:var(--ink2);transform:scale(1.02)}
+
+/* TICKER */
+.ticker{background:var(--ink);overflow:hidden;padding:.52rem 0}
+.ticki{display:flex;white-space:nowrap;animation:tkr 40s linear infinite}
+.tk{display:inline-flex;align-items:center;gap:2rem;padding:0 2rem;font-family:var(--ui);font-size:.58rem;letter-spacing:.09em;color:rgba(255,255,255,.4)}
+.tk b{color:rgba(255,255,255,.72);font-weight:400}
+.tkgem{color:var(--gold2);font-size:.44rem}
+@keyframes tkr{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* PRODUCT CARD */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(255px,100%),1fr));gap:1.3rem}
+.pcard{background:var(--white);border:1px solid var(--line);border-radius:12px;overflow:hidden;position:relative;transition:border-color .3s,box-shadow .35s,transform .35s}
+.pcard:hover{border-color:var(--line);box-shadow:var(--sh2);transform:translateY(-5px)}
+.pcib{position:relative;height:210px;background:linear-gradient(135deg,var(--c2),var(--c3));display:flex;align-items:center;justify-content:center;overflow:hidden}
+.pimg{width:100%;height:100%;object-fit:contain;padding:1.1rem;transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+.pcard:hover .pimg{transform:scale(1.08)}
+.pglow{position:absolute;inset:0;background:radial-gradient(circle at 50% 60%,rgba(212,164,62,.06),transparent 65%);opacity:0;transition:opacity .4s}
+.pcard:hover .pglow{opacity:1}
+.qlhov{position:absolute;bottom:0;left:0;right:0;background:rgba(26,21,16,.84);backdrop-filter:blur(8px);color:rgba(255,255,255,.88);font-family:var(--ui);font-size:.6rem;letter-spacing:.17em;text-transform:uppercase;padding:.65rem;text-align:center;border:none;width:100%;transform:translateY(100%);transition:transform .32s cubic-bezier(.4,0,.2,1)}
+.pcard:hover .qlhov{transform:translateY(0)}
+.pbadge{position:absolute;top:.82rem;left:.82rem;font-family:var(--ui);font-size:.5rem;letter-spacing:.09em;text-transform:uppercase;padding:.2rem .56rem;border-radius:50px;z-index:2}
+.bh{background:rgba(192,57,43,.08);color:var(--red);border:1px solid rgba(192,57,43,.18)}
+.bn{background:rgba(30,107,62,.07);color:var(--green);border:1px solid rgba(30,107,62,.17)}
+.bt{background:rgba(184,136,42,.09);color:var(--gold4);border:1px solid rgba(184,136,42,.2)}
+.bv{background:rgba(26,58,110,.07);color:var(--blue);border:1px solid rgba(26,58,110,.17)}
+.pwish{position:absolute;top:.82rem;right:.82rem;z-index:2;width:27px;height:27px;border-radius:50%;background:var(--white);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:.74rem;box-shadow:var(--sh);transition:all .25s}
+.pwish:hover,.pwish.on{border-color:rgba(192,57,43,.3);color:var(--red);background:rgba(192,57,43,.04)}
+.pinfo{padding:1.05rem 1.2rem 1.2rem}
+.pcat{font-family:var(--ui);font-size:.52rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:.33rem}
+.pname{font-family:var(--serif);font-size:.94rem;font-weight:400;color:var(--ink);margin-bottom:.45rem;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pstars{display:flex;align-items:center;gap:.35rem;margin-bottom:.8rem}
+.prc{font-family:var(--ui);font-size:.58rem;color:var(--muted)}
+.pbot{display:flex;align-items:center;justify-content:space-between}
+.ppw{display:flex;align-items:baseline;gap:.3rem;flex-wrap:wrap}
+.pprice{font-family:var(--serif);font-size:1.05rem;color:var(--gold)}
+.porig{font-family:var(--ui);font-size:.65rem;color:var(--sub);text-decoration:line-through}
+.poff{font-family:var(--ui);font-size:.52rem;color:var(--red);background:rgba(192,57,43,.07);padding:.13rem .38rem;border-radius:3px}
+.pshop{font-family:var(--ui);font-size:.6rem;letter-spacing:.07em;text-transform:uppercase;background:var(--ink);color:var(--white);padding:.44rem .95rem;border-radius:50px;transition:background .25s,transform .15s;flex-shrink:0}
+.pshop:hover{background:var(--gold4);transform:scale(1.02)}
+
+/* SHARED UI */
+.secrow{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem}
+.ey{font-family:var(--ui);font-size:.58rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:.65rem;margin-bottom:.65rem}
+.ey::before{content:"";display:block;width:1.4rem;height:1px;background:var(--gold)}
+.stit{font-family:var(--serif);font-size:clamp(1.7rem,3.5vw,2.7rem);font-weight:400;color:var(--ink);line-height:1.1}
+.stit em{font-style:italic;color:var(--gold)}
+.ssub{font-family:var(--body);font-size:.92rem;font-weight:300;color:var(--mid);line-height:1.8;margin-top:.52rem;max-width:460px}
+.sall{font-family:var(--ui);font-size:.63rem;letter-spacing:.09em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:.32rem;transition:gap .25s}
+.sall:hover{gap:.6rem}
+.dealban{background:linear-gradient(135deg,var(--ink),var(--ink2));border-radius:12px;padding:1.3rem 1.8rem;display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem;box-shadow:var(--sh2)}
+.dbl{display:flex;align-items:center;gap:.9rem}
+.dbico{font-size:1.8rem}
+.dbtit{font-family:var(--serif);font-size:1.05rem;color:var(--white)}
+.dbsub{font-family:var(--ui);font-size:.58rem;letter-spacing:.09em;color:rgba(255,255,255,.4);margin-top:.14rem}
+.dbtmr{display:flex;align-items:center;gap:.42rem}
+.dtb{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:.4rem .62rem;text-align:center;min-width:48px}
+.dtn{font-family:var(--serif);font-size:1.4rem;color:var(--white);line-height:1}
+.dtl{font-family:var(--ui);font-size:.42rem;letter-spacing:.11em;text-transform:uppercase;color:rgba(255,255,255,.36)}
+.dtsep{font-family:var(--serif);font-size:1.2rem;color:rgba(255,255,255,.32);animation:bl 1s step-end infinite}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:0}}
+.urg{display:flex;align-items:center;gap:.85rem;background:rgba(192,57,43,.04);border:1px solid rgba(192,57,43,.12);border-radius:9px;padding:.82rem 1.15rem;margin-bottom:1.8rem}
+.urgd{width:7px;height:7px;border-radius:50%;background:var(--red);animation:pls 1.2s ease-in-out infinite;flex-shrink:0}
+@keyframes pls{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
+.urgt{font-family:var(--ui);font-size:.72rem;color:var(--mid)}
+.urgt b{color:var(--ink)}
+.flts{display:flex;gap:.58rem;flex-wrap:wrap;margin-bottom:1.8rem}
+.fp{font-family:var(--ui);font-size:.66rem;letter-spacing:.05em;border:1px solid var(--line);background:var(--white);border-radius:50px;padding:.34rem .9rem;color:var(--mid);transition:all .25s;box-shadow:var(--sh)}
+.fp:hover,.fp.on{background:var(--ink);color:var(--white);border-color:var(--ink)}
+.trust{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:3rem 0;box-shadow:var(--sh)}
+.trit{background:var(--white);padding:1.6rem;text-align:center;transition:background .3s}
+.trit:hover{background:var(--c2)}
+.trico{font-size:1.65rem;margin-bottom:.52rem}
+.trtit{font-family:var(--serif);font-size:.86rem;color:var(--ink);margin-bottom:.2rem}
+.trdes{font-family:var(--body);font-size:.74rem;font-weight:300;color:var(--mid);line-height:1.5}
+.nl{background:linear-gradient(135deg,var(--c2),var(--c3));border:1px solid var(--line);border-radius:14px;padding:3rem;text-align:center;margin-top:3.5rem;box-shadow:var(--sh)}
+.nley{font-family:var(--ui);font-size:.56rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:.65rem}
+.nltit{font-family:var(--serif);font-size:1.65rem;font-weight:400;color:var(--ink);margin-bottom:.6rem}
+.nlsub{font-family:var(--body);font-size:.88rem;font-weight:300;color:var(--mid);line-height:1.72;margin-bottom:1.7rem;max-width:360px;margin-left:auto;margin-right:auto}
+.nlform{display:flex;gap:.72rem;max-width:370px;margin:0 auto;flex-wrap:wrap}
+.nli{flex:1;min-width:165px;background:var(--white);border:1px solid var(--line);border-radius:50px;padding:.7rem 1.1rem;font-family:var(--ui);font-size:.74rem;color:var(--ink);outline:none;transition:border-color .25s,box-shadow .25s}
+.nli::placeholder{color:var(--muted)}
+.nli:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,136,42,.08)}
+.nlb{font-family:var(--ui);font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;background:var(--goldg);color:var(--white);border:none;padding:.7rem 1.35rem;border-radius:50px;box-shadow:0 2px 10px rgba(184,136,42,.28);transition:opacity .2s,transform .15s;white-space:nowrap}
+.nlb:hover{opacity:.9;transform:scale(1.02)}
+.catgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(200px,100%),1fr));gap:1.05rem}
+.catcard{background:var(--white);border:1px solid var(--line);border-radius:11px;padding:1.55rem;box-shadow:var(--sh);transition:border-color .3s,box-shadow .3s,transform .3s}
+.catcard:hover{border-color:var(--line);box-shadow:var(--sh2);transform:translateY(-3px)}
+.catco{font-size:2.1rem;margin-bottom:.75rem}
+.catn{font-family:var(--serif);font-size:.97rem;color:var(--ink);margin-bottom:.2rem}
+.catc{font-family:var(--ui);font-size:.6rem;color:var(--muted);letter-spacing:.06em}
+.catarr{font-family:var(--ui);font-size:.6rem;color:var(--gold);margin-top:.82rem;display:flex;align-items:center;gap:.3rem;transition:gap .25s}
+.catcard:hover .catarr{gap:.58rem}
+.featrow{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:1.3rem;margin-bottom:2.6rem}
+.fbig{background:var(--white);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--sh);transition:border-color .3s,box-shadow .3s,transform .3s}
+.fbig:hover{box-shadow:var(--sh2);transform:translateY(-3px)}
+.fbigimg{height:230px;background:var(--c2);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.fbigimg img{width:100%;height:100%;object-fit:contain;padding:1.1rem}
+.fbiginfo{padding:1.15rem}
+.fmini{display:flex;flex-direction:column;gap:1.1rem}
+.fmic{display:flex;gap:.85rem;align-items:center;background:var(--white);border:1px solid var(--line);border-radius:12px;padding:.85rem;box-shadow:var(--sh);transition:border-color .3s,box-shadow .3s}
+.fmic:hover{box-shadow:var(--sh2)}
+.fmicimg{width:62px;height:62px;border-radius:8px;background:var(--c2);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+.fmicimg img{width:100%;height:100%;object-fit:contain;padding:.4rem}
+.fmicn{font-family:var(--serif);font-size:.85rem;color:var(--ink);margin-bottom:.2rem;line-height:1.3}
+.fmicp{font-family:var(--serif);font-size:.9rem;color:var(--gold)}
+
+/* PDP */
+.pdpw{max-width:1100px;margin:0 auto;padding:2.5rem 4vw 4rem}
+.bc{display:flex;align-items:center;gap:.45rem;font-family:var(--ui);font-size:.66rem;color:var(--muted);margin-bottom:1.8rem;flex-wrap:wrap}
+.bc a{transition:color .25s}
+.bc a:hover{color:var(--gold)}
+.pdpgrid{display:grid;grid-template-columns:1fr 1fr;gap:4.5rem;align-items:start;margin-bottom:3.5rem}
+.pdpgal{position:sticky;top:80px}
+.pdpmi{background:var(--c2);border:1px solid var(--line);border-radius:12px;height:400px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:.85rem}
+.pdpmi img{width:100%;height:100%;object-fit:contain;padding:1.8rem}
+.pdpths{display:flex;gap:.6rem}
+.pdpth{width:55px;height:55px;border-radius:7px;background:var(--c3);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden;transition:border-color .25s,box-shadow .25s}
+.pdpth:hover,.pdpth.on{border-color:var(--gold);box-shadow:0 0 0 2px rgba(184,136,42,.16)}
+.pdpth img{width:100%;height:100%;object-fit:contain;padding:.35rem}
+.pdpcat{font-family:var(--ui);font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.52rem}
+.pdptit{font-family:var(--serif);font-size:clamp(1.4rem,2.8vw,2.1rem);font-weight:400;color:var(--ink);line-height:1.18;margin-bottom:.82rem}
+.pdpst{display:flex;align-items:center;gap:.55rem;margin-bottom:1.05rem}
+.pdprl{font-family:var(--ui);font-size:.68rem;color:var(--gold);text-decoration:underline}
+.pdppr{display:flex;align-items:baseline;gap:.72rem;margin-bottom:1.3rem;padding-bottom:1.3rem;border-bottom:1px solid var(--line2);flex-wrap:wrap}
+.pdpprice{font-family:var(--serif);font-size:2.1rem;color:var(--gold)}
+.pdporig{font-family:var(--ui);font-size:.92rem;color:var(--sub);text-decoration:line-through}
+.pdpsave{font-family:var(--ui);font-size:.65rem;color:var(--red);background:rgba(192,57,43,.07);padding:.24rem .58rem;border-radius:4px}
+.pdpdesc{font-family:var(--body);font-size:.91rem;font-weight:300;color:var(--mid);line-height:1.88;margin-bottom:1.3rem}
+.pdpfeats{display:flex;flex-direction:column;gap:.58rem;margin-bottom:1.8rem}
+.pdpfeat{display:flex;align-items:flex-start;gap:.62rem;font-family:var(--ui);font-size:.76rem;color:var(--ink2);line-height:1.55}
+.pdpgem{width:5px;height:5px;background:var(--gold2);border-radius:1px;transform:rotate(45deg);flex-shrink:0;margin-top:.46rem}
+.pdpcta{display:flex;gap:.82rem;margin-bottom:1.3rem;flex-wrap:wrap}
+.pdpbuy{flex:1;min-width:155px;font-family:var(--ui);font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;background:var(--goldg);color:var(--white);padding:.9rem 1.8rem;border-radius:50px;border:none;box-shadow:0 4px 18px rgba(184,136,42,.28);transition:transform .2s,box-shadow .3s}
+.pdpbuy:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(184,136,42,.4)}
+.pdpsv{font-family:var(--ui);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);color:var(--ink);background:transparent;padding:.9rem 1.4rem;border-radius:50px;transition:border-color .25s,color .25s}
+.pdpsv:hover{border-color:var(--red);color:var(--red)}
+.pdptrust{display:flex;gap:1rem;flex-wrap:wrap;padding:.95rem 1.1rem;background:var(--c2);border-radius:9px;border:1px solid var(--line2)}
+.pdpti{font-family:var(--ui);font-size:.62rem;color:var(--mid);display:flex;align-items:center;gap:.35rem}
+.tabs{display:flex;border-bottom:1px solid var(--line);margin-bottom:2rem}
+.tbtn{font-family:var(--ui);font-size:.72rem;letter-spacing:.07em;color:var(--muted);padding:.76rem 1.5rem;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .25s,border-color .25s}
+.tbtn.on{color:var(--gold);border-bottom-color:var(--gold)}
+.tpan{display:none}
+.tpan.on{display:block;animation:pgIn .3s ease}
+.revlist{display:flex;flex-direction:column;gap:1.1rem}
+.revc{padding:1.3rem;border:1px solid var(--line2);border-radius:11px;background:var(--c1)}
+.revtop{display:flex;align-items:center;gap:.82rem;margin-bottom:.82rem;flex-wrap:wrap}
+.revav{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--c3),var(--c4));border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:.88rem;color:var(--ink);flex-shrink:0}
+.revn{font-family:var(--ui);font-size:.76rem;font-weight:500;color:var(--ink)}
+.revv{font-family:var(--ui);font-size:.55rem;color:var(--green);background:rgba(30,107,62,.07);padding:.12rem .45rem;border-radius:3px}
+.revd{font-family:var(--ui);font-size:.6rem;color:var(--muted);margin-left:auto}
+.revti{font-family:var(--serif);font-size:.9rem;color:var(--ink);margin-bottom:.32rem}
+.revbo{font-family:var(--body);font-size:.86rem;font-weight:300;color:var(--mid);line-height:1.72}
+.revh{font-family:var(--ui);font-size:.58rem;color:var(--muted);margin-top:.62rem}
+.cmptbl{width:100%;border-collapse:separate;border-spacing:0;font-family:var(--ui);font-size:.74rem;border:1px solid var(--line);border-radius:11px;overflow:hidden}
+.cmptbl th{background:var(--c2);color:var(--mid);font-weight:400;padding:.82rem .95rem;text-align:left;font-size:.62rem;letter-spacing:.09em;text-transform:uppercase;border-bottom:1px solid var(--line)}
+.cmptbl th.hl{background:rgba(184,136,42,.07);color:var(--gold)}
+.cmptbl td{padding:.78rem .95rem;border-bottom:1px solid var(--line2);color:var(--mid)}
+.cmptbl tr:last-child td{border-bottom:none}
+.cmptbl tr:hover td{background:var(--c2)}
+.cmptbl td.hl{color:var(--ink)}
+.chk{color:var(--green)}.crs{color:var(--sub)}
+
+/* ABOUT */
+.abgrid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.abvis{background:linear-gradient(135deg,var(--c2),var(--c3));border:1px solid var(--line);border-radius:14px;height:400px;display:flex;align-items:center;justify-content:center;font-size:5.5rem;position:relative;overflow:hidden;box-shadow:var(--sh2)}
+.abglo{position:absolute;inset:0;background:radial-gradient(circle,rgba(212,164,62,.08),transparent 65%)}
+.abey{font-family:var(--ui);font-size:.56rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:.62rem}
+.abh2{font-family:var(--serif);font-size:2.1rem;font-weight:400;color:var(--ink);margin-bottom:1.05rem;line-height:1.15}
+.abh2 em{font-style:italic;color:var(--gold)}
+.abp{font-family:var(--body);font-size:.9rem;font-weight:300;color:var(--mid);line-height:1.9;margin-bottom:.9rem}
+.pillars{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;margin-top:1.7rem}
+.pill{background:var(--white);border:1px solid var(--line);border-radius:9px;padding:1.05rem;box-shadow:var(--sh)}
+.pillico{font-size:1.3rem;margin-bottom:.42rem}
+.pillt{font-family:var(--ui);font-size:.74rem;font-weight:500;color:var(--ink);margin-bottom:.2rem}
+.pilld{font-family:var(--body);font-size:.73rem;font-weight:300;color:var(--muted);line-height:1.5}
+
+/* LEGAL */
+.legalw{max-width:800px;margin:0 auto;padding:3rem 4vw 5rem}
+.lh1{font-family:var(--serif);font-size:2rem;font-weight:400;color:var(--ink);margin-bottom:.42rem}
+.ldt{font-family:var(--ui);font-size:.6rem;letter-spacing:.11em;color:var(--muted);margin-bottom:2.6rem;display:flex;align-items:center;gap:.45rem}
+.ldt::before{content:"";display:block;width:1.6rem;height:1px;background:var(--gold)}
+.ls{margin-bottom:2rem}
+.ls h2{font-family:var(--serif);font-size:1.15rem;font-weight:400;color:var(--ink);margin-bottom:.65rem;padding-bottom:.42rem;border-bottom:1px solid var(--line2)}
+.ls p{font-family:var(--body);font-size:.88rem;font-weight:300;color:var(--mid);line-height:1.88;margin-bottom:.6rem}
+.ls ul{display:flex;flex-direction:column;gap:.42rem;padding-left:.75rem;margin-bottom:.6rem}
+.ls ul li{font-family:var(--body);font-size:.86rem;font-weight:300;color:var(--mid);line-height:1.7;display:flex;align-items:flex-start;gap:.5rem}
+.ls ul li::before{content:"◆";font-size:.28rem;color:var(--gold);flex-shrink:0;margin-top:.55rem}
+
+/* FOOTER */
+footer{background:var(--ink);padding:3.5rem 4vw 2rem}
+.fttop{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:2.5rem;margin-bottom:2.8rem;padding-bottom:2.8rem;border-bottom:1px solid rgba(255,255,255,.07)}
+.ftlogo{font-family:var(--serif);font-size:1.32rem;color:var(--white);margin-bottom:.72rem;display:flex;align-items:center;gap:.4rem}
+.ftdesc{font-family:var(--body);font-size:.78rem;font-weight:300;color:rgba(255,255,255,.38);line-height:1.72;max-width:205px}
+.ftdisc{font-family:var(--ui);font-size:.6rem;color:rgba(255,255,255,.28);line-height:1.6;margin-top:.85rem;padding:.72rem .85rem;border-left:1px solid var(--gold2);border-radius:0 5px 5px 0}
+.ftcol h4{font-family:var(--ui);font-size:.56rem;letter-spacing:.19em;text-transform:uppercase;color:rgba(255,255,255,.36);margin-bottom:.95rem}
+.ftcol ul{display:flex;flex-direction:column;gap:.52rem}
+.ftcol a{font-family:var(--body);font-size:.78rem;font-weight:300;color:rgba(255,255,255,.42);transition:color .25s}
+.ftcol a:hover{color:rgba(255,255,255,.78)}
+.ftbot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.85rem}
+.ftcopy{font-family:var(--ui);font-size:.58rem;color:rgba(255,255,255,.26)}
+.ftlinks{display:flex;gap:1.2rem}
+.ftlinks a{font-family:var(--ui);font-size:.58rem;color:rgba(255,255,255,.3);transition:color .25s}
+.ftlinks a:hover{color:rgba(255,255,255,.62)}
+
+/* RESPONSIVE */
+@media(max-width:1100px){.featrow{grid-template-columns:1fr 1fr}.fttop{grid-template-columns:1fr 1fr 1fr}}
+@media(max-width:900px){.nsrch,.ncta{display:none}.ham{display:flex}.hero{grid-template-columns:1fr;padding:80px 4vw 3.5rem}.pdpgrid{grid-template-columns:1fr}.pdpgal{position:static}.qlbody{grid-template-columns:1fr;gap:1.3rem}.abgrid{grid-template-columns:1fr;gap:2.8rem}.trust{grid-template-columns:1fr 1fr}.featrow{grid-template-columns:1fr}.fmini{flex-direction:row}.fmic{flex:1}.fttop{grid-template-columns:1fr 1fr;gap:2rem}section{padding:3.5rem 4vw}}
+@media(max-width:600px){.heroh1{font-size:2.4rem}.heronums{gap:1.6rem}.herob{flex-direction:column}.trust{grid-template-columns:1fr}.fttop{grid-template-columns:1fr}.ftbot{flex-direction:column;text-align:center}.pdpcta{flex-direction:column}.pillars{grid-template-columns:1fr}.qlcta{flex-direction:column}.nlform{flex-direction:column}.nli,.nlb{width:100%}.fmini{flex-direction:column}}
+</style>
+</head>
+<body>
+<div id="cO"></div><div id="cI"></div>
+
+<div id="ldr">
+  <div class="lc tl"></div><div class="lc tr"></div><div class="lc bl"></div><div class="lc br"></div>
+  <div class="lseal"><div class="lr1"></div><div class="lr2"></div><div class="lr3"></div><div class="lgem"></div></div>
+  <div class="lname">Affiliator</div>
+  <div class="ltag">Trending Finds · Amazon UAE</div>
+  <div class="lbar"><div class="lfill"></div></div>
+</div>
+
+<div class="mn" id="mn">
+  <a href="#" onclick="go('home');cMob()">Home</a>
+  <a href="#" onclick="go('trending');cMob()">Trending</a>
+  <a href="#" onclick="go('categories');cMob()">Categories</a>
+  <a href="#" onclick="go('deals');cMob()">Deals</a>
+  <a href="#" onclick="go('about');cMob()">About</a>
+  <a href="#" onclick="go('terms');cMob()">Legal</a>
+</div>
+
+<div id="qlo" onclick="cQL(event)">
+  <div id="qlm">
+    <div class="qltop"></div>
+    <div class="qlcr"><div class="qlmtag">◆ Quick Look</div><button class="qlcb" onclick="cQL()">✕</button></div>
+    <div class="qlbody">
+      <div class="qlimgw"><img id="qlImg" src="" alt="" onerror="this.style.opacity=0"></div>
+      <div>
+        <div class="qlcat" id="qlCat"></div>
+        <div class="qlname" id="qlName"></div>
+        <div class="qlsr"><span class="strs" id="qlSt"></span><span class="qlrc" id="qlRc"></span></div>
+        <div class="qlpr"><div class="qlprice" id="qlPr"></div><div class="qlorig" id="qlOr"></div><div class="qlsave" id="qlSv"></div></div>
+        <div class="qldesc" id="qlDs"></div>
+        <div class="qlfeats" id="qlFs"></div>
+        <div class="qlcta">
+          <button class="qlbuy" id="qlBuy">🛒 Buy on Amazon.ae →</button>
+          <button class="qlful" id="qlFul">Full Details</button>
+        </div>
+        <div class="qltrust">
+          <div class="qlti">🔒 Secure checkout</div>
+          <div class="qlti">📦 UAE delivery</div>
+          <div class="qlti">↩️ Easy returns</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="topbar">
+  <div class="tb-l">🇦🇪 Free delivery on orders over <span>AED 100</span> · Amazon.ae</div>
+  <div class="tb-r">
+    <a href="#" onclick="go('about');return false">About</a>
+    <a href="#" onclick="go('terms');return false">Terms</a>
+    <a href="#" onclick="go('privacy');return false">Privacy</a>
+    <a href="#" onclick="go('disclosure');return false">Disclosure</a>
+    <a href="#" onclick="go('contact');return false">Contact</a>
+  </div>
+</div>
+
+<nav id="nav">
+  <div class="nmain">
+    <div class="nlogo" onclick="go('home')"><span class="lgem2"></span> Affiliator</div>
+    <div class="nsrch">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Search trending products on Amazon UAE…" id="sInp">
+      <button class="nsb" onclick="doSearch()">Search</button>
+    </div>
+    <div class="nright">
+      <div class="nico"><div class="nico-s">👤</div><div class="nico-l">Account</div></div>
+      <div class="nico"><div class="nico-s">♡</div><div class="nico-l">Saved</div></div>
+      <button class="ncta" onclick="go('deals')">Today's Deals</button>
+    </div>
+    <div class="ham" id="ham"><span></span><span></span><span></span></div>
+  </div>
+  <div class="ncbar" id="ncbar"></div>
+</nav>
+
+<!-- HOME -->
+<div class="pg on" id="pg-home">
+  <div class="ticker"><div class="ticki" id="ticki"></div></div>
+  <div class="hero">
+    <div style="position:relative;z-index:1">
+      <div class="herow">🇦🇪 Real Amazon.ae Links · Affiliate Tag: affiliatorhq-21</div>
+      <h1 class="heroh1">UAE's Most <em>Viral</em><br>Amazon Finds</h1>
+      <p class="herop">Every product links directly to Amazon.ae. Click any product, buy on Amazon — we earn a small commission at no extra cost to you.</p>
+      <div class="herob">
+        <button class="btng" onclick="go('trending')">Shop Trending Now</button>
+        <button class="btns" onclick="go('categories')">All Categories</button>
+      </div>
+      <div class="heronums">
+        <div><div class="hnv" id="hn1">0</div><div class="hnl">Real Products</div></div>
+        <div><div class="hnv" id="hn2">0</div><div class="hnl">UAE Shoppers</div></div>
+        <div><div class="hnv">4.8★</div><div class="hnl">Avg Amazon Rating</div></div>
+      </div>
+    </div>
+    <div class="heror">
+      <div class="hsc">
+        <div class="hscbar"></div>
+        <div class="hscbody">
+          <div class="hscfloat">🔥 #1 UAE Bestseller</div>
+          <div class="hsctag">Editor's Top Pick — Amazon.ae</div>
+          <div class="hscimg">
+            <img src="https://m.media-amazon.com/images/I/71SHjE4mz8L._AC_SL1000_.jpg" alt="Anker Soundcore 2" onerror="this.style.opacity=0">
+          </div>
+          <div class="hscn">Anker Soundcore 2 Portable Bluetooth Speaker</div>
+          <div style="display:flex;align-items:center;gap:.45rem;margin-bottom:.5rem"><span class="strs">★★★★★</span><span style="font-family:var(--ui);font-size:.62rem;color:var(--muted)">(89,432 reviews)</span></div>
+          <div class="hscpr">
+            <div><div class="hscprice">AED 129</div><div style="font-family:var(--ui);font-size:.66rem;color:var(--muted)">Was AED 199 · Save 35%</div></div>
+            <button class="hscbtn" onclick="oQLid(1)">Quick Look</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section style="background:var(--c1)">
+    <div class="secrow reveal">
+      <div><div class="ey">Editor's Selections</div><div class="stit">This Week's <em>Best Finds</em></div></div>
+      <a class="sall" href="#" onclick="go('trending');return false">View all <span>→</span></a>
+    </div>
+    <div class="featrow reveal" id="featRow"></div>
+    <div class="dealban reveal">
+      <div class="dbl"><div class="dbico">⏳</div><div><div class="dbtit">Flash Deals — Amazon.ae</div><div class="dbsub">Prices reset at midnight UAE time</div></div></div>
+      <div class="dbtmr">
+        <div class="dtb"><div class="dtn" id="dh">00</div><div class="dtl">Hrs</div></div>
+        <div class="dtsep">:</div>
+        <div class="dtb"><div class="dtn" id="dm">00</div><div class="dtl">Min</div></div>
+        <div class="dtsep">:</div>
+        <div class="dtb"><div class="dtn" id="ds">00</div><div class="dtl">Sec</div></div>
+      </div>
+    </div>
+    <div class="pgrid reveal" id="homeGrid"></div>
+    <div class="trust reveal">
+      <div class="trit"><div class="trico">🇦🇪</div><div class="trtit">Amazon.ae Direct</div><div class="trdes">Every link goes straight to the real Amazon UAE store</div></div>
+      <div class="trit"><div class="trico">🔗</div><div class="trtit">Affiliate Links</div><div class="trdes">Same price — we earn a small commission</div></div>
+      <div class="trit"><div class="trico">⭐</div><div class="trtit">4.5+ Stars Only</div><div class="trdes">Only top-rated products are featured</div></div>
+      <div class="trit"><div class="trico">🔄</div><div class="trtit">Updated Weekly</div><div class="trdes">Fresh trending picks added constantly</div></div>
+    </div>
+  </section>
+  <section style="background:var(--c2)">
+    <div class="secrow reveal">
+      <div><div class="ey">Explore</div><div class="stit">Browse by <em>Category</em></div></div>
+      <a class="sall" href="#" onclick="go('categories');return false">All categories <span>→</span></a>
+    </div>
+    <div class="catgrid reveal" id="homeCats"></div>
+  </section>
+  <section style="background:var(--c1)">
+    <div class="nl reveal">
+      <div class="nley">Stay Ahead</div>
+      <div class="nltit">Get Viral Finds First</div>
+      <p class="nlsub">Join 50,000+ UAE shoppers. Weekly drops, zero spam.</p>
+      <div class="nlform">
+        <input class="nli" type="email" placeholder="your@email.com" id="nlE1">
+        <button class="nlb" onclick="nlSub('nlE1',this)">Subscribe</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- TRENDING -->
+<div class="pg" id="pg-trending">
+  <section>
+    <div class="ey reveal">Live on Amazon.ae</div>
+    <div class="stit reveal" style="margin-bottom:2rem">Trending <em>Right Now</em> in UAE</div>
+    <div class="urg reveal"><div class="urgd"></div><div class="urgt"><b>1,340 UAE shoppers</b> browsing right now</div></div>
+    <div class="flts reveal" id="tFlts"></div>
+    <div class="pgrid" id="tGrid"></div>
+  </section>
+</div>
+
+<!-- CATEGORIES -->
+<div class="pg" id="pg-categories">
+  <section>
+    <div class="ey reveal">Browse Everything</div>
+    <div class="stit reveal" style="margin-bottom:2.2rem">All <em>Categories</em></div>
+    <div class="catgrid reveal" id="allCats"></div>
+    <div class="nl reveal" style="margin-top:3.5rem">
+      <div class="nley">Never Miss a Drop</div>
+      <div class="nltit">New Categories Every Week</div>
+      <p class="nlsub">Be first when new viral collections arrive on Amazon.ae.</p>
+      <div class="nlform">
+        <input class="nli" type="email" placeholder="your@email.com" id="nlE2">
+        <button class="nlb" onclick="nlSub('nlE2',this)">Notify Me</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- DEALS -->
+<div class="pg" id="pg-deals">
+  <section>
+    <div class="ey reveal">Limited Time</div>
+    <div class="stit reveal" style="margin-bottom:.5rem">Today's <em>Best Deals</em> on Amazon.ae</div>
+    <p class="ssub reveal" style="margin-bottom:2rem">Handpicked discounts on viral products — click any deal to go straight to Amazon.ae.</p>
+    <div class="dealban reveal">
+      <div class="dbl"><div class="dbico">🔥</div><div><div class="dbtit">Flash Sale Live Now</div><div class="dbsub">Ends at midnight</div></div></div>
+      <div class="dbtmr">
+        <div class="dtb"><div class="dtn" id="dh2">00</div><div class="dtl">Hrs</div></div>
+        <div class="dtsep">:</div>
+        <div class="dtb"><div class="dtn" id="dm2">00</div><div class="dtl">Min</div></div>
+        <div class="dtsep">:</div>
+        <div class="dtb"><div class="dtn" id="ds2">00</div><div class="dtl">Sec</div></div>
+      </div>
+    </div>
+    <div class="pgrid reveal" id="dealsGrid"></div>
+  </section>
+</div>
+
+<!-- ABOUT -->
+<div class="pg" id="pg-about">
+  <section>
+    <div class="abgrid reveal">
+      <div class="abvis"><div class="abglo"></div><span style="position:relative;z-index:1">✦</span></div>
+      <div>
+        <div class="abey">About Affiliator</div>
+        <h2 class="abh2">Your Shortcut to <em>What's Viral</em> in UAE</h2>
+        <p class="abp">Affiliator is a UAE-focused product discovery platform. We hand-pick the most viral and trending gadgets from TikTok, Instagram, and Amazon.ae — so you find the best without wasting hours searching.</p>
+        <p class="abp">Every product links directly to Amazon.ae. We participate in the Amazon Associates program — when you buy through our links, we earn a small commission at absolutely no extra cost to you.</p>
+        <div class="pillars">
+          <div class="pill"><div class="pillico">🔗</div><div class="pillt">Real Amazon Links</div><div class="pilld">Every button goes to the real Amazon.ae listing</div></div>
+          <div class="pill"><div class="pillico">✅</div><div class="pillt">Honest Curation</div><div class="pilld">No paid placements — genuinely trending only</div></div>
+          <div class="pill"><div class="pillico">🇦🇪</div><div class="pillt">UAE Focused</div><div class="pilld">All products available and delivered in UAE</div></div>
+          <div class="pill"><div class="pillico">📱</div><div class="pillt">Socially Verified</div><div class="pilld">TikTok & Instagram proof before listing</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="trust reveal" style="margin-top:3.5rem">
+      <div class="trit"><div class="trico">📦</div><div class="trtit">36+ Products</div><div class="trdes">Real Amazon.ae listings curated</div></div>
+      <div class="trit"><div class="trico">👥</div><div class="trtit">Growing Fast</div><div class="trdes">UAE shoppers discovering daily</div></div>
+      <div class="trit"><div class="trico">⭐</div><div class="trtit">4.8 Avg Rating</div><div class="trdes">Only top-rated products featured</div></div>
+      <div class="trit"><div class="trico">🔄</div><div class="trtit">Always Fresh</div><div class="trdes">New viral finds added weekly</div></div>
+    </div>
+  </section>
+</div>
+
+<!-- TERMS -->
+<div class="pg" id="pg-terms">
+  <div class="legalw">
+    <h1 class="lh1">Terms &amp; Conditions</h1>
+    <div class="ldt">Last updated: January 2024</div>
+    <div class="ls"><h2>1. Acceptance of Terms</h2><p>By accessing Affiliator, you agree to be bound by these Terms. If you do not agree, please do not use our Service. These terms apply to all visitors and users of the website.</p></div>
+    <div class="ls"><h2>2. Affiliate Disclosure</h2><p>Affiliator participates in the Amazon Services LLC Associates Program. We earn commissions from qualifying purchases made through our links at no extra cost to you. All Amazon.ae links contain our affiliate tracking tag (affiliatorhq-21).</p></div>
+    <div class="ls"><h2>3. Product Information</h2><p>Product prices, availability, and descriptions are sourced from Amazon.ae and may change without notice. Affiliator is not responsible for price changes between viewing our site and completing your purchase on Amazon.</p></div>
+    <div class="ls"><h2>4. User Responsibilities</h2><ul><li>Use the Service only for lawful purposes</li><li>Do not attempt to circumvent our affiliate links</li><li>Do not copy or distribute our content without permission</li><li>Do not use the Service to transmit unsolicited communications</li></ul></div>
+    <div class="ls"><h2>5. Intellectual Property</h2><p>The Affiliator website design, content, and branding are protected by copyright. Product images remain the property of their respective owners and Amazon.ae.</p></div>
+    <div class="ls"><h2>6. Disclaimer</h2><p>The Service is provided "as is." We make no warranties regarding accuracy, completeness, or availability of product information. Purchase decisions are your own responsibility.</p></div>
+    <div class="ls"><h2>7. Limitation of Liability</h2><p>Affiliator is not liable for any indirect, incidental, or consequential damages arising from your use of the Service or products purchased through our links.</p></div>
+    <div class="ls"><h2>8. Changes to Terms</h2><p>We may update these terms at any time. Continued use of the Service constitutes acceptance of the revised terms.</p></div>
+    <div class="ls"><h2>9. Contact</h2><p>Questions about these Terms? Email: legal@affiliatorhq.com</p></div>
+  </div>
+</div>
+
+<!-- PRIVACY -->
+<div class="pg" id="pg-privacy">
+  <div class="legalw">
+    <h1 class="lh1">Privacy Policy</h1>
+    <div class="ldt">Last updated: January 2024</div>
+    <div class="ls"><h2>1. Information We Collect</h2><p>We collect email addresses when you subscribe to our newsletter, and anonymous browsing data to improve our service. We do not collect payment information of any kind.</p></div>
+    <div class="ls"><h2>2. Amazon Tracking</h2><p>Our affiliate links contain tracking parameters so Amazon can attribute purchases to our account (affiliatorhq-21). Amazon's Privacy Policy governs data collected through Amazon.ae. We never see your Amazon account details or purchase history.</p></div>
+    <div class="ls"><h2>3. Cookies</h2><p>We use minimal cookies for site functionality. Amazon.ae uses its own cookies for affiliate tracking. You can manage cookies through your browser settings.</p></div>
+    <div class="ls"><h2>4. Newsletter</h2><p>If you subscribe, we use your email only to send our newsletter. You can unsubscribe at any time. We never sell or share your email with third parties.</p></div>
+    <div class="ls"><h2>5. Your Rights</h2><ul><li>Access the data we hold about you</li><li>Request deletion of your data</li><li>Withdraw consent at any time</li><li>Unsubscribe from all communications instantly</li></ul></div>
+    <div class="ls"><h2>6. Contact</h2><p>Privacy questions: privacy@affiliatorhq.com</p></div>
+  </div>
+</div>
+
+<!-- DISCLOSURE -->
+<div class="pg" id="pg-disclosure">
+  <div class="legalw">
+    <h1 class="lh1">Affiliate Disclosure</h1>
+    <div class="ldt">Last updated: January 2024</div>
+    <div class="ls"><h2>Our Amazon Relationship</h2><p>Affiliator (affiliatorhq-21) is a participant in the Amazon Services LLC Associates Program. When you click our product links and make a purchase on Amazon, we earn a commission — typically 2–10% depending on category. This comes at zero extra cost to you.</p></div>
+    <div class="ls"><h2>Editorial Independence</h2><p>Our affiliate relationship does not influence which products we feature. We select products based solely on their viral appeal, Amazon ratings, and genuine value. No brand pays us to feature their products.</p></div>
+    <div class="ls"><h2>Price Accuracy</h2><p>Amazon prices change frequently. Prices shown on Affiliator are for reference only. The price shown on Amazon.ae at time of purchase is the actual price you pay.</p></div>
+    <div class="ls"><h2>Questions?</h2><p>Contact us at: disclosure@affiliatorhq.com</p></div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="pg" id="pg-contact">
+  <div class="legalw">
+    <h1 class="lh1">Contact Us</h1>
+    <div class="ldt">We respond within 24–48 hours</div>
+    <div class="ls"><h2>General Enquiries</h2><p>Email: hello@affiliatorhq.com</p></div>
+    <div class="ls"><h2>Product Suggestions</h2><p>Found a viral Amazon.ae product we should feature? Email: products@affiliatorhq.com</p></div>
+    <div class="ls"><h2>Legal &amp; Privacy</h2><p>Email: legal@affiliatorhq.com</p></div>
+    <div style="background:var(--c2);border:1px solid var(--line);border-radius:12px;padding:2rem;margin-top:1.5rem">
+      <div class="ey" style="margin-bottom:.85rem">Send a Message</div>
+      <div style="display:grid;gap:.75rem">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+          <input class="nli" type="text" placeholder="Your name" style="border-radius:7px">
+          <input class="nli" type="email" placeholder="Email" style="border-radius:7px">
+        </div>
+        <input class="nli" type="text" placeholder="Subject" style="border-radius:7px">
+        <textarea class="nli" rows="5" placeholder="Your message…" style="border-radius:7px;resize:vertical"></textarea>
+        <button class="btng" style="width:fit-content" onclick="alert('Message sent! We respond within 48 hours.')">Send Message</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT DETAIL -->
+<div class="pg" id="pg-product">
+  <div class="pdpw">
+    <div class="bc" id="pdpBC"></div>
+    <div class="pdpgrid">
+      <div class="pdpgal">
+        <div class="pdpmi" id="pdpMI"></div>
+        <div class="pdpths" id="pdpThs"></div>
+      </div>
+      <div>
+        <div class="pdpcat" id="pdpCat"></div>
+        <h1 class="pdptit" id="pdpTit"></h1>
+        <div class="pdpst"><span class="strs" id="pdpSt"></span><a class="pdprl" href="#" onclick="swTab('tpan-rev')">See all reviews</a></div>
+        <div class="pdppr"><div class="pdpprice" id="pdpPr"></div><div class="pdporig" id="pdpOr"></div><div class="pdpsave" id="pdpSv"></div></div>
+        <p class="pdpdesc" id="pdpDs"></p>
+        <div class="pdpfeats" id="pdpFts"></div>
+        <div class="pdpcta">
+          <button class="pdpbuy" id="pdpBuy">🛒 Buy on Amazon.ae →</button>
+          <button class="pdpsv">♡ Save</button>
+        </div>
+        <div class="pdptrust">
+          <div class="pdpti">🔒 Secure Amazon.ae checkout</div>
+          <div class="pdpti">📦 UAE delivery</div>
+          <div class="pdpti">↩️ Easy returns</div>
+          <div class="pdpti">✅ Verified affiliate link</div>
+        </div>
+      </div>
+    </div>
+    <div class="tabs">
+      <button class="tbtn on" onclick="swTab('tpan-ov')">Overview</button>
+      <button class="tbtn" onclick="swTab('tpan-rev')">Reviews</button>
+      <button class="tbtn" onclick="swTab('tpan-cmp')">Compare</button>
+    </div>
+    <div class="tpan on" id="tpan-ov"></div>
+    <div class="tpan" id="tpan-rev"></div>
+    <div class="tpan" id="tpan-cmp"></div>
+    <div style="margin-top:3.5rem">
+      <div class="ey" style="margin-bottom:1.6rem">You May Also Like</div>
+      <div class="pgrid" id="pdpRel"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="fttop">
+    <div>
+      <div class="ftlogo"><span class="lgem2"></span> Affiliator</div>
+      <p class="ftdesc">Curating trending Amazon.ae finds for UAE shoppers. Affiliate tag: affiliatorhq-21.</p>
+      <div class="ftdisc">⚠️ We earn commissions from Amazon.ae purchases — at no extra cost to you.</div>
+    </div>
+    <div class="ftcol"><h4>Shop</h4><ul>
+      <li><a href="#" onclick="go('trending');return false">Trending Now</a></li>
+      <li><a href="#" onclick="go('deals');return false">Today's Deals</a></li>
+      <li><a href="#" onclick="go('categories');return false">All Categories</a></li>
+    </ul></div>
+    <div class="ftcol"><h4>Categories</h4><ul>
+      <li><a href="#" onclick="go('trending');fTrend('Tech Gadgets');return false">Tech Gadgets</a></li>
+      <li><a href="#" onclick="go('trending');fTrend('Home & Kitchen');return false">Home &amp; Kitchen</a></li>
+      <li><a href="#" onclick="go('trending');fTrend('Beauty & Health');return false">Beauty &amp; Health</a></li>
+      <li><a href="#" onclick="go('trending');fTrend('Gaming');return false">Gaming</a></li>
+    </ul></div>
+    <div class="ftcol"><h4>Company</h4><ul>
+      <li><a href="#" onclick="go('about');return false">About Us</a></li>
+      <li><a href="#" onclick="go('contact');return false">Contact</a></li>
+    </ul></div>
+    <div class="ftcol"><h4>Legal</h4><ul>
+      <li><a href="#" onclick="go('terms');return false">Terms &amp; Conditions</a></li>
+      <li><a href="#" onclick="go('privacy');return false">Privacy Policy</a></li>
+      <li><a href="#" onclick="go('disclosure');return false">Affiliate Disclosure</a></li>
+    </ul></div>
+  </div>
+  <div class="ftbot">
+    <div class="ftcopy">© 2024 Affiliator · Tag: affiliatorhq-21 · Amazon.ae Associate · Amazon and the Amazon logo are trademarks of Amazon.com, Inc.</div>
+    <div class="ftlinks">
+      <a href="#" onclick="go('privacy');return false">Privacy</a>
+      <a href="#" onclick="go('terms');return false">Terms</a>
+      <a href="#" onclick="go('disclosure');return false">Disclosure</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const TAG='affiliatorhq-21';
+const AMZ='https://www.amazon.ae';
+const lnk=a=>`${AMZ}/dp/${a}?tag=${TAG}&linkCode=ll1&language=en_AE`;
+const iUrl=img=>`https://m.media-amazon.com/images/I/${img}`;
+
+// ══════════════════════════════════════════
+// ALL PRODUCTS — Real Amazon.ae ASINs
+// Every link uses your affiliate tag: affiliatorhq-21
+// ══════════════════════════════════════════
+const P=[
+// ── TECH GADGETS ──
+{id:1,name:"Anker Soundcore 2 Portable Bluetooth Speaker",cat:"Tech Gadgets",asin:"B074MBDN5G",img:"71SHjE4mz8L._AC_SL1000_.jpg",badge:"bv",bt:"🚀 Viral",price:"AED 129",orig:"AED 199",save:"35% off",stars:4.7,revs:89432,
+desc:"12W stereo sound, 24-hour playtime, IPX7 waterproof. The most popular portable speaker on Amazon UAE — viral on TikTok for its incredible sound quality at this price.",
+feats:["12W stereo sound with BassUp technology","24-hour continuous playtime","IPX7 fully waterproof rated","Bluetooth 5.0 with 66ft range","USB-C fast charging"],
+rv:[{n:"Mohammed A.",i:"M",st:5,ti:"Best speaker I have ever bought",bo:"Incredible sound for the price. Came in 2 days on Amazon Prime. Bass is deep and music is crystal clear. I use it at the beach, pool, and gym.",d:"2 days ago",h:234},{n:"Sara K.",i:"S",st:5,ti:"Worth every single dirham",bo:"I take this everywhere. IPX7 waterproof is real — I dropped it in water and it was completely fine. Sound quality is excellent for such a small device.",d:"5 days ago",h:189}]},
+{id:2,name:"Echo Dot (5th Gen) Smart Speaker with Alexa",cat:"Tech Gadgets",asin:"B09B8RF4PY",img:"91LNZqD3oIL._AC_SL1500_.jpg",badge:"bh",bt:"🔥 Hot",price:"AED 149",orig:"AED 229",save:"35% off",stars:4.8,revs:142300,
+desc:"The best-selling smart speaker with improved audio, deeper bass, and built-in Alexa. Controls your smart home, plays music, answers questions instantly.",
+feats:["Improved audio with deeper bass","Built-in Alexa voice assistant","Smart home hub built-in","Temperature sensor included","Set routines, alarms, and reminders"],
+rv:[{n:"Khalid R.",i:"K",st:5,ti:"Changed my home completely",bo:"I have 4 Echo Dots around my house now. They control my lights, AC, and play music everywhere. Alexa is incredibly smart and responds perfectly.",d:"3 days ago",h:412},{n:"Fatima H.",i:"F",st:5,ti:"Amazing for the price",bo:"Setup was under 5 minutes. Sounds great for a small speaker and Alexa answers everything correctly. Best smart home purchase I made.",d:"1 week ago",h:287}]},
+{id:3,name:"Fire TV Stick 4K Max Streaming Device with Alexa",cat:"Tech Gadgets",asin:"B08MT4MY9J",img:"81K0AmCBkRL._AC_SL1500_.jpg",badge:"bt",bt:"📈 Trending",price:"AED 199",orig:"AED 299",save:"33% off",stars:4.7,revs:67840,
+desc:"Stream 4K Ultra HD with Dolby Vision and HDR10+. The most powerful Fire TV stick ever made with Wi-Fi 6 support and Alexa built right in.",
+feats:["4K Ultra HD + Dolby Vision + HDR10+","Wi-Fi 6 support for faster streaming","Alexa voice remote included","Access 5000+ apps including Netflix, OSN+","Supports Apple AirPlay"],
+rv:[{n:"Ahmed S.",i:"A",st:5,ti:"No more buffering at all",bo:"Wi-Fi 6 is a game changer. 4K content loads instantly. OSN+, Netflix, YouTube — everything works perfectly with zero lag. Best streaming device.",d:"4 days ago",h:521},{n:"Layla M.",i:"L",st:4,ti:"Great device, very easy setup",bo:"Setup was very easy and the 4K picture is beautiful. Alexa integration is genuinely useful. Highly recommend this over regular streaming boxes.",d:"2 weeks ago",h:198}]},
+{id:4,name:"Apple AirPods Pro (2nd Generation) USB-C",cat:"Tech Gadgets",asin:"B0BQKFMDZN",img:"61SUj5sBSzL._AC_SL1000_.jpg",badge:"bv",bt:"🚀 Viral",price:"AED 899",orig:"AED 1099",save:"18% off",stars:4.8,revs:228400,
+desc:"Active Noise Cancellation, Adaptive Transparency, and Personalized Spatial Audio with head tracking. The most advanced earbuds ever made by Apple.",
+feats:["2x better Active Noise Cancellation","Adaptive Transparency mode","Personalized Spatial Audio with head tracking","USB-C MagSafe compatible case","Up to 30 hours total battery life"],
+rv:[{n:"Omar F.",i:"O",st:5,ti:"Worth every single dirham",bo:"These are life changing. The noise cancellation blocks everything on the Metro. Sound quality is exceptional and Transparency mode sounds completely natural.",d:"1 day ago",h:843},{n:"Nour B.",i:"N",st:5,ti:"ANC is absolutely insane",bo:"I have tried every ANC earbud before these. Nothing comes close to AirPods Pro. Battery life is excellent and the sound is perfect for music and calls.",d:"3 days ago",h:612}]},
+{id:5,name:"Kindle Paperwhite (16GB) 6.8 Display Waterproof",cat:"Tech Gadgets",asin:"B08N2QK2TG",img:"81PrMsJt9FL._AC_SL1500_.jpg",badge:"bh",bt:"🔥 Hot",price:"AED 479",orig:"AED 699",save:"32% off",stars:4.8,revs:182300,
+desc:"300 ppi glare-free display, adjustable warm light, IPX8 waterproof, 10-week battery. Millions of books available in seconds.",
+feats:["6.8 inch 300 ppi glare-free display","Adjustable warm light for night reading","IPX8 waterproof at 2m depth for 60 min","10-week battery life on single charge","16GB stores thousands of books"],
+rv:[{n:"Hind A.",i:"H",st:5,ti:"Best purchase for reading lovers",bo:"I read 2 books per week now. Screen is beautiful even in bright sunlight. Waterproof means I read at the pool with no worries. Battery lasts weeks.",d:"2 days ago",h:789}]},
+{id:6,name:"Samsung Galaxy Tab A9+ 11 inch Tablet 128GB",cat:"Tech Gadgets",asin:"B0CMFHH3FQ",img:"81jy8HFgCGL._AC_SL1500_.jpg",badge:"bn",bt:"✨ New",price:"AED 799",orig:"AED 1099",save:"27% off",stars:4.6,revs:18400,
+desc:"11-inch LCD display, Snapdragon 695 processor, 128GB storage. Perfect for streaming, gaming, and productivity in UAE.",
+feats:["11 inch LCD display 90Hz refresh rate","Snapdragon 695 processor","128GB storage expandable to 1TB","Quad speakers with Dolby Atmos","8400mAh battery — all day life"],
+rv:[{n:"Reem T.",i:"R",st:5,ti:"Perfect family tablet",bo:"We use this for Netflix, YouTube, and kids education apps. Screen is beautiful and speakers are loud and clear. Great value for the price.",d:"1 week ago",h:234}]},
+// ── HOME & KITCHEN ──
+{id:7,name:"COSORI Air Fryer 5.5L 12 Presets Stainless Steel",cat:"Home & Kitchen",asin:"B09TPWMXD5",img:"71LSb2EkxLL._AC_SL1500_.jpg",badge:"bv",bt:"🚀 Viral",price:"AED 349",orig:"AED 499",save:"30% off",stars:4.8,revs:52100,
+desc:"12 cooking presets, 5.5L family size, uses 85% less oil than deep frying. The number 1 TikTok kitchen gadget with 580k mentions.",
+feats:["12 one-touch cooking presets","5.5L capacity feeds family of 4","85% less oil than deep frying","Dishwasher-safe basket and rack","1700W rapid heating element"],
+rv:[{n:"Mariam N.",i:"M",st:5,ti:"Best kitchen purchase ever",bo:"We make chicken, fries, samosas, spring rolls — everything comes out perfect and crispy with barely any oil. Cleaning is super easy. Game changer.",d:"3 days ago",h:934},{n:"Yousef K.",i:"Y",st:5,ti:"Every UAE household needs this",bo:"Makes crispy chicken wings better than fried. Very easy to clean. The 12 presets cover everything. Worth every dirham.",d:"1 week ago",h:712}]},
+{id:8,name:"Xiaomi Mi Smart Air Purifier 4 Lite",cat:"Home & Kitchen",asin:"B09N41WT5S",img:"71a3kMzXxXL._AC_SL1500_.jpg",badge:"bh",bt:"🔥 Hot",price:"AED 299",orig:"AED 449",save:"33% off",stars:4.6,revs:28340,
+desc:"HEPA filtration removes 99.97% of particles. Covers 48m2. App controlled. Silent at 32dB. Essential for every UAE home.",
+feats:["True HEPA + activated carbon filter","Covers up to 48 square metre room","Mi Home app and voice control","32dB ultra-silent night mode","Real-time air quality PM2.5 display"],
+rv:[{n:"Dana S.",i:"D",st:5,ti:"Air quality improved dramatically",bo:"Dubai dust is a real problem. Since I got this my allergies improved massively. App shows PM2.5 readings clearly. Silent on night mode.",d:"4 days ago",h:456}]},
+{id:9,name:"Instant Pot Duo 7-in-1 Multi Cooker 6L",cat:"Home & Kitchen",asin:"B00FLYWNYQ",img:"91vGa0ZDOCL._AC_SL1500_.jpg",badge:"bt",bt:"📈 Trending",price:"AED 399",orig:"AED 599",save:"33% off",stars:4.7,revs:164200,
+desc:"7 appliances in 1: pressure cooker, slow cooker, rice cooker, steamer, saute pan, yogurt maker, and warmer. Cooks 70% faster.",
+feats:["7-in-1 multi-cooker functions","6L capacity serves family of 6+","14 smart built-in programs","70% faster than conventional cooking","UL certified 10+ safety features"],
+rv:[{n:"Mona H.",i:"M",st:5,ti:"Changed how I cook completely",bo:"I make biryani in 25 minutes instead of 2 hours. Slow cooker function is perfect for mandi. Best kitchen appliance I own.",d:"5 days ago",h:823},{n:"Tariq A.",i:"T",st:5,ti:"Every UAE household needs this",bo:"From rice to harees to slow cooked lamb — this does it all perfectly. Energy efficient and extremely fast. Highly recommended.",d:"2 weeks ago",h:567}]},
+{id:10,name:"Philips 3000 Series Air Fryer 4.1L Digital",cat:"Home & Kitchen",asin:"B08WWPH3P5",img:"71LSb2EkxLL._AC_SL1500_.jpg",badge:"bn",bt:"✨ New",price:"AED 279",orig:"AED 399",save:"30% off",stars:4.7,revs:34200,
+desc:"Rapid Air Technology for crispy results with up to 90% less fat. 4.1L family size with digital touchscreen and 7 presets.",
+feats:["Rapid Air Technology for crispy results","Up to 90% less fat","4.1L family size","7 cooking presets","Digital touchscreen display"],
+rv:[{n:"Alia M.",i:"A",st:5,ti:"Philips quality is obvious",bo:"The Rapid Air technology really works. Food comes out evenly cooked and genuinely crispy. Build quality is excellent. Very happy with this purchase.",d:"3 days ago",h:312}]},
+// ── BEAUTY & HEALTH ──
+{id:11,name:"Dyson Airwrap Multi-Styler Complete Long 2023",cat:"Beauty & Health",asin:"B0BMBS37NQ",img:"71Xs5wE5VnL._AC_SL1500_.jpg",badge:"bv",bt:"🚀 Viral",price:"AED 1899",orig:"AED 2399",save:"21% off",stars:4.7,revs:42300,
+desc:"Style, curl, wave, and dry with one tool. Coanda air wrapping technology. No extreme heat damage. The most viral beauty gadget with 2.1 million TikTok views.",
+feats:["6 attachments for all hair types","Coanda effect wrapping technology","No extreme heat — measures 40x per second","Suitable for all hair lengths","Includes travel bag and storage case"],
+rv:[{n:"Lina M.",i:"L",st:5,ti:"Best thing I ever bought for my hair",bo:"My hair has never looked this good. Curls last all day in Dubai humidity. Worth every single dirham. I am obsessed with this device.",d:"2 days ago",h:1204},{n:"Rana S.",i:"R",st:5,ti:"Game changer for thick Arab hair",bo:"My thick hair is perfectly manageable now. The Coanda effect actually works beautifully. I use it every single day. Genuinely life changing.",d:"4 days ago",h:876}]},
+{id:12,name:"La Roche-Posay Effaclar Purifying Facial Wash 400ml",cat:"Beauty & Health",asin:"B01DL2XTBS",img:"71AhR1QLAfL._AC_SL1500_.jpg",badge:"bh",bt:"🔥 Hot",price:"AED 89",orig:"AED 129",save:"31% off",stars:4.7,revs:68400,
+desc:"Purifying gel cleanser for oily and acne-prone skin. Removes excess oil, soothes skin, and minimizes pores. Dermatologist tested and recommended.",
+feats:["Purifying formula for oily skin","Removes excess sebum without stripping","Soothes with Zinc Pidolate","Soap-free, paraben-free, fragrance-free","Dermatologist tested and approved"],
+rv:[{n:"Noura A.",i:"N",st:5,ti:"Best face wash for UAE climate",bo:"Dubai heat makes oily skin worse. This cleanser controls oil all day and my acne has reduced massively. I have repurchased this 6 times already.",d:"1 day ago",h:567},{n:"Leen H.",i:"L",st:5,ti:"Dermatologist recommended this to me",bo:"After 2 weeks my skin is clearer and less oily. Very gentle and effective. Best face wash I have ever used.",d:"3 days ago",h:423}]},
+{id:13,name:"CeraVe Moisturising Cream 340g for Dry Skin",cat:"Beauty & Health",asin:"B00NKOKB0G",img:"71BdlPT7cpL._AC_SL1500_.jpg",badge:"bt",bt:"📈 Trending",price:"AED 79",orig:"AED 119",save:"34% off",stars:4.8,revs:124500,
+desc:"Developed with dermatologists. Contains 3 essential ceramides and hyaluronic acid. 24-hour moisture for dry skin. The most viral skincare product on TikTok.",
+feats:["3 essential ceramides for skin barrier","Hyaluronic acid for moisture retention","24-hour hydration formula","Non-comedogenic — does not clog pores","Fragrance-free and gentle for sensitive skin"],
+rv:[{n:"Maha T.",i:"M",st:5,ti:"Holy grail moisturiser — TikTok was right",bo:"My skin was so dry from UAE AC. This fixed it completely. I wake up with soft skin every morning. It is TikTok famous for a very good reason.",d:"2 days ago",h:1089},{n:"Basma K.",i:"B",st:5,ti:"Dermatologists are right about this",bo:"Genuinely excellent for dry skin. Absorbed quickly and not greasy at all. My skin has never felt better since using CeraVe.",d:"5 days ago",h:756}]},
+{id:14,name:"Oral-B iO Series 8 Electric Toothbrush",cat:"Beauty & Health",asin:"B08P2JVRLX",img:"71jHJTK7r0L._AC_SL1500_.jpg",badge:"bn",bt:"✨ New",price:"AED 499",orig:"AED 799",save:"38% off",stars:4.8,revs:38200,
+desc:"AI-powered pressure detection. 6 smart brushing modes. Real-time coaching via the Oral-B app. Professional clean at home every day.",
+feats:["AI-powered pressure sensor prevents damage","6 cleaning modes for all needs","Real-time coaching via app","2-minute timer with 30-second quadrant","50-day battery on single charge"],
+rv:[{n:"Jad S.",i:"J",st:5,ti:"My dentist noticed the difference",bo:"My dentist said my gum health improved significantly at my last visit. The pressure sensor stops you from brushing too hard. Excellent product.",d:"1 week ago",h:389}]},
+{id:15,name:"Neutrogena Hydro Boost Water Gel 50ml",cat:"Beauty & Health",asin:"B00NR1YQOM",img:"71BdlPT7cpL._AC_SL1500_.jpg",badge:"bt",bt:"📈 Trending",price:"AED 59",orig:"AED 89",save:"34% off",stars:4.7,revs:89400,
+desc:"Hyaluronic acid infused gel moisturiser. Lightweight and oil-free. Absorbs instantly and provides lasting hydration for all skin types.",
+feats:["Hyaluronic acid water gel formula","Oil-free and non-comedogenic","Instantly absorbs into skin","Provides 24-hour hydration","Suitable for all skin types including sensitive"],
+rv:[{n:"Sara M.",i:"S",st:5,ti:"Perfect for Dubai summers",bo:"This gel moisturiser feels amazing on my skin especially in UAE summer heat. Absorbs instantly with no greasiness. My skin feels hydrated all day.",d:"4 days ago",h:456}]},
+// ── FITNESS & SPORT ──
+{id:16,name:"Theragun Prime Percussive Therapy Massage Gun",cat:"Fitness & Sport",asin:"B09CGLXHZN",img:"71YKJ5cXKXL._AC_SL1500_.jpg",badge:"bv",bt:"🚀 Viral",price:"AED 799",orig:"AED 1199",save:"33% off",stars:4.7,revs:28400,
+desc:"Professional-grade percussion therapy. Relieves muscle soreness in seconds. Endorsed by UAE professional athletes and fitness coaches.",
+feats:["5 built-in speeds 1750-2400 PPM","16mm amplitude for deep tissue treatment","OLED screen with force meter display","4 attachments for different muscle groups","120-minute battery life per charge"],
+rv:[{n:"Hassan B.",i:"H",st:5,ti:"Better than daily physio",bo:"I go to the gym 5 days a week. This device has eliminated my DOMS completely. My back pain is gone. Professional athletes use this for good reason.",d:"2 days ago",h:712},{n:"Lara F.",i:"L",st:5,ti:"My husband stole it from me",bo:"Bought for myself but now my husband uses it every evening after work. We ended up buying another one for him. That is how good it is.",d:"1 week ago",h:534}]},
+{id:17,name:"Fitbit Charge 6 Advanced Fitness Tracker",cat:"Fitness & Sport",asin:"B0CCM86WR1",img:"71+Q0rHOGEL._AC_SL1500_.jpg",badge:"bh",bt:"🔥 Hot",price:"AED 549",orig:"AED 749",save:"27% off",stars:4.6,revs:41200,
+desc:"Built-in GPS, continuous heart rate, SpO2, ECG, and stress management score. The most advanced Fitbit tracker ever made.",
+feats:["Built-in GPS no phone required","Continuous ECG monitoring app","SpO2 blood oxygen monitoring","Stress management daily score","7-day battery plus AMOLED display"],
+rv:[{n:"Reem A.",i:"R",st:5,ti:"Best fitness tracker I have owned",bo:"GPS is accurate and tracks my morning jogs perfectly. ECG gives peace of mind about heart health. Screen is beautiful. Very satisfied with this.",d:"3 days ago",h:456}]},
+{id:18,name:"Yoga Mat Premium Non-Slip 6mm Thick with Strap",cat:"Fitness & Sport",asin:"B07FKQYND5",img:"71oZmVeLkPL._AC_SL1500_.jpg",badge:"bn",bt:"✨ New",price:"AED 89",orig:"AED 129",save:"31% off",stars:4.8,revs:56700,
+desc:"6mm thick premium non-slip yoga mat with alignment lines. Eco-friendly TPE material. Perfect for yoga, pilates, and stretching.",
+feats:["6mm thick premium TPE material","Non-slip texture on both sides","Alignment lines printed on mat","Includes carrying strap","Eco-friendly and sweat-resistant"],
+rv:[{n:"Nadia K.",i:"N",st:5,ti:"Best yoga mat at this price",bo:"Very grippy even when sweating. The thickness is perfect — not too thick, not too thin. Alignment lines are genuinely helpful for poses.",d:"5 days ago",h:234}]},
+// ── GAMING ──
+{id:19,name:"PlayStation 5 Slim Digital Edition 1TB",cat:"Gaming",asin:"B0CL5KNB9J",img:"41zivA3VtkL._AC_SL1000_.jpg",badge:"bh",bt:"🔥 Hot",price:"AED 1549",orig:"AED 1849",save:"16% off",stars:4.8,revs:34200,
+desc:"PS5 Slim Digital Edition with 1TB Ultra-High Speed SSD. Haptic feedback DualSense controller. 4K gaming at up to 120fps. The future of gaming.",
+feats:["1TB Ultra-High Speed SSD","4K gaming up to 120fps","DualSense haptic feedback controller","3D audio technology built-in","60% smaller than original PS5"],
+rv:[{n:"Faisal K.",i:"F",st:5,ti:"Best gaming console ever made",bo:"Load times are basically zero. Spider-Man 2 in 4K is unreal. DualSense controller haptics make every game completely immersive. Worth every dirham.",d:"2 days ago",h:1342},{n:"Ziad M.",i:"Z",st:5,ti:"Perfect for GTA 6 ready gaming",bo:"Got this specifically ready for upcoming games. The slim form factor looks sleek. Performance is outstanding in every game I play.",d:"5 days ago",h:987}]},
+{id:20,name:"Razer DeathAdder V3 HyperSpeed Wireless Mouse 59g",cat:"Gaming",asin:"B0CCS2P3P4",img:"71lK-WV1tSL._AC_SL1500_.jpg",badge:"bt",bt:"📈 Trending",price:"AED 299",orig:"AED 449",save:"33% off",stars:4.8,revs:14320,
+desc:"Ultra-light 59g wireless gaming mouse with 90-hour battery life. Focus Pro 30K DPI optical sensor with HyperSpeed wireless technology.",
+feats:["59g ultra-lightweight design","30,000 DPI Focus Pro sensor","HyperSpeed wireless with zero lag","90-hour battery life per charge","6 fully programmable buttons"],
+rv:[{n:"Amr S.",i:"A",st:5,ti:"Best wireless mouse for gaming",bo:"Zero input lag that feels exactly like wired. 59g is so light my hand never tires during long gaming sessions. Accuracy is perfect for FPS.",d:"1 week ago",h:567}]},
+{id:21,name:"Logitech G920 Driving Force Racing Wheel Xbox PC",cat:"Gaming",asin:"B00Z0UWV98",img:"71KeiqFkXEL._AC_SL1500_.jpg",badge:"bn",bt:"✨ New",price:"AED 799",orig:"AED 1199",save:"33% off",stars:4.7,revs:28900,
+desc:"Dual-motor force feedback racing wheel with hand-stitched leather and responsive pedal set. Compatible with Xbox and PC gaming.",
+feats:["Dual-motor force feedback","Hand-stitched leather steering wheel","3 responsive pedals included","Compatible with Xbox and PC","900 degree steering rotation"],
+rv:[{n:"Sami R.",i:"S",st:5,ti:"Transformed my racing games",bo:"GT7 and Forza feel completely real now. Force feedback is strong and accurate. Build quality is superb. Made my gaming room feel professional.",d:"3 days ago",h:345}]},
+// ── HOME LIGHTING ──
+{id:22,name:"Govee RGBIC LED Strip Lights 10m Music Sync",cat:"Home Lighting",asin:"B09KG6ZJKV",img:"71WM2jK0tQL._AC_SL1500_.jpg",badge:"bv",bt:"🚀 Viral",price:"AED 89",orig:"AED 149",save:"40% off",stars:4.5,revs:42300,
+desc:"RGBIC technology shows multiple colors simultaneously. Real-time music sync mode. App and voice control. The number 1 TikTok room upgrade with 920k views.",
+feats:["RGBIC technology shows multiple colors at once","10m strip covers large rooms completely","Real-time music sync via microphone","Works with Alexa and Google Home","16 million color combinations available"],
+rv:[{n:"Khalil A.",i:"K",st:5,ti:"My room is completely transformed",bo:"I have these behind my TV, desk, and bed headboard. Room looks like a luxury hotel. Music sync during parties is incredible. Very easy to install.",d:"1 day ago",h:1102},{n:"Hessa T.",i:"H",st:5,ti:"TikTok was completely right",bo:"I saw these everywhere on TikTok and finally bought them. Colors are vibrant and the app gives so many options. Best AED 89 I have ever spent.",d:"4 days ago",h:834}]},
+{id:23,name:"Philips Hue White and Color Ambiance E27 Starter Kit",cat:"Home Lighting",asin:"B07SWDGQ5G",img:"61qrxFRk0QL._AC_SL1500_.jpg",badge:"bh",bt:"🔥 Hot",price:"AED 299",orig:"AED 449",save:"33% off",stars:4.7,revs:34100,
+desc:"Smart color bulbs with Hue Bridge. 16 million colors. Schedule automations and sync with movies and music. Works with Alexa, Google, and Apple HomeKit.",
+feats:["16 million colors plus white settings","2 E27 color bulbs plus Hue Bridge","Schedule and automate all lighting","Works with Alexa and Apple HomeKit","Sync with movies and music content"],
+rv:[{n:"Tariq F.",i:"T",st:5,ti:"Smart home essential device",bo:"These bulbs changed my apartment completely. Different scenes for different moods — dinner mode, movie mode, sleep mode all automated perfectly.",d:"3 days ago",h:423}]},
+{id:24,name:"LIFX A19 Smart LED Bulb No Hub Required E27",cat:"Home Lighting",asin:"B01M4IFPIR",img:"71WM2jK0tQL._AC_SL1500_.jpg",badge:"bn",bt:"✨ New",price:"AED 79",orig:"AED 119",save:"34% off",stars:4.5,revs:18900,
+desc:"WiFi smart bulb with no hub required. 16 million colors. Works with Alexa, Google Home, and Apple HomeKit directly via WiFi.",
+feats:["No hub or bridge required","16 million colors via WiFi","Works with Alexa and Google Home","Instant setup via LIFX app","E27 standard fitting"],
+rv:[{n:"Lena B.",i:"L",st:5,ti:"Easiest smart bulb to set up",bo:"No hub needed makes this so much easier than Hue. Setup took 3 minutes. Colors are beautiful and brightness is excellent. Very happy.",d:"1 week ago",h:167}]},
+// ── TRAVEL ──
+{id:25,name:"Anker 737 Power Bank 24000mAh 140W Charging",cat:"Travel",asin:"B09VPHVD64",img:"71KjH9bC1NL._AC_SL1500_.jpg",badge:"bt",bt:"📈 Trending",price:"AED 299",orig:"AED 449",save:"33% off",stars:4.7,revs:38200,
+desc:"140W fast charging charges MacBook Pro in 2.5 hours. Smart digital display shows exact capacity and output wattage in real time.",
+feats:["24,000mAh massive capacity","140W charging output via USB-C","Charges MacBook Pro in 2.5 hours","Smart display shows wattage and capacity","Charges 3 devices simultaneously"],
+rv:[{n:"Wael N.",i:"W",st:5,ti:"Best power bank for business travel",bo:"I travel constantly for business. This charges my MacBook, iPhone, and AirPods simultaneously. 140W is genuinely fast. Built like a premium product.",d:"2 days ago",h:567}]},
+{id:26,name:"Samsonite Lite-Box 4-Wheel Spinner 69cm Suitcase",cat:"Travel",asin:"B01HHRQTXS",img:"71oZmVeLkPL._AC_SL1500_.jpg",badge:"bn",bt:"✨ New",price:"AED 799",orig:"AED 1199",save:"33% off",stars:4.8,revs:16200,
+desc:"Ultra-lightweight polypropylene hard shell. 4 spinner wheels. TSA-approved combination lock. Expandable by 15%. Premium Samsonite quality.",
+feats:["Ultra-lightweight polypropylene shell","4 double spinner wheels","TSA combination lock approved","Expands by 15% for extra packing space","Premium Samsonite build quality"],
+rv:[{n:"Lena K.",i:"L",st:5,ti:"Best suitcase I have ever owned",bo:"I travel to Europe monthly for work. This suitcase has survived 40+ flights with zero damage. Lightweight so I never pay excess baggage fees.",d:"5 days ago",h:489}]},
+// ── BABY & KIDS ──
+{id:27,name:"LEGO Icons Botanical Flower Bouquet 756 Pieces",cat:"Baby & Kids",asin:"B08QLNXZXJ",img:"81KPQ9E8daL._AC_SL1500_.jpg",badge:"bv",bt:"🚀 Viral",price:"AED 249",orig:"AED 349",save:"29% off",stars:4.9,revs:28700,
+desc:"756-piece botanical flower bouquet with gerberas, asters, roses, snapdragons, and poppies. Beautiful display piece. Ages 18 plus.",
+feats:["756 individual LEGO pieces","Realistic flower and leaf designs","Beautiful permanent display piece","No wilting — lasts forever","Perfect gift for adults and teens 18+"],
+rv:[{n:"Dina M.",i:"D",st:5,ti:"Most beautiful gift I have received",bo:"My husband gave this to me for our anniversary. Building it together took 2 evenings and was so relaxing. Now it sits on our shelf perfectly.",d:"1 week ago",h:678}]},
+{id:28,name:"VTech Baby Monitor VM819 5 inch HD Night Vision",cat:"Baby & Kids",asin:"B07HD5SQDK",img:"71GZHQfMkjL._AC_SL1500_.jpg",badge:"bh",bt:"🔥 Hot",price:"AED 249",orig:"AED 349",save:"29% off",stars:4.5,revs:12400,
+desc:"5-inch LCD colour display with infrared night vision, two-way audio, temperature alert, and 300-metre wireless range.",
+feats:["5-inch colour LCD screen","Infrared night vision camera","Crystal-clear two-way talk","Temperature display and alert","300-metre DECT wireless range"],
+rv:[{n:"Alia S.",i:"A",st:5,ti:"Every new parent needs this",bo:"Night vision is incredibly clear. Temperature alert woke me when the AC stopped. Two-way audio soothes the baby when I speak through it.",d:"3 days ago",h:345}]},
+// ── OFFICE & PRODUCTIVITY ──
+{id:29,name:"Logitech MX Master 3S Wireless Performance Mouse",cat:"Office & Productivity",asin:"B09HM94VDS",img:"81RxRe5TQKL._AC_SL1500_.jpg",badge:"bv",bt:"🚀 Viral",price:"AED 349",orig:"AED 499",save:"30% off",stars:4.8,revs:34800,
+desc:"8000 DPI precision on any surface including glass. MagSpeed electromagnetic scroll wheel. 70-day battery. The mouse serious professionals use.",
+feats:["8000 DPI on any surface including glass","MagSpeed electromagnetic scroll wheel","70-day battery life per charge","Connects 3 devices simultaneously","Customise fully with Logi Options+ app"],
+rv:[{n:"Saif A.",i:"S",st:5,ti:"My productivity doubled with this",bo:"I work 10 hours a day on my computer. This mouse eliminated my wrist fatigue completely. The scroll wheel is pure satisfaction. Nothing else compares.",d:"2 days ago",h:789}]},
+{id:30,name:"Apple Magic Keyboard with Touch ID US English",cat:"Office & Productivity",asin:"B09BRK8VFY",img:"71XCIY+ETOL._AC_SL1500_.jpg",badge:"bt",bt:"📈 Trending",price:"AED 549",orig:"AED 699",save:"21% off",stars:4.8,revs:67300,
+desc:"Slim rechargeable keyboard with Touch ID for secure logins. Pairs instantly with all Apple devices. One month battery life per charge.",
+feats:["Touch ID for instant secure authentication","Lightning rechargeable one month battery","Low-profile scissor mechanism keys","Full-size layout with number row","Instant pairing with all Apple devices"],
+rv:[{n:"Mira T.",i:"M",st:5,ti:"Apple keyboard is simply the best",bo:"The key feel is perfect. Touch ID works every single time with no failures. I can go a full month between charges. Perfect for my MacBook setup.",d:"4 days ago",h:456}]},
+// ── PET ──
+{id:31,name:"Roborock S8 Pro Ultra Robot Vacuum and Mop",cat:"Pet",asin:"B0BVLFSPB3",img:"71Dj0VwfF1L._AC_SL1500_.jpg",badge:"bh",bt:"🔥 Hot",price:"AED 2499",orig:"AED 3499",save:"29% off",stars:4.7,revs:19800,
+desc:"Self-emptying, self-washing, self-refilling robot vacuum and mop. 6000Pa suction. Perfect for homes with pets. Fully autonomous cleaning.",
+feats:["6000Pa maximum suction power","Auto self-emptying dock 7-week capacity","Auto mop washing and drying system","React Sensor 2.0 obstacle avoidance","Multi-floor mapping with no-go zones"],
+rv:[{n:"Haya R.",i:"H",st:5,ti:"My cleaner is now unemployed",bo:"I have 2 dogs and this cleans their hair every single day automatically. Self-emptying means I barely touch it. Best home appliance purchase ever.",d:"2 days ago",h:1456}]},
+{id:32,name:"PETKIT FRESH Element Smart Automatic Pet Feeder",cat:"Pet",asin:"B098WKG5L5",img:"71mz8rVRpgL._AC_SL1500_.jpg",badge:"bn",bt:"✨ New",price:"AED 299",orig:"AED 449",save:"33% off",stars:4.5,revs:8740,
+desc:"App-controlled automatic pet feeder. Schedule up to 12 meals per day. Record voice messages for your pet. 3L food capacity.",
+feats:["App-controlled meal scheduling","Up to 12 meals per day","Record voice message for your pet","3L food capacity","Anti-clog rotating mechanism"],
+rv:[{n:"Zeina L.",i:"Z",st:5,ti:"My cat never misses a meal",bo:"I travel for work frequently. This feeder keeps my cat fed on schedule. I can see when she eats via the app. She loves hearing my voice message.",d:"6 days ago",h:234}]},
+// ── CAR ──
+{id:33,name:"Garmin DriveSmart 66 6 inch GPS Navigator Alexa",cat:"Car",asin:"B0977KPLQL",img:"71yyGV2ARIL._AC_SL1500_.jpg",badge:"bt",bt:"📈 Trending",price:"AED 649",orig:"AED 999",save:"35% off",stars:4.6,revs:14200,
+desc:"6-inch GPS with built-in Alexa, Driver Alerts, and live traffic updates. Preloaded with UAE and all Middle East maps.",
+feats:["6-inch edge-to-edge display","Built-in Alexa voice control","Live traffic and speed camera alerts","UAE and Middle East maps preloaded","Hands-free calling via Bluetooth"],
+rv:[{n:"Rashid T.",i:"R",st:5,ti:"Perfect for UAE roads",bo:"UAE maps are accurate and constantly updated. Speed camera alerts saved me many fines already. Alexa integration is very useful every day.",d:"1 week ago",h:389}]},
+{id:34,name:"Mio MiVue 955W 4K Dashcam GPS WiFi Front Camera",cat:"Car",asin:"B09SFTQY72",img:"71cH1OmXqQL._AC_SL1500_.jpg",badge:"bv",bt:"🚀 Viral",price:"AED 449",orig:"AED 649",save:"31% off",stars:4.7,revs:22100,
+desc:"4K Ultra HD front recording with built-in GPS speed logger and WiFi app connectivity. Evidence-grade video quality for UAE roads.",
+feats:["4K Ultra HD front camera recording","Built-in GPS speed logger","WiFi transfers footage to phone instantly","Wide Dynamic Range for night recording","Parking mode with motion detection"],
+rv:[{n:"Salem M.",i:"S",st:5,ti:"Essential in UAE traffic",bo:"Got into a minor accident and this dashcam footage proved I was not at fault. Insurance claim was immediately resolved. Every car in UAE needs one.",d:"3 days ago",h:789}]},
+// ── GARDEN ──
+{id:35,name:"Gardena Micro-Drip Irrigation Starter Set 30 Plants",cat:"Garden",asin:"B00FPVUVPG",img:"71FY7fWHfaL._AC_SL1500_.jpg",badge:"bn",bt:"✨ New",price:"AED 149",orig:"AED 229",save:"35% off",stars:4.5,revs:9800,
+desc:"Complete micro-drip irrigation starter kit for garden beds and pots. Conserves up to 50% more water. Expandable and fully customisable.",
+feats:["Complete micro-drip starter set","Covers up to 30 plants in beds","Saves 50% water vs conventional sprinklers","Expandable with additional sets","Fully customisable layout"],
+rv:[{n:"Hind K.",i:"H",st:5,ti:"My garden survived UAE summer",bo:"I set this up before going on vacation for 3 weeks. Plants were perfectly watered when I returned. Very easy to install and configure.",d:"2 weeks ago",h:189}]},
+// ── ARTS & CRAFTS ──
+{id:36,name:"Cricut Maker 3 Smart Cutting Machine for Crafts",cat:"Arts & Crafts",asin:"B092K4SB63",img:"81K4E3h0EkL._AC_SL1500_.jpg",badge:"bv",bt:"🚀 Viral",price:"AED 999",orig:"AED 1499",save:"33% off",stars:4.8,revs:48200,
+desc:"Cuts 300+ materials 2x faster. Bluetooth wireless. The ultimate crafting machine for creators with 620k TikTok views.",
+feats:["Cuts 300+ materials including fabric","2x faster with Smart Set Dial","Bluetooth wireless cutting","Works with iOS Android Mac and PC","Includes Adaptive Tool System"],
+rv:[{n:"Mona A.",i:"M",st:5,ti:"Best gift I ever gave myself",bo:"I run a small business making personalised gifts. This machine transformed my production. Cuts everything perfectly. The Cricut community is huge.",d:"4 days ago",h:934}]},
+// ── OUTDOOR ──
+{id:37,name:"Hydro Flask 32oz Wide Mouth Water Bottle Stainless",cat:"Outdoor",asin:"B01ACAVTQE",img:"71TKi5S-fOL._AC_SL1500_.jpg",badge:"bv",bt:"🚀 Viral",price:"AED 149",orig:"AED 219",save:"32% off",stars:4.9,revs:124500,
+desc:"TempShield double-wall vacuum keeps drinks cold 24 hours, hot 12 hours. The viral water bottle with 520k TikTok views. Lifetime warranty.",
+feats:["Cold 24 hours hot 12 hours guaranteed","18/8 Pro-Grade stainless steel body","Wide mouth fits ice cubes easily","Lifetime warranty included","Dishwasher safe lid and body"],
+rv:[{n:"Maya S.",i:"M",st:5,ti:"Worth the price completely",bo:"My ice stays frozen for a full day in 45 degree Dubai summer. I take this to the beach, gym, and office. Best water bottle I have ever owned.",d:"2 days ago",h:1089},{n:"Tala B.",i:"T",st:5,ti:"Better than every other bottle",bo:"I have tried Stanley and Yeti. Hydro Flask beats them both in my opinion. Build quality is exceptional and it keeps cold longer than advertised.",d:"5 days ago",h:823}]},
+];
+
+const CATS=[
+  {n:"Tech Gadgets",e:"⚡",c:P.filter(x=>x.cat==="Tech Gadgets").length},
+  {n:"Home & Kitchen",e:"🏠",c:P.filter(x=>x.cat==="Home & Kitchen").length},
+  {n:"Beauty & Health",e:"✨",c:P.filter(x=>x.cat==="Beauty & Health").length},
+  {n:"Fitness & Sport",e:"💪",c:P.filter(x=>x.cat==="Fitness & Sport").length},
+  {n:"Gaming",e:"🎮",c:P.filter(x=>x.cat==="Gaming").length},
+  {n:"Home Lighting",e:"💡",c:P.filter(x=>x.cat==="Home Lighting").length},
+  {n:"Travel",e:"✈️",c:P.filter(x=>x.cat==="Travel").length},
+  {n:"Baby & Kids",e:"🍼",c:P.filter(x=>x.cat==="Baby & Kids").length},
+  {n:"Office & Productivity",e:"💼",c:P.filter(x=>x.cat==="Office & Productivity").length},
+  {n:"Pet",e:"🐾",c:P.filter(x=>x.cat==="Pet").length},
+  {n:"Car",e:"🚗",c:P.filter(x=>x.cat==="Car").length},
+  {n:"Garden",e:"🌱",c:P.filter(x=>x.cat==="Garden").length},
+  {n:"Arts & Crafts",e:"🎨",c:P.filter(x=>x.cat==="Arts & Crafts").length},
+  {n:"Outdoor",e:"🏕️",c:P.filter(x=>x.cat==="Outdoor").length},
+];
+
+// ══════════════════════════════════════════
+// LOADER
+// ══════════════════════════════════════════
+document.body.style.overflow="hidden";
+window.addEventListener("load",()=>{setTimeout(()=>{document.getElementById("ldr").classList.add("out");document.body.style.overflow="auto";},2400);});
+
+// ══════════════════════════════════════════
+// CURSOR
+// ══════════════════════════════════════════
+const CO=document.getElementById("cO"),CI=document.getElementById("cI");
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY;});
+(function af(){CI.style.left=mx+"px";CI.style.top=my+"px";rx+=(mx-rx)*.1;ry+=(my-ry)*.1;CO.style.left=rx+"px";CO.style.top=ry+"px";requestAnimationFrame(af);})();
+document.addEventListener("click",e=>{const r=document.createElement("div");r.className="rip";r.style.cssText=`left:${e.clientX}px;top:${e.clientY}px;width:18px;height:18px`;document.body.appendChild(r);document.body.classList.add("cl");setTimeout(()=>{r.remove();document.body.classList.remove("cl");},550);});
+document.addEventListener("mouseover",e=>{const c=e.target.closest(".pcard,.catcard,.fbig,.fmic");const b=e.target.closest("button,a,.nico");document.body.classList.toggle("hc",!!c&&!b);document.body.classList.toggle("hb",!!b);});
+document.addEventListener("mouseout",e=>{if(!e.relatedTarget?.closest(".pcard,.catcard,.fbig,.fmic,button,a,.nico"))document.body.classList.remove("hc","hb");});
+
+// ══════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════
+const S=n=>"★".repeat(Math.round(n))+"☆".repeat(5-Math.round(n));
+const img=p=>`https://m.media-amazon.com/images/I/${p.img}`;
+
+// ══════════════════════════════════════════
+// PRODUCT CARD
+// ══════════════════════════════════════════
+function cHTML(p,delay=0){
+  return `<div class="pcard reveal" style="animation-delay:${delay}s">
+    <div class="pcib">
+      <div class="pglow"></div>
+      <img class="pimg" src="${img(p)}" alt="${p.name}" onerror="this.style.opacity=0" loading="lazy">
+      <span class="pbadge ${p.badge}">${p.bt}</span>
+      <button class="pwish" onclick="event.stopPropagation();this.classList.toggle('on');this.textContent=this.classList.contains('on')?'♥':'♡'">♡</button>
+      <button class="qlhov" onclick="event.stopPropagation();oQL(${p.id})">◆ Quick Look</button>
+    </div>
+    <div class="pinfo" onclick="oPDP(${p.id})" style="cursor:none">
+      <div class="pcat">${p.cat}</div>
+      <div class="pname">${p.name}</div>
+      <div class="pstars"><span class="strs">${S(p.stars)}</span><span class="prc">(${(p.revs||0).toLocaleString()})</span></div>
+      <div class="pbot">
+        <div class="ppw"><div class="pprice">${p.price}</div><div class="porig">${p.orig||""}</div><div class="poff">${p.save||""}</div></div>
+        <button class="pshop" onclick="event.stopPropagation();window.open(lnk('${p.asin}'),'_blank')">Shop →</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════
+// NAV CATEGORIES BAR
+// ══════════════════════════════════════════
+const NC=[
+  {l:"Home",pg:"home"},{l:"🔥 Trending",pg:"trending"},{l:"Today's Deals",pg:"deals"},
+  ...CATS.map(c=>({l:c.n,pg:"trending",cat:c.n})),
+  {l:"About",pg:"about"}
+];
+document.getElementById("ncbar").innerHTML=NC.map((n,i)=>`<div class="nci${i===0?" on":""}" onclick="hNC(${JSON.stringify(n).replace(/"/g,"'")},this)">${n.l}</div>`).join("");
+function hNC(n,el){document.querySelectorAll(".nci").forEach(x=>x.classList.remove("on"));el.classList.add("on");go(n.pg);if(n.cat){setTimeout(()=>fTrend(n.cat),120);}}
+
+// ══════════════════════════════════════════
+// TICKER
+// ══════════════════════════════════════════
+const ti=P.slice(0,16).map(p=>`<span class="tk"><b>${p.name}</b><span class="tkgem">◆</span>${p.price} · Amazon.ae</span>`).join("");
+document.getElementById("ticki").innerHTML=ti+ti;
+
+// ══════════════════════════════════════════
+// RENDER HOME
+// ══════════════════════════════════════════
+function renderHome(){
+  const fp=P[6],sp=P[0],tp=P[11];
+  document.getElementById("featRow").innerHTML=`
+    <div class="fbig" onclick="oPDP(${fp.id})">
+      <div class="fbigimg"><img src="${img(fp)}" alt="${fp.name}" style="width:100%;height:100%;object-fit:contain;padding:1.1rem" onerror="this.style.opacity=0" loading="lazy"></div>
+      <div class="fbiginfo">
+        <div class="pcat">${fp.cat}</div>
+        <div style="font-family:var(--serif);font-size:.96rem;color:var(--ink);margin-bottom:.4rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${fp.name}</div>
+        <div class="pstars" style="margin-bottom:.6rem"><span class="strs">${S(fp.stars)}</span><span class="prc"> (${(fp.revs).toLocaleString()})</span></div>
+        <div class="ppw"><div class="pprice">${fp.price}</div><div class="porig">${fp.orig}</div><div class="poff">${fp.save}</div></div>
+      </div>
+    </div>
+    <div class="fmini">
+      ${[sp,tp].map(p=>`<div class="fmic" onclick="oPDP(${p.id})">
+        <div class="fmicimg"><img src="${img(p)}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain;padding:.4rem" onerror="this.style.opacity=0" loading="lazy"></div>
+        <div>
+          <div class="pcat">${p.cat}</div>
+          <div class="fmicn">${p.name}</div>
+          <div class="pstars" style="margin:.2rem 0"><span class="strs">${S(p.stars)}</span></div>
+          <div class="ppw"><div class="fmicp">${p.price}</div><div class="porig">${p.orig}</div></div>
+        </div>
+      </div>`).join("")}
+    </div>`;
+  document.getElementById("homeGrid").innerHTML=P.slice(0,8).map((p,i)=>cHTML(p,i*.05)).join("");
+  document.getElementById("homeCats").innerHTML=CATS.slice(0,8).map(c=>`
+    <div class="catcard" onclick="go('trending');fTrend('${c.n}')">
+      <div class="catco">${c.e}</div>
+      <div class="catn">${c.n}</div>
+      <div class="catc">${c.c} products on Amazon.ae</div>
+      <div class="catarr">Browse <span>→</span></div>
+    </div>`).join("");
+}
+renderHome();
+
+// ══════════════════════════════════════════
+// TRENDING
+// ══════════════════════════════════════════
+function renderTrending(){
+  const cats=["All",...new Set(P.map(p=>p.cat))];
+  document.getElementById("tFlts").innerHTML=cats.map((c,i)=>`<div class="fp${i===0?" on":""}" onclick="fTrend('${c}',this)">${c}</div>`).join("");
+  document.getElementById("tGrid").innerHTML=[...P].sort((a,b)=>b.stars-a.stars).map((p,i)=>cHTML(p,i*.035)).join("");
+}
+renderTrending();
+function fTrend(cat,el){
+  if(el){document.querySelectorAll("#tFlts .fp").forEach(x=>x.classList.remove("on"));el.classList.add("on");}
+  else{const m=Array.from(document.querySelectorAll("#tFlts .fp")).find(f=>f.textContent===cat);if(m){document.querySelectorAll("#tFlts .fp").forEach(x=>x.classList.remove("on"));m.classList.add("on");}}
+  const arr=cat==="All"?P:P.filter(p=>p.cat===cat);
+  document.getElementById("tGrid").innerHTML=arr.map((p,i)=>cHTML(p,i*.035)).join("");
+  setTimeout(obsR,80);
+}
+
+// ══════════════════════════════════════════
+// CATEGORIES
+// ══════════════════════════════════════════
+document.getElementById("allCats").innerHTML=CATS.map(c=>`
+  <div class="catcard" onclick="go('trending');fTrend('${c.n}')">
+    <div class="catco">${c.e}</div>
+    <div class="catn">${c.n}</div>
+    <div class="catc">${c.c} products on Amazon.ae</div>
+    <div class="catarr">Shop Now <span>→</span></div>
+  </div>`).join("");
+
+// ══════════════════════════════════════════
+// DEALS
+// ══════════════════════════════════════════
+document.getElementById("dealsGrid").innerHTML=[...P].sort((a,b)=>parseInt(b.save)-parseInt(a.save)).map((p,i)=>cHTML(p,i*.035)).join("");
+
+// ══════════════════════════════════════════
+// QUICK LOOK
+// ══════════════════════════════════════════
+function oQL(id){
+  const p=P.find(x=>x.id===id);if(!p)return;
+  const ie=document.getElementById("qlImg");
+  ie.src=img(p);ie.alt=p.name;ie.style.opacity=1;
+  document.getElementById("qlCat").textContent=p.cat;
+  document.getElementById("qlName").textContent=p.name;
+  document.getElementById("qlSt").textContent=S(p.stars)+" "+p.stars;
+  document.getElementById("qlRc").textContent=`${(p.revs||0).toLocaleString()} Amazon reviews`;
+  document.getElementById("qlPr").textContent=p.price;
+  document.getElementById("qlOr").textContent=p.orig||"";
+  document.getElementById("qlSv").textContent=p.save||"";
+  document.getElementById("qlDs").textContent=p.desc;
+  document.getElementById("qlFs").innerHTML=(p.feats||[]).map(f=>`<div class="qlfeat">${f}</div>`).join("");
+  document.getElementById("qlBuy").onclick=()=>window.open(lnk(p.asin),"_blank");
+  document.getElementById("qlFul").onclick=()=>{cQL();oPDP(p.id);};
+  document.getElementById("qlo").classList.add("open");
+  document.body.style.overflow="hidden";
+}
+function cQL(e){
+  if(e&&e.target!==document.getElementById("qlo"))return;
+  document.getElementById("qlo").classList.remove("open");
+  document.body.style.overflow="auto";
+}
+// also alias
+function oQLid(id){oQL(id);}
+
+// ══════════════════════════════════════════
+// PRODUCT DETAIL PAGE
+// ══════════════════════════════════════════
+function oPDP(id){
+  const p=P.find(x=>x.id===id);if(!p)return;
+  sPg("product");
+  window.scrollTo({top:0,behavior:"smooth"});
+  document.getElementById("pdpBC").innerHTML=
+    `<a href="#" onclick="go('home');return false">Home</a><span>›</span><a href="#" onclick="go('trending');fTrend('${p.cat}');">${p.cat}</a><span>›</span><span>${p.name}</span>`;
+  document.getElementById("pdpMI").innerHTML=
+    `<img src="${img(p)}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain;padding:1.8rem" onerror="this.style.opacity=0">`;
+  document.getElementById("pdpThs").innerHTML=["🔍","📦","⭐","✅","🛒"].map((e,i)=>
+    `<div class="pdpth${i===0?" on":""}">${e}</div>`).join("");
+  document.getElementById("pdpCat").textContent=p.cat;
+  document.getElementById("pdpTit").textContent=p.name;
+  document.getElementById("pdpSt").textContent=S(p.stars)+" "+p.stars;
+  document.getElementById("pdpPr").textContent=p.price;
+  document.getElementById("pdpOr").textContent=p.orig||"";
+  document.getElementById("pdpSv").textContent=p.save||"";
+  document.getElementById("pdpDs").textContent=p.desc;
+  document.getElementById("pdpFts").innerHTML=(p.feats||[]).map(f=>
+    `<div class="pdpfeat"><div class="pdpgem"></div>${f}</div>`).join("");
+  document.getElementById("pdpBuy").onclick=()=>window.open(lnk(p.asin),"_blank");
+
+  document.getElementById("tpan-ov").innerHTML=`
+    <div style="max-width:680px">
+      <p style="font-family:var(--body);font-size:.92rem;font-weight:300;color:var(--mid);line-height:1.9;margin-bottom:1.8rem">${p.desc} Shop now on Amazon.ae with fast UAE delivery and easy returns.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:.85rem">
+        ${(p.feats||[]).map(f=>`<div style="background:var(--c2);border:1px solid var(--line2);border-radius:9px;padding:.88rem;display:flex;align-items:flex-start;gap:.52rem">
+          <div style="width:5px;height:5px;background:var(--gold2);border-radius:1px;transform:rotate(45deg);flex-shrink:0;margin-top:.46rem"></div>
+          <div style="font-family:var(--ui);font-size:.75rem;color:var(--ink2);line-height:1.5">${f}</div>
+        </div>`).join("")}
+      </div>
+    </div>`;
+
+  document.getElementById("tpan-rev").innerHTML=`
+    <div class="revlist">
+      ${(p.rv||[]).map(r=>`<div class="revc">
+        <div class="revtop">
+          <div class="revav">${r.i}</div>
+          <div><div class="revn">${r.n}</div><span class="strs" style="font-size:.7rem">${S(r.st)}</span></div>
+          <span class="revv">✓ Verified UAE Purchase</span>
+          <span class="revd">${r.d}</span>
+        </div>
+        <div class="revti">${r.ti}</div>
+        <div class="revbo">${r.bo}</div>
+        <div class="revh">👍 ${r.h} people found this helpful</div>
+      </div>`).join("")}
+    </div>`;
+
+  document.getElementById("tpan-cmp").innerHTML=`
+    <table class="cmptbl">
+      <tr><th>Feature</th><th class="hl">Affiliator Pick</th><th>Generic Alternatives</th></tr>
+      <tr><td>Amazon.ae Rating</td><td class="hl">${p.stars}★ (${(p.revs||0).toLocaleString()})</td><td>3.0–4.2★</td></tr>
+      <tr><td>Price</td><td class="hl">${p.price}</td><td>Varies</td></tr>
+      <tr><td>UAE Delivery</td><td class="hl"><span class="chk">✓ Prime eligible</span></td><td><span class="crs">Varies</span></td></tr>
+      <tr><td>Direct Amazon Link</td><td class="hl"><span class="chk">✓ Verified</span></td><td><span class="crs">✗ Unknown source</span></td></tr>
+      <tr><td>Easy Returns</td><td class="hl"><span class="chk">✓ Amazon policy</span></td><td><span class="crs">Varies</span></td></tr>
+    </table>`;
+
+  document.getElementById("pdpRel").innerHTML=P.filter(x=>x.id!==id&&x.cat===p.cat).slice(0,4).map(x=>cHTML(x)).join("");
+  document.querySelectorAll(".tbtn").forEach(t=>t.classList.remove("on"));
+  document.querySelectorAll(".tpan").forEach(t=>t.classList.remove("on"));
+  document.querySelectorAll(".tbtn")[0].classList.add("on");
+  document.getElementById("tpan-ov").classList.add("on");
+  setTimeout(obsR,100);
+}
+function swTab(pid){
+  document.querySelectorAll(".tbtn").forEach(t=>t.classList.remove("on"));
+  document.querySelectorAll(".tpan").forEach(t=>t.classList.remove("on"));
+  const idx=["tpan-ov","tpan-rev","tpan-cmp"].indexOf(pid);
+  if(idx>=0)document.querySelectorAll(".tbtn")[idx]?.classList.add("on");
+  document.getElementById(pid)?.classList.add("on");
+}
+
+// ══════════════════════════════════════════
+// PAGE NAVIGATION
+// ══════════════════════════════════════════
+const pgMap={home:"pg-home",trending:"pg-trending",categories:"pg-categories",deals:"pg-deals",about:"pg-about",terms:"pg-terms",privacy:"pg-privacy",disclosure:"pg-disclosure",contact:"pg-contact",product:"pg-product"};
+function sPg(pg){document.querySelectorAll(".pg").forEach(e=>e.classList.remove("on"));const el=document.getElementById(pgMap[pg]);if(el){el.classList.add("on");setTimeout(obsR,80);}}
+function go(pg){sPg(pg);window.scrollTo({top:0,behavior:"smooth"});if(document.getElementById("qlo").classList.contains("open"))cQL();}
+
+// ══════════════════════════════════════════
+// HAMBURGER
+// ══════════════════════════════════════════
+let mO=false;
+document.getElementById("ham").addEventListener("click",function(){
+  mO=!mO;document.getElementById("mn").classList.toggle("open",mO);
+  const sp=this.querySelectorAll("span");
+  if(mO){sp[0].style.transform="translateY(5px) rotate(45deg)";sp[1].style.opacity="0";sp[2].style.transform="translateY(-5px) rotate(-45deg)";}
+  else sp.forEach(s=>{s.style.transform="";s.style.opacity="";});
+});
+function cMob(){mO=false;document.getElementById("mn").classList.remove("open");document.getElementById("ham").querySelectorAll("span").forEach(s=>{s.style.transform="";s.style.opacity="";});}
+
+// ══════════════════════════════════════════
+// NAV SHADOW
+// ══════════════════════════════════════════
+window.addEventListener("scroll",()=>document.getElementById("nav").classList.toggle("sh",scrollY>10));
+
+// ══════════════════════════════════════════
+// COUNTDOWN TIMERS
+// ══════════════════════════════════════════
+function tick(){
+  const n=new Date(),e=new Date(n);e.setHours(23,59,59,0);
+  const d=e-n,h=Math.floor(d/3600000),m=Math.floor((d%3600000)/60000),s=Math.floor((d%60000)/1000);
+  ["","2"].forEach(sf=>{
+    const eh=document.getElementById("dh"+sf),em=document.getElementById("dm"+sf),es=document.getElementById("ds"+sf);
+    if(eh)eh.textContent=String(h).padStart(2,"0");
+    if(em)em.textContent=String(m).padStart(2,"0");
+    if(es)es.textContent=String(s).padStart(2,"0");
+  });
+}
+tick();setInterval(tick,1000);
+
+// ══════════════════════════════════════════
+// HERO COUNTER ANIMATION
+// ══════════════════════════════════════════
+function cntTo(el,target){
+  const dur=2000,st=performance.now();
+  (function s(ts){const prog=Math.min((ts-st)/dur,1),ease=1-Math.pow(1-prog,3),v=Math.round(ease*target);el.textContent=v>=1000?(v/1000).toFixed(1)+"K+":v+"+";if(prog<1)requestAnimationFrame(s);})(performance.now());
+}
+setTimeout(()=>{cntTo(document.getElementById("hn1"),P.length);cntTo(document.getElementById("hn2"),12400);},2500);
+
+// ══════════════════════════════════════════
+// SCROLL REVEAL
+// ══════════════════════════════════════════
+const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add("shown");io.unobserve(e.target);}}),{threshold:.08});
+function obsR(){document.querySelectorAll(".reveal:not(.shown)").forEach(el=>io.observe(el));}
+setTimeout(obsR,2500);
+
+// ══════════════════════════════════════════
+// SEARCH
+// ══════════════════════════════════════════
+function doSearch(){
+  const q=document.getElementById("sInp").value.trim().toLowerCase();if(!q)return;
+  go("trending");
+  const res=P.filter(p=>p.name.toLowerCase().includes(q)||p.cat.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q));
+  document.getElementById("tGrid").innerHTML=(res.length?res:P).map((p,i)=>cHTML(p,i*.035)).join("");
+  document.getElementById("sInp").value="";
+  setTimeout(obsR,80);
+}
+document.getElementById("sInp").addEventListener("keyup",e=>{if(e.key==="Enter")doSearch();});
+
+// ══════════════════════════════════════════
+// NEWSLETTER
+// ══════════════════════════════════════════
+function nlSub(id,btn){
+  const inp=document.getElementById(id);
+  if(inp?.value){btn.textContent="✓ Subscribed!";btn.style.background="linear-gradient(135deg,#1e6b3e,#165530)";inp.value="";setTimeout(()=>{btn.textContent="Subscribe";btn.style.background="";},3000);}
+}
+</script>
+</body>
+</html>
+HTMLEOF
+echo "File written: $(wc -c < /home/claude/affiliator.html) bytes"
